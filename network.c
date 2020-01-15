@@ -39,39 +39,35 @@ void network_init(DBusConnection *dbus_conn)
                      "sV4ADDRESS TEXT DEFAULT ''," \
                      "sV4NETMASK TEXT DEFAULT ''," \
                      "sV4GATEWAY TEXT DEFAULT ''," \
-                     "sNAMESERVERS TEXT DEFAULT '');";
+                     "sNAMESERVERS TEXT DEFAULT ''";
 
     rkdb_creat("netconfig", col_para);
     rkdb_insert("netconfig", "sSERVICE", "'service test'");
-    rkdb_select("netconfig", NULL, NULL, NULL, NULL);
 
     col_para = "iID INTEGER PRIMARY KEY AUTOINCREMENT," \
                "sNAME TEXT NOT NULL UNIQUE," \
-               "iPOWER INT DEFAULT 0);";
+               "iPOWER INT DEFAULT 0";
 
     rkdb_creat("power", col_para);
     rkdb_insert("power", "sNAME,iPOWER", "'wifi',0");
     rkdb_insert("power", "sNAME,iPOWER", "'ethernet',1");
-    rkdb_select("power", NULL, NULL, NULL, NULL);
 
     col_para = "iID INTEGER PRIMARY KEY," \
                "sSERVERS TEXT NOT NULL," \
                "sZONE TEXT NOT NULL," \
                "iAUTO INT DEFAULT 0," \
-               "iTIME INT DEFAULT 120);";
+               "iTIME INT DEFAULT 120";
     rkdb_creat("ntp", col_para);
     rkdb_insert("ntp", "iID,sSERVERS,sZONE,iAUTO,iTIME", "0,'122.224.9.29 94.130.49.186','CST',0,120");
-    rkdb_select("ntp", NULL, NULL, NULL, NULL);
 
     col_para = "iID INTEGER PRIMARY KEY," \
                "sName TEXT NOT NULL," \
                "iHavedst INT DEFAULT 0," \
                "sZONE TEXT NOT NULL," \
-               "sZONEdst TEXT NOT NULL);";
+               "sZONEdst TEXT NOT NULL";
     rkdb_creat("zone", col_para);
     rkdb_insert("zone", "iID,sName,iHavedst,sZONE,sZONEdst", "0,'Shanghai',0,'GMT-8',''");
     rkdb_insert("zone", "iID,sName,iHavedst,sZONE,sZONEdst", "1,'Los_Angeles',1,'GMT+8','Los_Angeles'");
-    rkdb_select("zone", NULL, NULL, NULL, NULL);
 
     dbus_manager_init(dbus_conn);
 }
