@@ -34,25 +34,25 @@ static int dbus_manager_init(DBusConnection *dbus_conn)
 void media_init(DBusConnection *dbus_conn)
 {
     char *col_para = "iID INTEGER PRIMARY KEY," \
-                     "sStreamType TEXT DEFAULT 'main'," \
-                     "sVideoType TEXT DEFAULT 'complex'," \
+                     "sStreamType TEXT DEFAULT 'MainStream'," \
+                     "sVideoType TEXT DEFAULT 'CompositeStream'," \
                      "sResolution TEXT DEFAULT '1920*1080P'," \
-                     "sRCMode TEXT DEFAULT 'cbr'," \
-                     "sImageQuality TEXT DEFAULT 'middle'," \
+                     "sRCMode TEXT DEFAULT 'CBR'," \
+                     "sImageQuality TEXT DEFAULT 'Medium'," \
                      "sFrameRate TEXT DEFAULT '30'," \
                      "iMaxRate INT DEFAULT 4096," \
-                     "sOutputDataType TEXT DEFAULT 'video:h264'," \
-                     "sSmart264 TEXT DEFAULT 'close'," \
-                     "sRCQuality TEXT DEFAULT 'high'," \
+                     "sOutputDataType TEXT DEFAULT 'H.264'," \
+                     "sSmart TEXT DEFAULT 'Close'," \
+                     "sRCQuality TEXT DEFAULT 'High'," \
                      "iGOP INT DEFAULT 30," \
-                     "sSVC TEXT DEFAULT 'close'," \
+                     "sSVC TEXT DEFAULT 'Close'," \
                      "iStreamSmooth INT DEFAULT 50";
 
     rkdb_creat(TABLE_VIDEO, col_para);
     /* TODO: Three tables need different initial values */
-    rkdb_insert(TABLE_VIDEO, "iID, sStreamType", "0, 'main'");
-    rkdb_insert(TABLE_VIDEO, "iID, sStreamType", "1, 'sub'");
-    rkdb_insert(TABLE_VIDEO, "iID, sStreamType", "2, 'stream3'");
+    rkdb_insert(TABLE_VIDEO, "iID, sStreamType", "0, 'MainStream'");
+    rkdb_insert(TABLE_VIDEO, "iID, sStreamType", "1, 'SubStream'");
+    rkdb_insert(TABLE_VIDEO, "iID, sStreamType", "2, 'ThirdStream'");
 
     col_para = "iID INTEGER PRIMARY KEY," \
                "sEncodeType TEXT DEFAULT 'AAC'," \
@@ -60,7 +60,7 @@ void media_init(DBusConnection *dbus_conn)
                "iBitRate INT DEFAULT 32," \
                "sInput TEXT DEFAULT 'MicIn'," \
                "iVolume INT DEFAULT 50," \
-               "sANS TEXT DEFAULT 'close'";
+               "sANS TEXT DEFAULT 'Close'";
 
     rkdb_creat(TABLE_AUDIO, col_para);
     rkdb_insert(TABLE_AUDIO, "iID", "0");
