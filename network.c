@@ -69,5 +69,15 @@ void network_init(DBusConnection *dbus_conn)
     rkdb_insert("zone", "iID,sName,iHavedst,sZONE,sZONEdst", "0,'Shanghai',0,'GMT-8',''");
     rkdb_insert("zone", "iID,sName,iHavedst,sZONE,sZONEdst", "1,'Los_Angeles',1,'GMT+8','Los_Angeles'");
 
+    col_para = "id INTEGER PRIMARY KEY," \
+               "sProtocol TEXT NOT NULL," \
+               "iPortNo INT DEFAULT 0";
+    rkdb_creat("port", col_para);
+    rkdb_insert("port", "id,sProtocol,iPortNo", "0,'HTTP',80");
+    rkdb_insert("port", "id,sProtocol,iPortNo", "1,'HTTPS',443");
+    rkdb_insert("port", "id,sProtocol,iPortNo", "2,'DEV_MANAGE',8080");
+    rkdb_insert("port", "id,sProtocol,iPortNo", "3,'RTSP',554");
+    rkdb_insert("port", "id,sProtocol,iPortNo", "4,'RTMP',1935");
+
     dbus_manager_init(dbus_conn);
 }
