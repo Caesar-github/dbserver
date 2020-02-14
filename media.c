@@ -20,6 +20,7 @@
 
 #define TABLE_VIDEO "video"
 #define TABLE_AUDIO "audio"
+#define TABLE_STREAM_URL "stream_url"
 
 static int dbus_manager_init(DBusConnection *dbus_conn)
 {
@@ -64,6 +65,14 @@ void media_init(DBusConnection *dbus_conn)
 
     rkdb_creat(TABLE_AUDIO, col_para);
     rkdb_insert(TABLE_AUDIO, "id", "0");
+
+    col_para = "id INTEGER PRIMARY KEY," \
+               "sStreamProtocol TEXT NOT NULL";
+
+    rkdb_creat(TABLE_STREAM_URL, col_para);
+    rkdb_insert(TABLE_STREAM_URL, "id,sStreamProtocol", "0,'RTSP'");
+    rkdb_insert(TABLE_STREAM_URL, "id,sStreamProtocol", "1,'RTMP'");
+    rkdb_insert(TABLE_STREAM_URL, "id,sStreamProtocol", "2,'RTMP'");
 
     dbus_manager_init(dbus_conn);
 }
