@@ -29,7 +29,6 @@ int main( int argc , char ** argv)
 
     dbus_error_init(&dbus_err);
     dbus_conn = g_dbus_setup_bus(DBUS_BUS_SYSTEM, DB_SERVER, &dbus_err);
-    printf("dbus_conn %p\n", dbus_conn);
 
     main_loop = g_main_loop_new(NULL, FALSE);
     rkdb_init("/userdata/sysconfig.db");
