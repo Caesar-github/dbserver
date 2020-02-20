@@ -18,8 +18,9 @@
 #include "rkdb.h"
 #include "common.h"
 
-#define TABLE_STORAGE  "storage"
-#define TABLE_STORAGECONFIG  "storageconfig"
+#define TABLE_STORAGE_DISK_PATH     "StorageDiskPath"
+#define TABLE_STORAGE_MEDIA_FOLDER  "StorageMediaFolder"
+#define TABLE_STORAGE_CONFIG        "StorageConfig"
 
 static int dbus_manager_init(DBusConnection *dbus_conn)
 {
@@ -33,37 +34,39 @@ static int dbus_manager_init(DBusConnection *dbus_conn)
 
 void storage_init(DBusConnection *dbus_conn)
 {
-    char *col_para = "iROOTID INTEGER PRIMARY KEY AUTOINCREMENT," \
-                     "sMOUNTPATH TEXT NOT NULL UNIQUE," \
-                     "sSCANPATH TEXT DEFAULT ''," \
-                     "iMODE INT DEFAULT 0," \
-                     "iCAPACITY INT DEFAULT 0";
+    char *col_para;
 
-    rkdb_creat(TABLE_STORAGE, col_para);
+    col_para = "iId INTEGER PRIMARY KEY AUTOINCREMENT," \
+               "sPath TEXT NOT NULL UNIQUE," \
+               "sName TEXT DEFAULT ''," \
+               "iMount INT DEFAULT 0";
 
-    rkdb_insert(TABLE_STORAGE, "sMOUNTPATH,sSCANPATH,iMODE,iCAPACITY", 
-                               "'/mnt/sdcard'," \
-                                "'[{\"iCAMID\":0, \"aSCANPATH\":[{\"iPATHID\":0,\"sPATH\":\"video0\",\"sTHUMBPATH\":\"video0/.thumb\",\"iTYPE\":0,\"sFORMAT\":\"VIDEO_%Y%m%d%H%M%S\",\"iDUTY\":10,\"iMAXNUM\":-1,\"iCOUNT\":0}," \
-                                                                "{\"iPATHID\":1,\"sPATH\":\"photo0\",\"sTHUMBPATH\":\"photo0/.thumb\",\"iTYPE\":1,\"sFORMAT\":\"PHOTO_%Y%m%d%H%M%S\",\"iDUTY\":10,\"iMAXNUM\":50,\"iCOUNT\":0}]}," \
-                                  "{\"iCAMID\":1, \"aSCANPATH\":[{\"iPATHID\":3,\"sPATH\":\"video1\",\"sTHUMBPATH\":\"video1/.thumb\",\"iTYPE\":0,\"sFORMAT\":\"VIDEO_CCCCCC\",\"iDUTY\":10,\"iMAXNUM\":-1,\"iCOUNT\":0}," \
-                                                                "{\"iPATHID\":4,\"sPATH\":\"photo1\",\"sTHUMBPATH\":\"photo1/.thumb\",\"iTYPE\":1,\"sFORMAT\":\"PHOTO_CCCCCC\",\"iDUTY\":10,\"iMAXNUM\":50,\"iCOUNT\":0}]}" \
-                                 "]'," \
-                               "0,500");
-    rkdb_insert(TABLE_STORAGE, "sMOUNTPATH,sSCANPATH,iMODE,iCAPACITY", 
-                               "'/media/usb0'," \
-                                "'[{\"iCAMID\":0, \"aSCANPATH\":[{\"iPATHID\":0,\"sPATH\":\"video0\",\"sTHUMBPATH\":\"video0/.thumb\",\"iTYPE\":0,\"sFORMAT\":\"VIDEO_%Y%m%d%H%M%S\",\"iDUTY\":10,\"iMAXNUM\":-1,\"iCOUNT\":0}," \
-                                                                "{\"iPATHID\":1,\"sPATH\":\"photo0\",\"sTHUMBPATH\":\"photo0/.thumb\",\"iTYPE\":1,\"sFORMAT\":\"PHOTO_%Y%m%d%H%M%S\",\"iDUTY\":10,\"iMAXNUM\":50,\"iCOUNT\":0}]}," \
-                                  "{\"iCAMID\":1, \"aSCANPATH\":[{\"iPATHID\":3,\"sPATH\":\"video1\",\"sTHUMBPATH\":\"video1/.thumb\",\"iTYPE\":0,\"sFORMAT\":\"VIDEO_CCCCCC\",\"iDUTY\":10,\"iMAXNUM\":-1,\"iCOUNT\":0}," \
-                                                                "{\"iPATHID\":4,\"sPATH\":\"photo1\",\"sTHUMBPATH\":\"photo1/.thumb\",\"iTYPE\":1,\"sFORMAT\":\"PHOTO_CCCCCC\",\"iDUTY\":10,\"iMAXNUM\":50,\"iCOUNT\":0}]}" \
-                                 "]'," \
-                               "0,500");
+    rkdb_creat(TABLE_STORAGE_DISK_PATH, col_para);
+    rkdb_insert(TABLE_STORAGE_DISK_PATH, "sPath,sName,iMount", "'/mnt/sdcard','SD Card',0");
+    rkdb_insert(TABLE_STORAGE_DISK_PATH, "sPath,sName,iMount", "'/media/usb0','U Disk',0");
+    rkdb_insert(TABLE_STORAGE_DISK_PATH, "sPath,sName,iMount", "'/userdata','Emmc',0");
 
-    col_para = "iID INTEGER PRIMARY KEY," \
-               "iVIDEOLEN INT DEFAULT -1," \
-               "iVIDEOMAXSIZE INT DEFAULT -1," \
-               "sMOUNTPATH TEXT NOT NULL UNIQUE";
-    rkdb_creat(TABLE_STORAGECONFIG, col_para);
-    rkdb_insert(TABLE_STORAGECONFIG, "iID,iVIDEOLEN,iVIDEOMAXSIZE,sMOUNTPATH","0,-1,-1,'/media/usb0'");
-    
+    col_para = "iId INTEGER PRIMARY KEY," \
+               "sMediaFolder TEXT NOT NULL UNIQUE," \
+               "sThumbFolder TEXT," \
+               "sFormat TEXT," \
+               "iCamId INT," \
+               "iType INT," \
+               "iDuty INT," \
+               "iMaxNum INT";
+
+    rkdb_creat(TABLE_STORAGE_MEDIA_FOLDER, col_para);
+    rkdb_insert(TABLE_STORAGE_MEDIA_FOLDER, "iId,sMediaFolder,sThumbFolder,sFormat,iCamId,iType,iDuty,iMaxNum",
+                                          "0,'video0','video0/.thumb','VIDEO_%Y%m%d%H%M%S',0,0,90,-1");
+    rkdb_insert(TABLE_STORAGE_MEDIA_FOLDER, "iId,sMediaFolder,sThumbFolder,sFormat,iCamId,iType,iDuty,iMaxNum",
+                                          "1,'photo0','photo0/.thumb','PHOTO_%Y%m%d%H%M%S',0,1,10,-1");
+
+    col_para = "iId INTEGER PRIMARY KEY," \
+               "iFreeSize INT DEFAULT -1," \
+               "sMountPath TEXT NOT NULL UNIQUE";
+    rkdb_creat(TABLE_STORAGE_CONFIG, col_para);
+    //The unit of iFreeSize is MB
+    rkdb_insert(TABLE_STORAGE_CONFIG, "iId,iFreeSize,sMountPath","0,1024,'/userdata'");
+
     dbus_manager_init(dbus_conn);
 }
