@@ -27,5 +27,7 @@ DBusMessage *method_update(DBusConnection *conn,
                            DBusMessage *msg, void *data);
 DBusMessage *method_select(DBusConnection *conn,
                            DBusMessage *msg, void *data);
+void creat_version_table(char *table, char *version);
+int equal_version(char *table, char *version);
 
 #endif

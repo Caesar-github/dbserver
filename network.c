@@ -18,6 +18,15 @@
 #include "rkdb.h"
 #include "common.h"
 
+#define TABLE_NETWORK_CONFIG        "netconfig"
+#define TABLE_NETWORK_POWER         "power"
+#define TABLE_NETWORK_NTP           "ntp"
+#define TABLE_NETWORK_ZONE          "zone"
+#define TABLE_NETWORK_PORT          "port"
+#define TABLE_NETWORK_VERSION       "NetworkVersion"
+
+#define NETWORK_VERSION             "1.0.1"
+
 static int dbus_manager_init(DBusConnection *dbus_conn)
 {
     g_dbus_register_interface(dbus_conn, "/",
@@ -30,54 +39,69 @@ static int dbus_manager_init(DBusConnection *dbus_conn)
 
 void network_init(DBusConnection *dbus_conn)
 {
-    char *col_para = "iID INTEGER PRIMARY KEY AUTOINCREMENT," \
-                     "sSERVICE TEXT NOT NULL UNIQUE," \
-                     "sPASSWORD TEXT DEFAULT ''," \
-                     "iFAVORITE INT DEFAULT 0," \
-                     "iAUTOCONNECT INT DEFAULT 0," \
-                     "sV4METHOD TEXT DEFAULT ''," \
-                     "sV4ADDRESS TEXT DEFAULT ''," \
-                     "sV4NETMASK TEXT DEFAULT ''," \
-                     "sV4GATEWAY TEXT DEFAULT ''," \
-                     "sNAMESERVERS TEXT DEFAULT ''";
+    char *col_para;
 
-    rkdb_creat("netconfig", col_para);
-    rkdb_insert("netconfig", "sSERVICE", "'service test'");
+    if (equal_version(TABLE_NETWORK_VERSION, NETWORK_VERSION)) {
+        dbus_manager_init(dbus_conn);
+        return;
+    }
 
-    col_para = "iID INTEGER PRIMARY KEY AUTOINCREMENT," \
-               "sNAME TEXT NOT NULL UNIQUE," \
-               "iPOWER INT DEFAULT 0";
+    g_free(rkdb_drop(TABLE_NETWORK_CONFIG));
+    g_free(rkdb_drop(TABLE_NETWORK_POWER));
+    g_free(rkdb_drop(TABLE_NETWORK_NTP));
+    g_free(rkdb_drop(TABLE_NETWORK_ZONE));
+    g_free(rkdb_drop(TABLE_NETWORK_PORT));
+    g_free(rkdb_drop(TABLE_NETWORK_VERSION));
 
-    rkdb_creat("power", col_para);
-    rkdb_insert("power", "sNAME,iPOWER", "'wifi',0");
-    rkdb_insert("power", "sNAME,iPOWER", "'ethernet',1");
+    creat_version_table(TABLE_NETWORK_VERSION, NETWORK_VERSION);
 
-    col_para = "iID INTEGER PRIMARY KEY," \
-               "sSERVERS TEXT NOT NULL," \
-               "sZONE TEXT NOT NULL," \
-               "iAUTO INT DEFAULT 0," \
-               "iTIME INT DEFAULT 120";
-    rkdb_creat("ntp", col_para);
-    rkdb_insert("ntp", "iID,sSERVERS,sZONE,iAUTO,iTIME", "0,'122.224.9.29 94.130.49.186','CST',0,120");
+    col_para = "id INTEGER PRIMARY KEY AUTOINCREMENT," \
+                     "sService TEXT NOT NULL UNIQUE," \
+                     "sPassword TEXT DEFAULT ''," \
+                     "iFavorite INT DEFAULT 0," \
+                     "iAutoconnect INT DEFAULT 0," \
+                     "sV4Method TEXT DEFAULT ''," \
+                     "sV4Address TEXT DEFAULT ''," \
+                     "sV4Netmask TEXT DEFAULT ''," \
+                     "sV4Gateway TEXT DEFAULT ''," \
+                     "sDNS TEXT DEFAULT ''";
 
-    col_para = "iID INTEGER PRIMARY KEY," \
+    g_free(rkdb_create(TABLE_NETWORK_CONFIG, col_para));
+
+    col_para = "id INTEGER PRIMARY KEY AUTOINCREMENT," \
+               "sName TEXT NOT NULL UNIQUE," \
+               "iPower INT DEFAULT 0";
+
+    g_free(rkdb_create(TABLE_NETWORK_POWER, col_para));
+    g_free(rkdb_insert(TABLE_NETWORK_POWER, "sName,iPower", "'wifi',0"));
+    g_free(rkdb_insert(TABLE_NETWORK_POWER, "sName,iPower", "'ethernet',1"));
+
+    col_para = "id INTEGER PRIMARY KEY," \
+               "sNtpServers TEXT NOT NULL," \
+               "sTimeZone TEXT NOT NULL," \
+               "iAutoMode INT DEFAULT 0," \
+               "iRefreshTime INT DEFAULT 120";
+    g_free(rkdb_create(TABLE_NETWORK_NTP, col_para));
+    g_free(rkdb_insert(TABLE_NETWORK_NTP, "id,sNtpServers,sTimeZone,iAutoMode,iRefreshTime", "0,'122.224.9.29 94.130.49.186','CST',0,120"));
+
+    col_para = "id INTEGER PRIMARY KEY," \
                "sName TEXT NOT NULL," \
                "iHavedst INT DEFAULT 0," \
-               "sZONE TEXT NOT NULL," \
-               "sZONEdst TEXT NOT NULL";
-    rkdb_creat("zone", col_para);
-    rkdb_insert("zone", "iID,sName,iHavedst,sZONE,sZONEdst", "0,'Shanghai',0,'GMT-8',''");
-    rkdb_insert("zone", "iID,sName,iHavedst,sZONE,sZONEdst", "1,'Los_Angeles',1,'GMT+8','Los_Angeles'");
+               "sTimeZone TEXT NOT NULL," \
+               "sTimeZoneDst TEXT NOT NULL";
+    g_free(rkdb_create(TABLE_NETWORK_ZONE, col_para));
+    g_free(rkdb_insert(TABLE_NETWORK_ZONE, "id,sName,iHavedst,sTimeZone,sTimeZoneDst", "0,'Shanghai',0,'GMT-8',''"));
+    g_free(rkdb_insert(TABLE_NETWORK_ZONE, "id,sName,iHavedst,sTimeZone,sTimeZoneDst", "1,'Los_Angeles',1,'GMT+8','Los_Angeles'"));
 
     col_para = "id INTEGER PRIMARY KEY," \
                "sProtocol TEXT NOT NULL," \
                "iPortNo INT DEFAULT 0";
-    rkdb_creat("port", col_para);
-    rkdb_insert("port", "id,sProtocol,iPortNo", "0,'HTTP',80");
-    rkdb_insert("port", "id,sProtocol,iPortNo", "1,'HTTPS',443");
-    rkdb_insert("port", "id,sProtocol,iPortNo", "2,'DEV_MANAGE',8080");
-    rkdb_insert("port", "id,sProtocol,iPortNo", "3,'RTSP',554");
-    rkdb_insert("port", "id,sProtocol,iPortNo", "4,'RTMP',1935");
+    g_free(rkdb_create(TABLE_NETWORK_PORT, col_para));
+    g_free(rkdb_insert(TABLE_NETWORK_PORT, "id,sProtocol,iPortNo", "0,'HTTP',80"));
+    g_free(rkdb_insert(TABLE_NETWORK_PORT, "id,sProtocol,iPortNo", "1,'HTTPS',443"));
+    g_free(rkdb_insert(TABLE_NETWORK_PORT, "id,sProtocol,iPortNo", "2,'DEV_MANAGE',8080"));
+    g_free(rkdb_insert(TABLE_NETWORK_PORT, "id,sProtocol,iPortNo", "3,'RTSP',554"));
+    g_free(rkdb_insert(TABLE_NETWORK_PORT, "id,sProtocol,iPortNo", "4,'RTMP',1935"));
 
     dbus_manager_init(dbus_conn);
 }

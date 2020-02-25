@@ -30,6 +30,9 @@
 #define TABLE_IMAGE_WHITE_BLANCE "image_white_blance"
 #define TABLE_IMAGE_ENHANCEMENT "image_enhancement"
 #define TABLE_IMAGE_VIDEO_ADJUSTMEN "image_video_adjustment"
+#define TABLE_MEDIA_VERSION       "MediaVersion"
+
+#define MEDIA_VERSION             "1.0.1"
 
 static int dbus_manager_init(DBusConnection *dbus_conn)
 {
@@ -43,7 +46,29 @@ static int dbus_manager_init(DBusConnection *dbus_conn)
 
 void media_init(DBusConnection *dbus_conn)
 {
-    char *col_para = "id INTEGER PRIMARY KEY," \
+    char *col_para;
+
+    if (equal_version(TABLE_MEDIA_VERSION, MEDIA_VERSION)) {
+        dbus_manager_init(dbus_conn);
+        return;
+    }
+
+    g_free(rkdb_drop(TABLE_VIDEO));
+    g_free(rkdb_drop(TABLE_AUDIO));
+    g_free(rkdb_drop(TABLE_STREAM_URL));
+    g_free(rkdb_drop(TABLE_IMAGE_SCENARIO));
+    g_free(rkdb_drop(TABLE_IMAGE_ADJUSTMENT));
+    g_free(rkdb_drop(TABLE_IMAGE_EXPOSURE));
+    g_free(rkdb_drop(TABLE_IMAGE_NIGHT_TO_DAY));
+    g_free(rkdb_drop(TABLE_IMAGE_BLC));
+    g_free(rkdb_drop(TABLE_IMAGE_WHITE_BLANCE));
+    g_free(rkdb_drop(TABLE_IMAGE_ENHANCEMENT));
+    g_free(rkdb_drop(TABLE_IMAGE_VIDEO_ADJUSTMEN));
+    g_free(rkdb_drop(TABLE_MEDIA_VERSION));
+
+    creat_version_table(TABLE_MEDIA_VERSION, MEDIA_VERSION);
+
+    col_para = "id INTEGER PRIMARY KEY," \
                      "sStreamType TEXT DEFAULT 'mainStream'," \
                      "sVideoType TEXT DEFAULT 'compositeStream'," \
                      "sResolution TEXT DEFAULT '1920*1080'," \
@@ -58,11 +83,11 @@ void media_init(DBusConnection *dbus_conn)
                      "sSVC TEXT DEFAULT 'close'," \
                      "iStreamSmooth INT DEFAULT 50";
 
-    rkdb_creat(TABLE_VIDEO, col_para);
+    g_free(rkdb_create(TABLE_VIDEO, col_para));
     /* TODO: Three tables need different initial values */
-    rkdb_insert(TABLE_VIDEO, "id, sStreamType", "0, 'mainStream'");
-    rkdb_insert(TABLE_VIDEO, "id, sStreamType", "1, 'subStream'");
-    rkdb_insert(TABLE_VIDEO, "id, sStreamType", "2, 'thirdStream'");
+    g_free(rkdb_insert(TABLE_VIDEO, "id, sStreamType", "0, 'mainStream'"));
+    g_free(rkdb_insert(TABLE_VIDEO, "id, sStreamType", "1, 'subStream'"));
+    g_free(rkdb_insert(TABLE_VIDEO, "id, sStreamType", "2, 'thirdStream'"));
 
     col_para = "id INTEGER PRIMARY KEY," \
                "sEncodeType TEXT DEFAULT 'AAC'," \
@@ -72,48 +97,48 @@ void media_init(DBusConnection *dbus_conn)
                "iVolume INT DEFAULT 50," \
                "sANS TEXT DEFAULT 'close'";
 
-    rkdb_creat(TABLE_AUDIO, col_para);
-    rkdb_insert(TABLE_AUDIO, "id", "0");
+    g_free(rkdb_create(TABLE_AUDIO, col_para));
+    g_free(rkdb_insert(TABLE_AUDIO, "id", "0"));
 
     col_para = "id INTEGER PRIMARY KEY," \
                "sStreamProtocol TEXT NOT NULL";
 
-    rkdb_creat(TABLE_STREAM_URL, col_para);
-    rkdb_insert(TABLE_STREAM_URL, "id,sStreamProtocol", "0,'RTSP'");
-    rkdb_insert(TABLE_STREAM_URL, "id,sStreamProtocol", "1,'RTMP'");
-    rkdb_insert(TABLE_STREAM_URL, "id,sStreamProtocol", "2,'RTMP'");
+    g_free(rkdb_create(TABLE_STREAM_URL, col_para));
+    g_free(rkdb_insert(TABLE_STREAM_URL, "id,sStreamProtocol", "0,'RTSP'"));
+    g_free(rkdb_insert(TABLE_STREAM_URL, "id,sStreamProtocol", "1,'RTMP'"));
+    g_free(rkdb_insert(TABLE_STREAM_URL, "id,sStreamProtocol", "2,'RTMP'"));
 
     /* image */
     col_para = "id INTEGER PRIMARY KEY," \
                "sScenario TEXT DEFAULT 'normal'";
-    rkdb_creat(TABLE_IMAGE_SCENARIO, col_para);
-    rkdb_insert(TABLE_IMAGE_SCENARIO, "id", "0");
+    g_free(rkdb_create(TABLE_IMAGE_SCENARIO, col_para));
+    g_free(rkdb_insert(TABLE_IMAGE_SCENARIO, "id", "0"));
 
     col_para = "id INTEGER PRIMARY KEY," \
                "iBrightness INT DEFAULT 50," \
                "iContrast INT DEFAULT 50," \
                "iSaturation INT DEFAULT 50," \
                "iSharpness INT DEFAULT 50";
-    rkdb_creat(TABLE_IMAGE_ADJUSTMENT, col_para);
-    rkdb_insert(TABLE_IMAGE_ADJUSTMENT, "id", "0");
-    rkdb_insert(TABLE_IMAGE_ADJUSTMENT, "id", "1");
-    rkdb_insert(TABLE_IMAGE_ADJUSTMENT, "id", "2");
-    rkdb_insert(TABLE_IMAGE_ADJUSTMENT, "id", "3");
-    rkdb_insert(TABLE_IMAGE_ADJUSTMENT, "id", "4");
-    rkdb_insert(TABLE_IMAGE_ADJUSTMENT, "id", "5");
+    g_free(rkdb_create(TABLE_IMAGE_ADJUSTMENT, col_para));
+    g_free(rkdb_insert(TABLE_IMAGE_ADJUSTMENT, "id", "0"));
+    g_free(rkdb_insert(TABLE_IMAGE_ADJUSTMENT, "id", "1"));
+    g_free(rkdb_insert(TABLE_IMAGE_ADJUSTMENT, "id", "2"));
+    g_free(rkdb_insert(TABLE_IMAGE_ADJUSTMENT, "id", "3"));
+    g_free(rkdb_insert(TABLE_IMAGE_ADJUSTMENT, "id", "4"));
+    g_free(rkdb_insert(TABLE_IMAGE_ADJUSTMENT, "id", "5"));
 
     col_para = "id INTEGER PRIMARY KEY," \
                "sIrisType TEXT DEFAULT 'auto'," \
                "iAutoIrisLevel INT DEFAULT 5," \
                "sExposureTime TEXT DEFAULT '1/6'," \
                "iExposureGain INT DEFAULT 0";
-    rkdb_creat(TABLE_IMAGE_EXPOSURE, col_para);
-    rkdb_insert(TABLE_IMAGE_EXPOSURE, "id", "0");
-    rkdb_insert(TABLE_IMAGE_EXPOSURE, "id", "1");
-    rkdb_insert(TABLE_IMAGE_EXPOSURE, "id", "2");
-    rkdb_insert(TABLE_IMAGE_EXPOSURE, "id", "3");
-    rkdb_insert(TABLE_IMAGE_EXPOSURE, "id", "4");
-    rkdb_insert(TABLE_IMAGE_EXPOSURE, "id", "5");
+    g_free(rkdb_create(TABLE_IMAGE_EXPOSURE, col_para));
+    g_free(rkdb_insert(TABLE_IMAGE_EXPOSURE, "id", "0"));
+    g_free(rkdb_insert(TABLE_IMAGE_EXPOSURE, "id", "1"));
+    g_free(rkdb_insert(TABLE_IMAGE_EXPOSURE, "id", "2"));
+    g_free(rkdb_insert(TABLE_IMAGE_EXPOSURE, "id", "3"));
+    g_free(rkdb_insert(TABLE_IMAGE_EXPOSURE, "id", "4"));
+    g_free(rkdb_insert(TABLE_IMAGE_EXPOSURE, "id", "5"));
 
     col_para = "id INTEGER PRIMARY KEY," \
                "sNightToDay TEXT DEFAULT 'auto'," \
@@ -125,13 +150,13 @@ void media_init(DBusConnection *dbus_conn)
                "sOverexposeSuppress TEXT DEFAULT 'open'," \
                "sOverexposeSuppressType TEXT DEFAULT 'auto'," \
                "iDistanceLevel INT DEFAULT 1";
-    rkdb_creat(TABLE_IMAGE_NIGHT_TO_DAY, col_para);
-    rkdb_insert(TABLE_IMAGE_NIGHT_TO_DAY, "id", "0");
-    rkdb_insert(TABLE_IMAGE_NIGHT_TO_DAY, "id", "1");
-    rkdb_insert(TABLE_IMAGE_NIGHT_TO_DAY, "id", "2");
-    rkdb_insert(TABLE_IMAGE_NIGHT_TO_DAY, "id", "3");
-    rkdb_insert(TABLE_IMAGE_NIGHT_TO_DAY, "id", "4");
-    rkdb_insert(TABLE_IMAGE_NIGHT_TO_DAY, "id", "5");
+    g_free(rkdb_create(TABLE_IMAGE_NIGHT_TO_DAY, col_para));
+    g_free(rkdb_insert(TABLE_IMAGE_NIGHT_TO_DAY, "id", "0"));
+    g_free(rkdb_insert(TABLE_IMAGE_NIGHT_TO_DAY, "id", "1"));
+    g_free(rkdb_insert(TABLE_IMAGE_NIGHT_TO_DAY, "id", "2"));
+    g_free(rkdb_insert(TABLE_IMAGE_NIGHT_TO_DAY, "id", "3"));
+    g_free(rkdb_insert(TABLE_IMAGE_NIGHT_TO_DAY, "id", "4"));
+    g_free(rkdb_insert(TABLE_IMAGE_NIGHT_TO_DAY, "id", "5"));
 
     col_para = "id INTEGER PRIMARY KEY," \
                "sBLCRegion TEXT DEFAULT 'close'," \
@@ -147,25 +172,25 @@ void media_init(DBusConnection *dbus_conn)
                "iPositionY2 INT DEFAULT 0," \
                "iPositionX3 INT DEFAULT 0," \
                "iPositionY3 INT DEFAULT 0";
-    rkdb_creat(TABLE_IMAGE_BLC, col_para);
-    rkdb_insert(TABLE_IMAGE_BLC, "id", "0");
-    rkdb_insert(TABLE_IMAGE_BLC, "id", "1");
-    rkdb_insert(TABLE_IMAGE_BLC, "id", "2");
-    rkdb_insert(TABLE_IMAGE_BLC, "id", "3");
-    rkdb_insert(TABLE_IMAGE_BLC, "id", "4");
-    rkdb_insert(TABLE_IMAGE_BLC, "id", "5");
+    g_free(rkdb_create(TABLE_IMAGE_BLC, col_para));
+    g_free(rkdb_insert(TABLE_IMAGE_BLC, "id", "0"));
+    g_free(rkdb_insert(TABLE_IMAGE_BLC, "id", "1"));
+    g_free(rkdb_insert(TABLE_IMAGE_BLC, "id", "2"));
+    g_free(rkdb_insert(TABLE_IMAGE_BLC, "id", "3"));
+    g_free(rkdb_insert(TABLE_IMAGE_BLC, "id", "4"));
+    g_free(rkdb_insert(TABLE_IMAGE_BLC, "id", "5"));
 
     col_para = "id INTEGER PRIMARY KEY," \
                "sWhiteBlanceStyle TEXT DEFAULT 'naturalLight'," \
                "iWhiteBalanceRed INT DEFAULT 50," \
                "iWhiteBalanceBlue INT DEFAULT 50";
-    rkdb_creat(TABLE_IMAGE_WHITE_BLANCE, col_para);
-    rkdb_insert(TABLE_IMAGE_WHITE_BLANCE, "id", "0");
-    rkdb_insert(TABLE_IMAGE_WHITE_BLANCE, "id", "1");
-    rkdb_insert(TABLE_IMAGE_WHITE_BLANCE, "id", "2");
-    rkdb_insert(TABLE_IMAGE_WHITE_BLANCE, "id", "3");
-    rkdb_insert(TABLE_IMAGE_WHITE_BLANCE, "id", "4");
-    rkdb_insert(TABLE_IMAGE_WHITE_BLANCE, "id", "5");
+    g_free(rkdb_create(TABLE_IMAGE_WHITE_BLANCE, col_para));
+    g_free(rkdb_insert(TABLE_IMAGE_WHITE_BLANCE, "id", "0"));
+    g_free(rkdb_insert(TABLE_IMAGE_WHITE_BLANCE, "id", "1"));
+    g_free(rkdb_insert(TABLE_IMAGE_WHITE_BLANCE, "id", "2"));
+    g_free(rkdb_insert(TABLE_IMAGE_WHITE_BLANCE, "id", "3"));
+    g_free(rkdb_insert(TABLE_IMAGE_WHITE_BLANCE, "id", "4"));
+    g_free(rkdb_insert(TABLE_IMAGE_WHITE_BLANCE, "id", "5"));
 
     col_para = "id INTEGER PRIMARY KEY," \
                "sNoiseReduceMode TEXT DEFAULT 'general'," \
@@ -176,25 +201,25 @@ void media_init(DBusConnection *dbus_conn)
                "iDehazeLevel INT DEFAULT 0," \
                "sDIS TEXT DEFAULT 'close'," \
                "sGrayScaleMode TEXT DEFAULT '[0-255]'";
-    rkdb_creat(TABLE_IMAGE_ENHANCEMENT, col_para);
-    rkdb_insert(TABLE_IMAGE_ENHANCEMENT, "id", "0");
-    rkdb_insert(TABLE_IMAGE_ENHANCEMENT, "id", "1");
-    rkdb_insert(TABLE_IMAGE_ENHANCEMENT, "id", "2");
-    rkdb_insert(TABLE_IMAGE_ENHANCEMENT, "id", "3");
-    rkdb_insert(TABLE_IMAGE_ENHANCEMENT, "id", "4");
-    rkdb_insert(TABLE_IMAGE_ENHANCEMENT, "id", "5");
+    g_free(rkdb_create(TABLE_IMAGE_ENHANCEMENT, col_para));
+    g_free(rkdb_insert(TABLE_IMAGE_ENHANCEMENT, "id", "0"));
+    g_free(rkdb_insert(TABLE_IMAGE_ENHANCEMENT, "id", "1"));
+    g_free(rkdb_insert(TABLE_IMAGE_ENHANCEMENT, "id", "2"));
+    g_free(rkdb_insert(TABLE_IMAGE_ENHANCEMENT, "id", "3"));
+    g_free(rkdb_insert(TABLE_IMAGE_ENHANCEMENT, "id", "4"));
+    g_free(rkdb_insert(TABLE_IMAGE_ENHANCEMENT, "id", "5"));
 
     col_para = "id INTEGER PRIMARY KEY," \
                "sImageFlip TEXT DEFAULT 'close'," \
                "sSceneMode TEXT DEFAULT 'indoor'," \
                "sPowerLineFrequencyMode TEXT DEFAULT 'PAL(50HZ)'";
-    rkdb_creat(TABLE_IMAGE_VIDEO_ADJUSTMEN, col_para);
-    rkdb_insert(TABLE_IMAGE_VIDEO_ADJUSTMEN, "id", "0");
-    rkdb_insert(TABLE_IMAGE_VIDEO_ADJUSTMEN, "id", "1");
-    rkdb_insert(TABLE_IMAGE_VIDEO_ADJUSTMEN, "id", "2");
-    rkdb_insert(TABLE_IMAGE_VIDEO_ADJUSTMEN, "id", "3");
-    rkdb_insert(TABLE_IMAGE_VIDEO_ADJUSTMEN, "id", "4");
-    rkdb_insert(TABLE_IMAGE_VIDEO_ADJUSTMEN, "id", "5");
+    g_free(rkdb_create(TABLE_IMAGE_VIDEO_ADJUSTMEN, col_para));
+    g_free(rkdb_insert(TABLE_IMAGE_VIDEO_ADJUSTMEN, "id", "0"));
+    g_free(rkdb_insert(TABLE_IMAGE_VIDEO_ADJUSTMEN, "id", "1"));
+    g_free(rkdb_insert(TABLE_IMAGE_VIDEO_ADJUSTMEN, "id", "2"));
+    g_free(rkdb_insert(TABLE_IMAGE_VIDEO_ADJUSTMEN, "id", "3"));
+    g_free(rkdb_insert(TABLE_IMAGE_VIDEO_ADJUSTMEN, "id", "4"));
+    g_free(rkdb_insert(TABLE_IMAGE_VIDEO_ADJUSTMEN, "id", "5"));
 
     dbus_manager_init(dbus_conn);
 }

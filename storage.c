@@ -21,6 +21,9 @@
 #define TABLE_STORAGE_DISK_PATH     "StorageDiskPath"
 #define TABLE_STORAGE_MEDIA_FOLDER  "StorageMediaFolder"
 #define TABLE_STORAGE_CONFIG        "StorageConfig"
+#define TABLE_STORAGE_VERSION       "StorageVersion"
+
+#define STORAGE_VERSION             "1.0.1"
 
 static int dbus_manager_init(DBusConnection *dbus_conn)
 {
@@ -36,17 +39,29 @@ void storage_init(DBusConnection *dbus_conn)
 {
     char *col_para;
 
-    col_para = "iId INTEGER PRIMARY KEY AUTOINCREMENT," \
+    if (equal_version(TABLE_STORAGE_VERSION, STORAGE_VERSION)) {
+        dbus_manager_init(dbus_conn);
+        return;
+    }
+
+    g_free(rkdb_drop(TABLE_STORAGE_DISK_PATH));
+    g_free(rkdb_drop(TABLE_STORAGE_MEDIA_FOLDER));
+    g_free(rkdb_drop(TABLE_STORAGE_CONFIG));
+    g_free(rkdb_drop(TABLE_STORAGE_VERSION));
+
+    creat_version_table(TABLE_STORAGE_VERSION, STORAGE_VERSION);
+
+    col_para = "id INTEGER PRIMARY KEY AUTOINCREMENT," \
                "sPath TEXT NOT NULL UNIQUE," \
                "sName TEXT DEFAULT ''," \
                "iMount INT DEFAULT 0";
 
-    rkdb_creat(TABLE_STORAGE_DISK_PATH, col_para);
-    rkdb_insert(TABLE_STORAGE_DISK_PATH, "sPath,sName,iMount", "'/mnt/sdcard','SD Card',0");
-    rkdb_insert(TABLE_STORAGE_DISK_PATH, "sPath,sName,iMount", "'/media/usb0','U Disk',0");
-    rkdb_insert(TABLE_STORAGE_DISK_PATH, "sPath,sName,iMount", "'/userdata','Emmc',0");
+    g_free(rkdb_create(TABLE_STORAGE_DISK_PATH, col_para));
+    g_free(rkdb_insert(TABLE_STORAGE_DISK_PATH, "sPath,sName,iMount", "'/mnt/sdcard','SD Card',0"));
+    g_free(rkdb_insert(TABLE_STORAGE_DISK_PATH, "sPath,sName,iMount", "'/media/usb0','U Disk',0"));
+    g_free(rkdb_insert(TABLE_STORAGE_DISK_PATH, "sPath,sName,iMount", "'/userdata','Emmc',0"));
 
-    col_para = "iId INTEGER PRIMARY KEY," \
+    col_para = "id INTEGER PRIMARY KEY," \
                "sMediaFolder TEXT NOT NULL UNIQUE," \
                "sThumbFolder TEXT," \
                "sFormat TEXT," \
@@ -55,18 +70,22 @@ void storage_init(DBusConnection *dbus_conn)
                "iDuty INT," \
                "iMaxNum INT";
 
-    rkdb_creat(TABLE_STORAGE_MEDIA_FOLDER, col_para);
-    rkdb_insert(TABLE_STORAGE_MEDIA_FOLDER, "iId,sMediaFolder,sThumbFolder,sFormat,iCamId,iType,iDuty,iMaxNum",
-                                          "0,'video0','video0/.thumb','VIDEO_%Y%m%d%H%M%S',0,0,90,-1");
-    rkdb_insert(TABLE_STORAGE_MEDIA_FOLDER, "iId,sMediaFolder,sThumbFolder,sFormat,iCamId,iType,iDuty,iMaxNum",
-                                          "1,'photo0','photo0/.thumb','PHOTO_%Y%m%d%H%M%S',0,1,10,-1");
+    g_free(rkdb_create(TABLE_STORAGE_MEDIA_FOLDER, col_para));
+    g_free(rkdb_insert(TABLE_STORAGE_MEDIA_FOLDER, "id,sMediaFolder,sThumbFolder,sFormat,iCamId,iType,iDuty,iMaxNum",
+                                          "0,'video0','video0/.thumb','VIDEO_%Y%m%d%H%M%S',0,0,45,-1"));
+    g_free(rkdb_insert(TABLE_STORAGE_MEDIA_FOLDER, "id,sMediaFolder,sThumbFolder,sFormat,iCamId,iType,iDuty,iMaxNum",
+                                          "1,'photo0','photo0/.thumb','PHOTO_%Y%m%d%H%M%S',0,1,5,-1"));
+    g_free(rkdb_insert(TABLE_STORAGE_MEDIA_FOLDER, "id,sMediaFolder,sThumbFolder,sFormat,iCamId,iType,iDuty,iMaxNum",
+                                          "2,'video1','video1/.thumb','VIDEO_%Y%m%d%H%M%S',1,0,45,-1"));
+    g_free(rkdb_insert(TABLE_STORAGE_MEDIA_FOLDER, "id,sMediaFolder,sThumbFolder,sFormat,iCamId,iType,iDuty,iMaxNum",
+                                          "3,'photo1','photo1/.thumb','PHOTO_%Y%m%d%H%M%S',1,1,5,-1"));
 
-    col_para = "iId INTEGER PRIMARY KEY," \
+    col_para = "id INTEGER PRIMARY KEY," \
                "iFreeSize INT DEFAULT -1," \
                "sMountPath TEXT NOT NULL UNIQUE";
-    rkdb_creat(TABLE_STORAGE_CONFIG, col_para);
+    g_free(rkdb_create(TABLE_STORAGE_CONFIG, col_para));
     //The unit of iFreeSize is MB
-    rkdb_insert(TABLE_STORAGE_CONFIG, "iId,iFreeSize,sMountPath","0,1024,'/userdata'");
+    g_free(rkdb_insert(TABLE_STORAGE_CONFIG, "id,iFreeSize,sMountPath","0,1024,'/userdata'"));
 
     dbus_manager_init(dbus_conn);
 }
