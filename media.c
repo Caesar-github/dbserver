@@ -32,6 +32,9 @@
 #define TABLE_IMAGE_VIDEO_ADJUSTMEN "image_video_adjustment"
 #define TABLE_MEDIA_VERSION       "MediaVersion"
 
+#define TABLE_NORMALIZED_SCREEN_SIZE "normalized_screen_size"
+#define TABLE_OSD "osd"
+
 #define MEDIA_VERSION             "1.0.1"
 
 static int dbus_manager_init(DBusConnection *dbus_conn)
@@ -216,6 +219,50 @@ void media_init(DBusConnection *dbus_conn)
     g_free(rkdb_insert(TABLE_IMAGE_VIDEO_ADJUSTMEN, "id", "3"));
     g_free(rkdb_insert(TABLE_IMAGE_VIDEO_ADJUSTMEN, "id", "4"));
     g_free(rkdb_insert(TABLE_IMAGE_VIDEO_ADJUSTMEN, "id", "5"));
+
+    /* OSD */
+    col_para = "id INTEGER PRIMARY KEY," \
+               "iNormalizedScreenWidth INT DEFAULT 704," \
+               "iNormalizedScreenHeight INT DEFAULT 480";
+    g_free(rkdb_create(TABLE_NORMALIZED_SCREEN_SIZE, col_para));
+    g_free(rkdb_insert(TABLE_NORMALIZED_SCREEN_SIZE, "id", "0"));
+
+    col_para = "id INTEGER PRIMARY KEY," \
+               "sType TEXT," \
+               "iEnabled INT DEFAULT 0," \
+               "iPositionX INT DEFAULT 0," \
+               "iPositionY INT DEFAULT 0," \
+               "iWidth INT DEFAULT 120," \
+               "iHeight INT DEFAULT 92," \
+               "sIsPersistentText TEXT DEFAULT 'true'," \
+               "sDisplayText TEXT DEFAULT 'test'," \
+               "iDisplayWeekEnabled  INT DEFAULT 1," \
+               "sDateStyle TEXT DEFAULT 'CHR-YYYY-MM-DD'," \
+               "sTimeStyle TEXT DEFAULT '24hour'," \
+               "iTransparentColorEnabled INT DEFAULT 0," \
+               "sOSDAttribute TEXT DEFAULT 'transparent/flashing'," \
+               "sOSDFontSize TEXT DEFAULT '16*16'," \
+               "sOSDFrontColorMode TEXT DEFAULT 'auto'," \
+               "sOSDFrontColor TEXT DEFAULT '000000'," \
+               "sAlignment TEXT DEFAULT 'customize'," \
+               "iBoundary INT DEFAULT 0";
+
+    g_free(rkdb_create(TABLE_OSD, col_para));
+    g_free(rkdb_insert(TABLE_OSD, "id,sType", "0,'channelName'"));
+    g_free(rkdb_insert(TABLE_OSD, "id,sType", "1,'dateTime'"));
+    g_free(rkdb_insert(TABLE_OSD, "id,sType", "2,'character'"));
+    g_free(rkdb_insert(TABLE_OSD, "id,sType", "3,'character'"));
+    g_free(rkdb_insert(TABLE_OSD, "id,sType", "4,'character'"));
+    g_free(rkdb_insert(TABLE_OSD, "id,sType", "5,'character'"));
+    g_free(rkdb_insert(TABLE_OSD, "id,sType", "6,'character'"));
+    g_free(rkdb_insert(TABLE_OSD, "id,sType", "7,'character'"));
+    g_free(rkdb_insert(TABLE_OSD, "id,sType", "8,'character'"));
+    g_free(rkdb_insert(TABLE_OSD, "id,sType", "9,'character'"));
+    g_free(rkdb_insert(TABLE_OSD, "id,sType", "10,'privacyMask'"));
+    g_free(rkdb_insert(TABLE_OSD, "id,sType", "11,'privacyMask'"));
+    g_free(rkdb_insert(TABLE_OSD, "id,sType", "12,'privacyMask'"));
+    g_free(rkdb_insert(TABLE_OSD, "id,sType", "13,'privacyMask'"));
+    g_free(rkdb_insert(TABLE_OSD, "id,sType", "14,'image'"));
 
     dbus_manager_init(dbus_conn);
 }
