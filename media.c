@@ -164,14 +164,10 @@ void media_init(DBusConnection *dbus_conn)
                "iWDRLevel INT DEFAULT 0," \
                "sHLC TEXT DEFAULT 'close'," \
                "iHLCLevel INT DEFAULT 0," \
-               "iPositionX0 INT DEFAULT 0," \
-               "iPositionY0 INT DEFAULT 0," \
-               "iPositionX1 INT DEFAULT 0," \
-               "iPositionY1 INT DEFAULT 0," \
-               "iPositionX2 INT DEFAULT 0," \
-               "iPositionY2 INT DEFAULT 0," \
-               "iPositionX3 INT DEFAULT 0," \
-               "iPositionY3 INT DEFAULT 0";
+               "iPositionX INT DEFAULT 0," \
+               "iPositionY INT DEFAULT 0," \
+               "iBLCRegionWidth INT DEFAULT 120," \
+               "iBLCRegionHeight INT DEFAULT 92";
     g_free(rkdb_create(TABLE_IMAGE_BLC, col_para));
     g_free(rkdb_insert(TABLE_IMAGE_BLC, "id", "0"));
     g_free(rkdb_insert(TABLE_IMAGE_BLC, "id", "1"));
