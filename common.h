@@ -15,8 +15,8 @@
 #define DB_POWER_ETHERNET_PATH  DB_POWER_INTERFACE ".ethernet"
 
 #define DB_STORAGE_INTERFACE    DB_SERVER ".storage"
-
 #define DB_MEDIA_INTERFACE    DB_SERVER ".media"
+#define DB_SYSTEM_INTERFACE    DB_SERVER ".system"
 
 extern const GDBusMethodTable methods[];
 extern const GDBusSignalTable signals[];

@@ -20,6 +20,7 @@
 #include "storage.h"
 #include "media.h"
 #include "common.h"
+#include "system.h"
 
 int main( int argc , char ** argv)
 {
@@ -35,6 +36,7 @@ int main( int argc , char ** argv)
     network_init(dbus_conn);
     storage_init(dbus_conn);
     media_init(dbus_conn);
+    system_init(dbus_conn);
 
     g_main_loop_run(main_loop);
     rkdb_deinit();
