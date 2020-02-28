@@ -38,6 +38,8 @@ int main( int argc , char ** argv)
     media_init(dbus_conn);
     system_init(dbus_conn);
 
+    printf("dbserver init finish\n");
+
     g_main_loop_run(main_loop);
     rkdb_deinit();
     if (main_loop)

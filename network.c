@@ -18,14 +18,15 @@
 #include "rkdb.h"
 #include "common.h"
 
-#define TABLE_NETWORK_CONFIG        "netconfig"
-#define TABLE_NETWORK_POWER         "power"
+#define TABLE_NETWORK_IP            "NetworkIP"
+#define TABLE_NETWORK_SERVICE       "NetworkService"
+#define TABLE_NETWORK_POWER         "NetworkPower"
 #define TABLE_NETWORK_NTP           "ntp"
 #define TABLE_NETWORK_ZONE          "zone"
 #define TABLE_NETWORK_PORT          "port"
 #define TABLE_NETWORK_VERSION       "NetworkVersion"
 
-#define NETWORK_VERSION             "1.0.1"
+#define NETWORK_VERSION             "1.0.2"
 
 static int dbus_manager_init(DBusConnection *dbus_conn)
 {
@@ -46,7 +47,8 @@ void network_init(DBusConnection *dbus_conn)
         return;
     }
 
-    g_free(rkdb_drop(TABLE_NETWORK_CONFIG));
+    g_free(rkdb_drop(TABLE_NETWORK_IP));
+    g_free(rkdb_drop(TABLE_NETWORK_SERVICE));
     g_free(rkdb_drop(TABLE_NETWORK_POWER));
     g_free(rkdb_drop(TABLE_NETWORK_NTP));
     g_free(rkdb_drop(TABLE_NETWORK_ZONE));
@@ -56,25 +58,38 @@ void network_init(DBusConnection *dbus_conn)
     creat_version_table(TABLE_NETWORK_VERSION, NETWORK_VERSION);
 
     col_para = "id INTEGER PRIMARY KEY AUTOINCREMENT," \
-                     "sService TEXT NOT NULL UNIQUE," \
-                     "sPassword TEXT DEFAULT ''," \
-                     "iFavorite INT DEFAULT 0," \
-                     "iAutoconnect INT DEFAULT 0," \
-                     "sV4Method TEXT DEFAULT ''," \
-                     "sV4Address TEXT DEFAULT ''," \
-                     "sV4Netmask TEXT DEFAULT ''," \
-                     "sV4Gateway TEXT DEFAULT ''," \
-                     "sDNS TEXT DEFAULT ''";
+               "sService TEXT NOT NULL UNIQUE," \
+               "sPassword TEXT DEFAULT ''," \
+               "iFavorite INT DEFAULT 0," \
+               "iAutoconnect INT DEFAULT 0";
 
-    g_free(rkdb_create(TABLE_NETWORK_CONFIG, col_para));
+    g_free(rkdb_create(TABLE_NETWORK_SERVICE, col_para));
 
     col_para = "id INTEGER PRIMARY KEY AUTOINCREMENT," \
-               "sName TEXT NOT NULL UNIQUE," \
+               "sInterface TEXT NOT NULL UNIQUE," \
+               "sType TEXT NOT NULL," \
+               "sV4Method TEXT DEFAULT ''," \
+               "sV4Address TEXT DEFAULT ''," \
+               "sV4Netmask TEXT DEFAULT ''," \
+               "sV4Gateway TEXT DEFAULT ''," \
+               "sV6Method TEXT DEFAULT ''," \
+               "sV6Address TEXT DEFAULT ''," \
+               "sV6Netmask TEXT DEFAULT ''," \
+               "sV6Gateway TEXT DEFAULT ''," \
+               "sDNS1 TEXT DEFAULT ''," \
+               "sDNS2 TEXT DEFAULT ''";
+
+    g_free(rkdb_create(TABLE_NETWORK_IP, col_para));
+    g_free(rkdb_insert(TABLE_NETWORK_IP, "sInterface,sType,sV4Method", "'wlan0','wifi', 'dhcp'"));
+    g_free(rkdb_insert(TABLE_NETWORK_IP, "sInterface,sType,sV4Method", "'eth0','ethernet', 'dhcp'"));
+
+    col_para = "id INTEGER PRIMARY KEY AUTOINCREMENT," \
+               "sType TEXT NOT NULL UNIQUE," \
                "iPower INT DEFAULT 0";
 
     g_free(rkdb_create(TABLE_NETWORK_POWER, col_para));
-    g_free(rkdb_insert(TABLE_NETWORK_POWER, "sName,iPower", "'wifi',0"));
-    g_free(rkdb_insert(TABLE_NETWORK_POWER, "sName,iPower", "'ethernet',1"));
+    g_free(rkdb_insert(TABLE_NETWORK_POWER, "sType,iPower", "'wifi',0"));
+    g_free(rkdb_insert(TABLE_NETWORK_POWER, "sType,iPower", "'ethernet',1"));
 
     col_para = "id INTEGER PRIMARY KEY," \
                "sNtpServers TEXT NOT NULL," \

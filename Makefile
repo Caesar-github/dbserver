@@ -18,7 +18,7 @@ LIB_FILES := -L $(OUT_PATH)/usr/lib
 #LD_FLAGS := -lpthread -ljpeg -lpng12 -lm -ldbus-1 -ldbus-glib-1 -lglib-2.0 -lgio-2.0 -lgobject-2.0 -lreadline -ldrm -lminigui_ths -lfreetype -lts -lrga
 #SRC_FILES := agent.c dbus_helpers.c netctl.c gdbus/*.c ui/*.c
 LD_FLAGS := -lpthread -lm -ldbus-1 -ldbus-glib-1 -lglib-2.0 -lgio-2.0 -lgobject-2.0 -lreadline -lsqlite3 -ljson-c -lrkdb -lgdbus
-SRC_FILES := main.c dbus_helpers.c  network.c storage.c common.c media.c
+SRC_FILES := main.c dbus_helpers.c  network.c storage.c common.c media.c system.c
 
 BIN_FILE := dbserver
 
