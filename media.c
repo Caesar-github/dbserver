@@ -92,7 +92,7 @@ void media_init(DBusConnection *dbus_conn)
     col_para = "id INTEGER PRIMARY KEY," \
                "sEncodeType TEXT DEFAULT 'AAC'," \
                "iSampleRate INT DEFAULT 16000," \
-               "iBitRate INT DEFAULT 32," \
+               "iBitRate INT DEFAULT 32000," \
                "sInput TEXT DEFAULT 'micIn'," \
                "iVolume INT DEFAULT 50," \
                "sANS TEXT DEFAULT 'close'";
