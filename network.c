@@ -26,7 +26,7 @@
 #define TABLE_NETWORK_PORT          "port"
 #define TABLE_NETWORK_VERSION       "NetworkVersion"
 
-#define NETWORK_VERSION             "1.0.2"
+#define NETWORK_VERSION             "1.0.3"
 
 static int dbus_manager_init(DBusConnection *dbus_conn)
 {
@@ -97,7 +97,7 @@ void network_init(DBusConnection *dbus_conn)
                "iAutoMode INT DEFAULT 0," \
                "iRefreshTime INT DEFAULT 120";
     g_free(rkdb_create(TABLE_NETWORK_NTP, col_para));
-    g_free(rkdb_insert(TABLE_NETWORK_NTP, "id,sNtpServers,sTimeZone,iAutoMode,iRefreshTime", "0,'122.224.9.29 94.130.49.186','CST',0,120"));
+    g_free(rkdb_insert(TABLE_NETWORK_NTP, "id,sNtpServers,sTimeZone,iAutoMode,iRefreshTime", "0,'122.224.9.29 94.130.49.186','posix/Etc/GMT-8',1,60"));
 
     col_para = "id INTEGER PRIMARY KEY," \
                "sName TEXT NOT NULL," \
@@ -105,8 +105,9 @@ void network_init(DBusConnection *dbus_conn)
                "sTimeZone TEXT NOT NULL," \
                "sTimeZoneDst TEXT NOT NULL";
     g_free(rkdb_create(TABLE_NETWORK_ZONE, col_para));
-    g_free(rkdb_insert(TABLE_NETWORK_ZONE, "id,sName,iHavedst,sTimeZone,sTimeZoneDst", "0,'Shanghai',0,'GMT-8',''"));
-    g_free(rkdb_insert(TABLE_NETWORK_ZONE, "id,sName,iHavedst,sTimeZone,sTimeZoneDst", "1,'Los_Angeles',1,'GMT+8','Los_Angeles'"));
+    g_free(rkdb_insert(TABLE_NETWORK_ZONE, "id,sName,iHavedst,sTimeZone,sTimeZoneDst", "0,'(GMT-8:00)太平洋时间(美国和加拿大)',1,'posix/Etc/GMT+8','posix/America/Los_Angeles'"));
+    g_free(rkdb_insert(TABLE_NETWORK_ZONE, "id,sName,iHavedst,sTimeZone,sTimeZoneDst", "1,'(GMT+0:00)都柏林、爱丁堡、伦敦',0,'posix/Etc/GMT-0',''"));
+    g_free(rkdb_insert(TABLE_NETWORK_ZONE, "id,sName,iHavedst,sTimeZone,sTimeZoneDst", "2,'(GMT+8:00)北京、乌鲁木齐、新加坡、珀斯',0,'posix/Etc/GMT-8',''"));
 
     col_para = "id INTEGER PRIMARY KEY," \
                "sProtocol TEXT NOT NULL," \
