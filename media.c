@@ -34,6 +34,7 @@
 
 #define TABLE_NORMALIZED_SCREEN_SIZE "normalized_screen_size"
 #define TABLE_OSD "osd"
+#define TABLE_ROI "roi"
 
 #define MEDIA_VERSION             "1.0.1"
 
@@ -263,6 +264,31 @@ void media_init(DBusConnection *dbus_conn)
     g_free(rkdb_insert(TABLE_OSD, "id,sType", "12,'privacyMask'"));
     g_free(rkdb_insert(TABLE_OSD, "id,sType", "13,'privacyMask'"));
     g_free(rkdb_insert(TABLE_OSD, "id,sType", "14,'image'"));
+
+    col_para = "id INTEGER PRIMARY KEY," \
+               "sStreamType TEXT," \
+               "iStreamEnabled INT DEFAULT 0," \
+               "iROIId INT," \
+               "iROIEnabled INT DEFAULT 0," \
+               "sName TEXT DEFAULT 'test'," \
+               "iQualityLevelOfROI INT DEFAULT 3," \
+               "iPositionX INT DEFAULT 0," \
+               "iPositionY INT DEFAULT 0," \
+               "iWidth INT DEFAULT 120," \
+               "iHeight INT DEFAULT 92";
+    g_free(rkdb_create(TABLE_ROI, col_para));
+    g_free(rkdb_insert(TABLE_ROI, "id,sStreamType,iROIId", "0,'mainStream',1"));
+    g_free(rkdb_insert(TABLE_ROI, "id,sStreamType,iROIId", "1,'mainStream',2"));
+    g_free(rkdb_insert(TABLE_ROI, "id,sStreamType,iROIId", "2,'mainStream',3"));
+    g_free(rkdb_insert(TABLE_ROI, "id,sStreamType,iROIId", "3,'mainStream',4"));
+    g_free(rkdb_insert(TABLE_ROI, "id,sStreamType,iROIId", "4,'subStream',1"));
+    g_free(rkdb_insert(TABLE_ROI, "id,sStreamType,iROIId", "5,'subStream',2"));
+    g_free(rkdb_insert(TABLE_ROI, "id,sStreamType,iROIId", "6,'subStream',3"));
+    g_free(rkdb_insert(TABLE_ROI, "id,sStreamType,iROIId", "7,'subStream',4"));
+    g_free(rkdb_insert(TABLE_ROI, "id,sStreamType,iROIId", "8,'thirdStream',1"));
+    g_free(rkdb_insert(TABLE_ROI, "id,sStreamType,iROIId", "9,'thirdStream',2"));
+    g_free(rkdb_insert(TABLE_ROI, "id,sStreamType,iROIId", "10,'thirdStream',3"));
+    g_free(rkdb_insert(TABLE_ROI, "id,sStreamType,iROIId", "11,'thirdStream',4"));
 
     dbus_manager_init(dbus_conn);
 }
