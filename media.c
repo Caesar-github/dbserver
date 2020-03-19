@@ -19,6 +19,7 @@
 #include "common.h"
 
 #define TABLE_VIDEO "video"
+#define TABLE_VIDEO_REGION_CLIP "video_region_clip"
 #define TABLE_AUDIO "audio"
 #define TABLE_STREAM_URL "stream_url"
 
@@ -289,6 +290,15 @@ void media_init(DBusConnection *dbus_conn)
     g_free(rkdb_insert(TABLE_ROI, "id,sStreamType,iROIId", "9,'thirdStream',2"));
     g_free(rkdb_insert(TABLE_ROI, "id,sStreamType,iROIId", "10,'thirdStream',3"));
     g_free(rkdb_insert(TABLE_ROI, "id,sStreamType,iROIId", "11,'thirdStream',4"));
+
+    col_para = "id INTEGER PRIMARY KEY," \
+               "iRegionClipEnabled INT DEFAULT 0," \
+               "iPositionX INT DEFAULT 0," \
+               "iPositionY INT DEFAULT 0," \
+               "iWidth INT DEFAULT 640," \
+               "iHeight INT DEFAULT 480";
+    g_free(rkdb_create(TABLE_VIDEO_REGION_CLIP, col_para));
+    g_free(rkdb_insert(TABLE_VIDEO_REGION_CLIP, "id", "0"));
 
     dbus_manager_init(dbus_conn);
 }
