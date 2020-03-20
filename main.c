@@ -21,6 +21,7 @@
 #include "media.h"
 #include "common.h"
 #include "system.h"
+#include "event.h"
 
 int main( int argc , char ** argv)
 {
@@ -37,6 +38,7 @@ int main( int argc , char ** argv)
     storage_init(dbus_conn);
     media_init(dbus_conn);
     system_init(dbus_conn);
+    event_init(dbus_conn);
 
     printf("dbserver init finish\n");
 
