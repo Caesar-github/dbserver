@@ -125,6 +125,7 @@ static char *cmd_update(json_object *j_cfg)
     json_object *j_key = 0;
     json_object *j_data = 0;
     char *j_str;
+    json_object *j_ret;
 
     table = (char *)json_object_get_string(json_object_object_get(j_cfg, "table"));
     j_key = json_object_object_get(j_cfg, "key");
@@ -164,23 +165,17 @@ static char *cmd_update(json_object *j_cfg)
                 set = g_strdup_printf("%s='%s'", key1, (char *)json_object_get_string(val1));
         }
     }
-
-    j_str = rkdb_update(table, set, where);
-
-    if (where)
-        g_free(where);
-    if (set)
-        g_free(set);
-
-    json_object *j_ret = json_tokener_parse(j_str);
-    ret = (int)json_object_get_int(json_object_object_get(j_ret, "iReturn"));
+    j_str = rkdb_select(table, "*", where, NULL, "0,1");
+    j_ret = json_tokener_parse(j_str);
+    json_object *j_array = json_object_object_get(j_ret, "jData");
+    int num = json_object_array_length(j_array);
     json_object_put(j_ret);
+    g_free(j_str);
 
-    if (ret != 0) {
+    if (num == 0) {
         char *cols = 0;
         char *vals = 0;
 
-        g_free(j_str);
         json_object_object_foreach(j_key, key, val) {
             if (cols) {
                 char *tmp = cols;
@@ -227,15 +222,20 @@ static char *cmd_update(json_object *j_cfg)
                     vals = g_strdup_printf("'%s'", (char *)json_object_get_string(val1));
             }
         }
-
         j_str = rkdb_insert(table, cols, vals);
-
         if (cols)
             g_free(cols);
         if (vals)
             g_free(vals);
-
+    } else {
+        j_str = rkdb_update(table, set, where);
     }
+
+    if (where)
+        g_free(where);
+    if (set)
+        g_free(set);
+
     return j_str;
 }
 
