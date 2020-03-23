@@ -43,6 +43,7 @@ void system_init(DBusConnection *dbus_conn)
     }
 
     g_free(rkdb_drop(TABLE_SYSTEM_DEVICE_INFO));
+    g_free(rkdb_drop(TABLE_SYSTEM_VERSION));
 
     creat_version_table(TABLE_SYSTEM_VERSION, SYSTEM_VERSION);
 

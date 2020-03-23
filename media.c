@@ -31,11 +31,12 @@
 #define TABLE_IMAGE_WHITE_BLANCE "image_white_blance"
 #define TABLE_IMAGE_ENHANCEMENT "image_enhancement"
 #define TABLE_IMAGE_VIDEO_ADJUSTMEN "image_video_adjustment"
-#define TABLE_MEDIA_VERSION       "MediaVersion"
 
 #define TABLE_NORMALIZED_SCREEN_SIZE "normalized_screen_size"
 #define TABLE_OSD "osd"
 #define TABLE_ROI "roi"
+
+#define TABLE_MEDIA_VERSION       "MediaVersion"
 
 #define MEDIA_VERSION             "1.0.1"
 
@@ -59,6 +60,7 @@ void media_init(DBusConnection *dbus_conn)
     }
 
     g_free(rkdb_drop(TABLE_VIDEO));
+    g_free(rkdb_drop(TABLE_VIDEO_REGION_CLIP));
     g_free(rkdb_drop(TABLE_AUDIO));
     g_free(rkdb_drop(TABLE_STREAM_URL));
     g_free(rkdb_drop(TABLE_IMAGE_SCENARIO));
@@ -69,6 +71,9 @@ void media_init(DBusConnection *dbus_conn)
     g_free(rkdb_drop(TABLE_IMAGE_WHITE_BLANCE));
     g_free(rkdb_drop(TABLE_IMAGE_ENHANCEMENT));
     g_free(rkdb_drop(TABLE_IMAGE_VIDEO_ADJUSTMEN));
+    g_free(rkdb_drop(TABLE_NORMALIZED_SCREEN_SIZE));
+    g_free(rkdb_drop(TABLE_OSD));
+    g_free(rkdb_drop(TABLE_ROI));
     g_free(rkdb_drop(TABLE_MEDIA_VERSION));
 
     creat_version_table(TABLE_MEDIA_VERSION, MEDIA_VERSION);
