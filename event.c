@@ -21,6 +21,10 @@
 #define TABLE_EVENT_TRIGGERS            "EventTriggers"
 #define TABLE_EVENT_SCHEDULES           "EventSchedules"
 #define TABLE_EVENT_MOTION_DETECTION    "EventMotionDetection"
+#define TABLE_FACE_CONFIG               "FaceConfig"
+#define TABLE_FACE_LIST                 "FaceList"
+#define TABLE_FACE_SNAPSHOT_RECORD      "FaceSnapshotRecord"
+#define TABLE_FACE_CONTROL_RECORD       "FaceControlRecord"
 #define TABLE_EVENT_VERSION             "EventVersion"
 
 #define EVENT_VERSION             "1.0.1"
@@ -47,6 +51,10 @@ void event_init(DBusConnection *dbus_conn)
     g_free(rkdb_drop(TABLE_EVENT_TRIGGERS));
     g_free(rkdb_drop(TABLE_EVENT_SCHEDULES));
     g_free(rkdb_drop(TABLE_EVENT_MOTION_DETECTION));
+    g_free(rkdb_drop(TABLE_FACE_CONFIG));
+    g_free(rkdb_drop(TABLE_FACE_LIST));
+    g_free(rkdb_drop(TABLE_FACE_SNAPSHOT_RECORD));
+    g_free(rkdb_drop(TABLE_FACE_CONTROL_RECORD));
     g_free(rkdb_drop(TABLE_EVENT_VERSION));
 
     creat_version_table(TABLE_EVENT_VERSION, EVENT_VERSION);
@@ -95,6 +103,55 @@ void event_init(DBusConnection *dbus_conn)
                "sGridMap TEXT DEFAULT '000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'";
     g_free(rkdb_create(TABLE_EVENT_MOTION_DETECTION, col_para));
     g_free(rkdb_insert(TABLE_EVENT_MOTION_DETECTION, "id", "0"));
+
+    col_para = "id INTEGER PRIMARY KEY AUTOINCREMENT," \
+               "iPromptVolume INT DEFAULT 50," \
+               "sLiveDetect TEXT DEFAULT 'open'," \
+               "sLiveDetectBeginTime TEXT DEFAULT '00:00'," \
+               "sLiveDetectEndTime TEXT DEFAULT '23:59'," \
+               "iLiveDetectThreshold INT DEFAULT 90," \
+               "iFaceDetectionThreshold INT DEFAULT 50," \
+               "iFaceRecognitionThreshold INT DEFAULT 50," \
+               "iFaceMinPixel INT DEFAULT 125," \
+               "iLeftCornerX INT DEFAULT 0," \
+               "iLeftCornerY INT DEFAULT 125," \
+               "iDetectWidth INT DEFAULT 960," \
+               "iDetectHeight INT DEFAULT 1280";
+    g_free(rkdb_create(TABLE_FACE_CONFIG, col_para));
+    g_free(rkdb_insert(TABLE_FACE_CONFIG, "id", "0"));
+
+    col_para = "id INTEGER PRIMARY KEY AUTOINCREMENT," \
+               "sPicturePath TEXT DEFAULT ''," \
+               "sRegistrationTime TEXT DEFAULT ''," \
+               "iAge INT DEFAULT 0," \
+               "sListType TEXT DEFAULT 'permanent'," \
+               "sType TEXT DEFAULT 'whiteList'," \
+               "sName TEXT DEFAULT ''," \
+               "sGender TEXT DEFAULT 'male'," \
+               "sNation TEXT DEFAULT '汉'," \
+               "sCertificateType TEXT DEFAULT 'identityCard'," \
+               "sCertificateNumber TEXT DEFAULT ''," \
+               "sBirthday TEXT DEFAULT '2020-01-01'," \
+               "sTelephoneNumber TEXT DEFAULT ''," \
+               "sHometown TEXT DEFAULT ''," \
+               "sAddress TEXT DEFAULT ''," \
+               "iAccessCardNumber TEXT DEFAULT 0," \
+               "sNote TEXT DEFAULT ''";
+    g_free(rkdb_create(TABLE_FACE_LIST, col_para));
+
+    col_para = "id INTEGER PRIMARY KEY AUTOINCREMENT," \
+               "sTime TEXT DEFAULT '2020-01-01T00:00:00'," \
+               "sPicturePath TEXT DEFAULT '/userdata/1.jpg'," \
+               "sStatus TEXT DEFAULT 'Processed'," \
+               "sNote TEXT DEFAULT 'Snapshot'";
+    g_free(rkdb_create(TABLE_FACE_SNAPSHOT_RECORD, col_para));
+
+    col_para = "id INTEGER PRIMARY KEY AUTOINCREMENT," \
+               "iFaceId INT DEFAULT 0," \
+               "sSnapshotPath TEXT DEFAULT '/userdata/1.jpg'," \
+               "sStatus TEXT DEFAULT 'open'," \
+               "sSimilarity TEXT DEFAULT '75.00'";
+    g_free(rkdb_create(TABLE_FACE_CONTROL_RECORD, col_para));
 
     dbus_manager_init(dbus_conn);
 }
