@@ -242,21 +242,21 @@ void media_init(DBusConnection *dbus_conn)
                "iWidth INT DEFAULT 120," \
                "iHeight INT DEFAULT 92," \
                "sIsPersistentText TEXT DEFAULT 'true'," \
-               "sDisplayText TEXT DEFAULT 'test'," \
-               "iDisplayWeekEnabled  INT DEFAULT 1," \
-               "sDateStyle TEXT DEFAULT 'CHR-YYYY-MM-DD'," \
-               "sTimeStyle TEXT DEFAULT '24hour'," \
+               "sDisplayText TEXT DEFAULT ''," \
+               "iDisplayWeekEnabled INT DEFAULT 1," \
+               "sDateStyle TEXT DEFAULT ''," \
+               "sTimeStyle TEXT DEFAULT ''," \
                "iTransparentColorEnabled INT DEFAULT 0," \
-               "sOSDAttribute TEXT DEFAULT 'transparent/flashing'," \
-               "sOSDFontSize TEXT DEFAULT '16*16'," \
-               "sOSDFrontColorMode TEXT DEFAULT 'auto'," \
-               "sOSDFrontColor TEXT DEFAULT '000000'," \
+               "sOSDAttribute TEXT DEFAULT 'transparent/not-flashing'," \
+               "sOSDFontSize TEXT DEFAULT '32*32'," \
+               "sOSDFrontColorMode TEXT DEFAULT 'customize'," \
+               "sOSDFrontColor TEXT DEFAULT 'fff799'," \
                "sAlignment TEXT DEFAULT 'customize'," \
                "iBoundary INT DEFAULT 0";
 
     g_free(rkdb_create(TABLE_OSD, col_para));
-    g_free(rkdb_insert(TABLE_OSD, "id,sType", "0,'channelName'"));
-    g_free(rkdb_insert(TABLE_OSD, "id,sType", "1,'dateTime'"));
+    g_free(rkdb_insert(TABLE_OSD, "id,sType,iEnabled,sDisplayText,iPositionX,iPositionY", "0,'channelName',1,'Camera 01',560,432"));
+    g_free(rkdb_insert(TABLE_OSD, "id,sType,iEnabled,sDateStyle,sTimeStyle,iPositionX,iPositionY", "1,'dateTime',1,'CHR-YYYY-MM-DD','24hour',16,16"));
     g_free(rkdb_insert(TABLE_OSD, "id,sType", "2,'character'"));
     g_free(rkdb_insert(TABLE_OSD, "id,sType", "3,'character'"));
     g_free(rkdb_insert(TABLE_OSD, "id,sType", "4,'character'"));
@@ -269,7 +269,7 @@ void media_init(DBusConnection *dbus_conn)
     g_free(rkdb_insert(TABLE_OSD, "id,sType", "11,'privacyMask'"));
     g_free(rkdb_insert(TABLE_OSD, "id,sType", "12,'privacyMask'"));
     g_free(rkdb_insert(TABLE_OSD, "id,sType", "13,'privacyMask'"));
-    g_free(rkdb_insert(TABLE_OSD, "id,sType", "14,'image'"));
+    g_free(rkdb_insert(TABLE_OSD, "id,sType,iEnabled,iPositionX,iPositionY", "14,'image',1,16,388"));
 
     col_para = "id INTEGER PRIMARY KEY," \
                "sStreamType TEXT," \
