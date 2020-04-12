@@ -84,7 +84,7 @@ void media_init(DBusConnection *dbus_conn)
                      "sResolution TEXT DEFAULT '2688*1520'," \
                      "sRCMode TEXT DEFAULT 'CBR'," \
                      "sImageQuality TEXT DEFAULT 'medium'," \
-                     "sFrameRate TEXT DEFAULT '25'," \
+                     "sFrameRate TEXT DEFAULT '30'," \
                      "iMaxRate INT DEFAULT 4096," \
                      "sOutputDataType TEXT DEFAULT 'H.264'," \
                      "sSmart TEXT DEFAULT 'close'," \
@@ -95,7 +95,7 @@ void media_init(DBusConnection *dbus_conn)
 
     g_free(rkdb_create(TABLE_VIDEO, col_para));
     /* TODO: Three tables need different initial values */
-    g_free(rkdb_insert(TABLE_VIDEO, "id, sStreamType, sResolution, iMaxRate sOutputDataType", "0, 'mainStream', '2688*1520', 2048, 'H.265'"));
+    g_free(rkdb_insert(TABLE_VIDEO, "id, sStreamType, sResolution, iMaxRate, sOutputDataType", "0, 'mainStream', '2688*1520', 4096, 'H.265'"));
     g_free(rkdb_insert(TABLE_VIDEO, "id, sStreamType, sResolution, iMaxRate", "1, 'subStream', '640*480', 512"));
     g_free(rkdb_insert(TABLE_VIDEO, "id, sStreamType, sResolution, iMaxRate", "2, 'thirdStream', '1920*1080', 512"));
 
