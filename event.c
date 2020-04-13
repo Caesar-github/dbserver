@@ -122,16 +122,16 @@ void event_init(DBusConnection *dbus_conn)
 
     col_para = "id INTEGER PRIMARY KEY AUTOINCREMENT," \
                "sPicturePath TEXT DEFAULT ''," \
-               "sRegistrationTime TEXT DEFAULT ''," \
-               "iAge INT DEFAULT 0," \
+               "sRegistrationTime TEXT DEFAULT '2020-01-01T00:00:00'," \
+               "iAge INT DEFAULT 20," \
                "sListType TEXT DEFAULT 'permanent'," \
                "sType TEXT DEFAULT 'whiteList'," \
-               "sName TEXT DEFAULT ''," \
+               "sName TEXT DEFAULT 'User'," \
                "sGender TEXT DEFAULT 'male'," \
                "sNation TEXT DEFAULT '汉'," \
                "sCertificateType TEXT DEFAULT 'identityCard'," \
                "sCertificateNumber TEXT DEFAULT ''," \
-               "sBirthday TEXT DEFAULT '2020-01-01'," \
+               "sBirthday TEXT DEFAULT '2000-01-01'," \
                "sTelephoneNumber TEXT DEFAULT ''," \
                "sHometown TEXT DEFAULT ''," \
                "sAddress TEXT DEFAULT ''," \
@@ -141,14 +141,15 @@ void event_init(DBusConnection *dbus_conn)
 
     col_para = "id INTEGER PRIMARY KEY AUTOINCREMENT," \
                "sTime TEXT DEFAULT '2020-01-01T00:00:00'," \
-               "sPicturePath TEXT DEFAULT '/userdata/1.jpg'," \
+               "sPicturePath TEXT DEFAULT ''," \
                "sStatus TEXT DEFAULT 'Processed'," \
                "sNote TEXT DEFAULT 'Snapshot'";
     g_free(rkdb_create(TABLE_FACE_SNAPSHOT_RECORD, col_para));
 
     col_para = "id INTEGER PRIMARY KEY AUTOINCREMENT," \
+               "sTime TEXT DEFAULT '2020-01-01T00:00:00'," \
                "iFaceId INT DEFAULT 0," \
-               "sSnapshotPath TEXT DEFAULT '/userdata/1.jpg'," \
+               "sSnapshotPath TEXT DEFAULT ''," \
                "sStatus TEXT DEFAULT 'open'," \
                "sSimilarity TEXT DEFAULT '75.00'";
     g_free(rkdb_create(TABLE_FACE_CONTROL_RECORD, col_para));
