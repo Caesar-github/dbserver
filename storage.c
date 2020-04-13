@@ -23,7 +23,13 @@
 #define TABLE_STORAGE_CONFIG        "StorageConfig"
 #define TABLE_STORAGE_VERSION       "StorageVersion"
 
-#define STORAGE_VERSION             "1.0.1"
+#define TYPE_VIDEO         0
+#define TYPE_PHOTO         1
+#define TYPE_BLACK_LIST    2
+#define TYPE_SNAPSHOT      3
+#define TYPE_WHITE_LIST    4
+
+#define STORAGE_VERSION             "1.0.2"
 
 static int dbus_manager_init(DBusConnection *dbus_conn)
 {
@@ -79,6 +85,13 @@ void storage_init(DBusConnection *dbus_conn)
                                           "2,'video1','video1/.thumb','VIDEO_%Y%m%d%H%M%S',1,0,45,-1"));
     g_free(rkdb_insert(TABLE_STORAGE_MEDIA_FOLDER, "id,sMediaFolder,sThumbFolder,sFormat,iCamId,iType,iDuty,iMaxNum",
                                           "3,'photo1','photo1/.thumb','PHOTO_%Y%m%d%H%M%S',1,1,5,-1"));
+
+    g_free(rkdb_insert(TABLE_STORAGE_MEDIA_FOLDER, "id,sMediaFolder,sThumbFolder,sFormat,iCamId,iType,iDuty,iMaxNum",
+                                          "4,'black_list','','%Y%m%d%H%M%S',0,2,0,-1"));
+    g_free(rkdb_insert(TABLE_STORAGE_MEDIA_FOLDER, "id,sMediaFolder,sThumbFolder,sFormat,iCamId,iType,iDuty,iMaxNum",
+                                          "5,'snapshot','','%Y%m%d%H%M%S',0,3,0,-1"));
+    g_free(rkdb_insert(TABLE_STORAGE_MEDIA_FOLDER, "id,sMediaFolder,sThumbFolder,sFormat,iCamId,iType,iDuty,iMaxNum",
+                                          "6,'white_list','','%Y%m%d%H%M%S',0,4,0,-1"));
 
     col_para = "id INTEGER PRIMARY KEY," \
                "iFreeSize INT DEFAULT -1," \
