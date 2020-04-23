@@ -22,6 +22,7 @@
 #define TABLE_STORAGE_MEDIA_FOLDER  "StorageMediaFolder"
 #define TABLE_STORAGE_CONFIG        "StorageConfig"
 #define TABLE_STORAGE_VERSION       "StorageVersion"
+#define TABLE_STORAGE_PLAN_SNAP     "StoragePlanSnap"
 
 #define TYPE_VIDEO         0
 #define TYPE_PHOTO         1
@@ -54,6 +55,7 @@ void storage_init(DBusConnection *dbus_conn)
     g_free(rkdb_drop(TABLE_STORAGE_MEDIA_FOLDER));
     g_free(rkdb_drop(TABLE_STORAGE_CONFIG));
     g_free(rkdb_drop(TABLE_STORAGE_VERSION));
+    g_free(rkdb_drop(TABLE_STORAGE_PLAN_SNAP));
 
     creat_version_table(TABLE_STORAGE_VERSION, STORAGE_VERSION);
 
@@ -99,6 +101,19 @@ void storage_init(DBusConnection *dbus_conn)
     g_free(rkdb_create(TABLE_STORAGE_CONFIG, col_para));
     //The unit of iFreeSize is MB
     g_free(rkdb_insert(TABLE_STORAGE_CONFIG, "id,iFreeSize,sMountPath","0,1024,'/userdata'"));
+
+    col_para = "id INTEGER PRIMARY KEY," \
+               "iEnabled INT DEFAULT 0," \
+               "sImageType TEXT," \
+               "sResolution TEXT," \
+               "iImageQuality INT DEFAULT 80," \
+               "iShotInterval INT DEFAULT 1000," \
+               "iShotNumber INT DEFAULT 0";
+    g_free(rkdb_create(TABLE_STORAGE_PLAN_SNAP, col_para));
+    g_free(rkdb_insert(TABLE_STORAGE_PLAN_SNAP, "id,iEnabled,sImageType,sResolution,iImageQuality,iShotInterval,iShotNumber",
+                                          "0,0,'JPEG','2688*1520',80,10000,0"));
+    g_free(rkdb_insert(TABLE_STORAGE_PLAN_SNAP, "id,iEnabled,sImageType,sResolution,iImageQuality,iShotInterval,iShotNumber",
+                                          "1,0,'JPEG','2688*1520',60,1000,4"));
 
     dbus_manager_init(dbus_conn);
 }

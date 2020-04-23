@@ -19,7 +19,8 @@
 #include "common.h"
 
 #define TABLE_SYSTEM_DEVICE_INFO     "SystemDeviceInfo"
-#define TABLE_SYSTEM_VERSION       "SystemVersion"
+#define TABLE_SYSTEM_PARA            "SystemPara"
+#define TABLE_SYSTEM_VERSION         "SystemVersion"
 
 #define SYSTEM_VERSION             "1.0.1"
 
@@ -43,6 +44,7 @@ void system_init(DBusConnection *dbus_conn)
     }
 
     g_free(rkdb_drop(TABLE_SYSTEM_DEVICE_INFO));
+    g_free(rkdb_drop(TABLE_SYSTEM_PARA));
     g_free(rkdb_drop(TABLE_SYSTEM_VERSION));
 
     creat_version_table(TABLE_SYSTEM_VERSION, SYSTEM_VERSION);
@@ -65,5 +67,19 @@ void system_init(DBusConnection *dbus_conn)
     g_free(rkdb_insert(TABLE_SYSTEM_DEVICE_INFO, "id, name, value, ro", "10, 'alarmInputsNumber', '0', 'true'"));
     g_free(rkdb_insert(TABLE_SYSTEM_DEVICE_INFO, "id, name, value, ro", "11, 'alarmOutputsNumber', '0', 'true'"));
     g_free(rkdb_insert(TABLE_SYSTEM_DEVICE_INFO, "id, name, value, ro", "12, 'firmwareVersionInfo', 'CP-3-B', 'true'"));
+
+    /*
+    0: storage/plan/snap time, unit: millionseconds
+    */
+    col_para = "id INTEGER PRIMARY KEY AUTOINCREMENT," \
+               "name TEXT," \
+               "para TEXT";
+    g_free(rkdb_create(TABLE_SYSTEM_PARA, col_para));
+    g_free(rkdb_insert(TABLE_SYSTEM_PARA, "id, name, para", "0, 'storagePlanSnap', '{\"imageType\":[\"JPEG\"]," \
+        "\"time2number\":{\"milliseconds\":1,\"seconds\":1000,\"minutes\":60000,\"hours\":3600000,\"days\":86400000}," \
+        "\"resolutionList\":[\"2688*1520\"]," \
+        "\"quality2number\":{\"low\":40,\"middle\":60,\"high\":80},"
+        "\"limitRange\":{\"timing\":{\"max\":604800000,\"min\":1000},\"event\":{\"max\":65535,\"min\": 1000},\"shot\":{\"max\":120,\"min\":1}}}'"));
+
     dbus_manager_init(dbus_conn);
 }
