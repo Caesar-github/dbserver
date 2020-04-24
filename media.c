@@ -239,8 +239,8 @@ void media_init(DBusConnection *dbus_conn)
                "iEnabled INT DEFAULT 0," \
                "iPositionX INT DEFAULT 0," \
                "iPositionY INT DEFAULT 0," \
-               "iWidth INT DEFAULT 120," \
-               "iHeight INT DEFAULT 92," \
+               "iWidth INT DEFAULT 0," \
+               "iHeight INT DEFAULT 0," \
                "sIsPersistentText TEXT DEFAULT 'true'," \
                "sDisplayText TEXT DEFAULT ''," \
                "iDisplayWeekEnabled INT DEFAULT 1," \
@@ -280,8 +280,8 @@ void media_init(DBusConnection *dbus_conn)
                "iQualityLevelOfROI INT DEFAULT 3," \
                "iPositionX INT DEFAULT 0," \
                "iPositionY INT DEFAULT 0," \
-               "iWidth INT DEFAULT 120," \
-               "iHeight INT DEFAULT 92";
+               "iWidth INT DEFAULT 0," \
+               "iHeight INT DEFAULT 0";
     g_free(rkdb_create(TABLE_ROI, col_para));
     g_free(rkdb_insert(TABLE_ROI, "id,sStreamType,iROIId", "0,'mainStream',1"));
     g_free(rkdb_insert(TABLE_ROI, "id,sStreamType,iROIId", "1,'mainStream',2"));
