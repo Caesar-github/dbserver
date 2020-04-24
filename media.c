@@ -36,6 +36,9 @@
 #define TABLE_OSD "osd"
 #define TABLE_ROI "roi"
 
+#define TABLE_MOVE_DETECTION    "MoveDetection"
+#define TABLE_REGIONAL_INVASION   "RegionalInvasion"
+
 #define TABLE_MEDIA_VERSION       "MediaVersion"
 
 #define MEDIA_VERSION             "1.0.1"
@@ -74,6 +77,8 @@ void media_init(DBusConnection *dbus_conn)
     g_free(rkdb_drop(TABLE_NORMALIZED_SCREEN_SIZE));
     g_free(rkdb_drop(TABLE_OSD));
     g_free(rkdb_drop(TABLE_ROI));
+    g_free(rkdb_drop(TABLE_MOVE_DETECTION));
+    g_free(rkdb_drop(TABLE_REGIONAL_INVASION));
     g_free(rkdb_drop(TABLE_MEDIA_VERSION));
 
     creat_version_table(TABLE_MEDIA_VERSION, MEDIA_VERSION);
@@ -304,6 +309,32 @@ void media_init(DBusConnection *dbus_conn)
                "iHeight INT DEFAULT 480";
     g_free(rkdb_create(TABLE_VIDEO_REGION_CLIP, col_para));
     g_free(rkdb_insert(TABLE_VIDEO_REGION_CLIP, "id", "0"));
+
+        col_para = "id INTEGER PRIMARY KEY AUTOINCREMENT," \
+               "iMotionDetectionEnabled INT DEFAULT 0," \
+               "iHighlightEnabled INT DEFAULT 0," \
+               "iSamplingInterval INT DEFAULT 2," \
+               "iStartTriggerTime INT DEFAULT 500," \
+               "iEndTriggerTime INT DEFAULT 500," \
+               "sRegionType TEXT DEFAULT 'grid'," \
+               "iRowGranularity INT DEFAULT 18," \
+               "iColumnGranularity INT DEFAULT 22," \
+               "iSensitivityLevel INT DEFAULT 0," \
+               "sGridMap TEXT DEFAULT '000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'";
+    g_free(rkdb_create(TABLE_MOVE_DETECTION, col_para));
+    g_free(rkdb_insert(TABLE_MOVE_DETECTION, "id", "0"));
+
+    col_para = "id INTEGER PRIMARY KEY AUTOINCREMENT," \
+               "iEnabled INT DEFAULT 0," \
+               "iTimeThreshold INT DEFAULT 3," \
+               "iProportion INT DEFAULT 0," \
+               "iSensitivityLevel INT DEFAULT 50," \
+               "iPositionX INT DEFAULT 0," \
+               "iPositionY INT DEFAULT 0," \
+               "iWidth INT DEFAULT 0," \
+               "iHeight INT DEFAULT 0";
+    g_free(rkdb_create(TABLE_REGIONAL_INVASION, col_para));
+    g_free(rkdb_insert(TABLE_REGIONAL_INVASION, "id", "0"));
 
     dbus_manager_init(dbus_conn);
 }
