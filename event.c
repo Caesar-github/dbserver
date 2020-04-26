@@ -120,6 +120,7 @@ void event_init(DBusConnection *dbus_conn)
                "sHometown TEXT DEFAULT ''," \
                "sAddress TEXT DEFAULT ''," \
                "iAccessCardNumber TEXT DEFAULT 0," \
+               "iLoadCompleted INT DEFAULT 0," \
                "sNote TEXT DEFAULT ''";
     g_free(rkdb_create(TABLE_FACE_LIST, col_para));
 
