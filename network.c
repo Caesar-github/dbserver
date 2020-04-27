@@ -94,20 +94,24 @@ void network_init(DBusConnection *dbus_conn)
     col_para = "id INTEGER PRIMARY KEY," \
                "sNtpServers TEXT NOT NULL," \
                "sTimeZone TEXT NOT NULL," \
+               "sTimeZoneFile TEXT NOT NULL," \
+               "sTimeZoneFileDst TEXT NOT NULL," \
                "iAutoMode INT DEFAULT 0," \
+               "iAutoDst INT DEFAULT 0," \
                "iRefreshTime INT DEFAULT 120";
     g_free(rkdb_create(TABLE_NETWORK_NTP, col_para));
-    g_free(rkdb_insert(TABLE_NETWORK_NTP, "id,sNtpServers,sTimeZone,iAutoMode,iRefreshTime", "0,'122.224.9.29 94.130.49.186','posix/Etc/GMT-8',1,60"));
+    g_free(rkdb_insert(TABLE_NETWORK_NTP, "id,sNtpServers,sTimeZone,sTimeZoneFile,sTimeZoneFileDst,iAutoDst,iAutoMode,iRefreshTime", "0,'122.224.9.29 94.130.49.186','ChinaStandardTime-8','posix/Etc/GMT-8','posix/Asia/Shanghai',0,1,60"));
 
-    col_para = "id INTEGER PRIMARY KEY," \
-               "sName TEXT NOT NULL," \
-               "iHavedst INT DEFAULT 0," \
+    col_para = "id INTEGER PRIMARY KEY AUTOINCREMENT," \
                "sTimeZone TEXT NOT NULL," \
-               "sTimeZoneDst TEXT NOT NULL";
+               "sTimeZoneFile TEXT NOT NULL," \
+               "sTimeZoneFileDst TEXT NOT NULL";
     g_free(rkdb_create(TABLE_NETWORK_ZONE, col_para));
-    g_free(rkdb_insert(TABLE_NETWORK_ZONE, "id,sName,iHavedst,sTimeZone,sTimeZoneDst", "0,'(GMT-8:00)太平洋时间(美国和加拿大)',1,'posix/Etc/GMT+8','posix/America/Los_Angeles'"));
-    g_free(rkdb_insert(TABLE_NETWORK_ZONE, "id,sName,iHavedst,sTimeZone,sTimeZoneDst", "1,'(GMT+0:00)都柏林、爱丁堡、伦敦',0,'posix/Etc/GMT-0',''"));
-    g_free(rkdb_insert(TABLE_NETWORK_ZONE, "id,sName,iHavedst,sTimeZone,sTimeZoneDst", "2,'(GMT+8:00)北京、乌鲁木齐、新加坡、珀斯',0,'posix/Etc/GMT-8',''"));
+    g_free(rkdb_insert(TABLE_NETWORK_ZONE, "sTimeZone,sTimeZoneFile,sTimeZoneFileDst", "'HawaiianStandardTime10','posix/Etc/GMT+10','posix/US/Hawaii'"));//(UTC-10:00) 夏威夷
+    g_free(rkdb_insert(TABLE_NETWORK_ZONE, "sTimeZone,sTimeZoneFile,sTimeZoneFileDst", "'PacificStandardTime8DaylightTime,M3.2.0,M11.1.0','posix/Etc/GMT+8','posix/US/Pacific'"));//(UTC-08:00) 太平洋时间(美国和加拿大)
+    g_free(rkdb_insert(TABLE_NETWORK_ZONE, "sTimeZone,sTimeZoneFile,sTimeZoneFileDst", "'GMTStandardTime0DaylightTime,M3.5.0/1,M10.5.0','posix/Etc/GMT-0','posix/Europe/London'"));//(UTC+00:00) 都柏林,爱丁堡,里斯本,伦敦
+    g_free(rkdb_insert(TABLE_NETWORK_ZONE, "sTimeZone,sTimeZoneFile,sTimeZoneFileDst", "'ChinaStandardTime-8','posix/Etc/GMT-8','posix/Asia/Shanghai'"));//(UTC+08:00) 北京,重庆,香港特别行政区,乌鲁木齐
+    g_free(rkdb_insert(TABLE_NETWORK_ZONE, "sTimeZone,sTimeZoneFile,sTimeZoneFileDst", "'TokyoStandardTime-9','posix/Etc/GMT-9','posix/Asia/Tokyo'"));//(UTC+09:00) 大阪,札幌,东京
 
     col_para = "id INTEGER PRIMARY KEY," \
                "sProtocol TEXT NOT NULL," \
