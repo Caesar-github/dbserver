@@ -20,6 +20,7 @@
 
 #define TABLE_EVENT_TRIGGERS            "EventTriggers"
 #define TABLE_EVENT_SCHEDULES           "EventSchedules"
+#define TABLE_REGIONAL_INVASION         "RegionalInvasion"
 #define TABLE_FACE_CONFIG               "FaceConfig"
 #define TABLE_FACE_LIST                 "FaceList"
 #define TABLE_FACE_SNAPSHOT_RECORD      "FaceSnapshotRecord"
@@ -49,6 +50,7 @@ void event_init(DBusConnection *dbus_conn)
 
     g_free(rkdb_drop(TABLE_EVENT_TRIGGERS));
     g_free(rkdb_drop(TABLE_EVENT_SCHEDULES));
+    g_free(rkdb_drop(TABLE_REGIONAL_INVASION));
     g_free(rkdb_drop(TABLE_FACE_CONFIG));
     g_free(rkdb_drop(TABLE_FACE_LIST));
     g_free(rkdb_drop(TABLE_FACE_SNAPSHOT_RECORD));
@@ -87,6 +89,18 @@ void event_init(DBusConnection *dbus_conn)
                "sDay7EndTime TEXT DEFAULT '24:00'";
     g_free(rkdb_create(TABLE_EVENT_SCHEDULES, col_para));
     g_free(rkdb_insert(TABLE_EVENT_SCHEDULES, "id, sEventType", "0, 'VMD'"));
+
+    col_para = "id INTEGER PRIMARY KEY AUTOINCREMENT," \
+               "iEnabled INT DEFAULT 0," \
+               "iTimeThreshold INT DEFAULT 3," \
+               "iProportion INT DEFAULT 0," \
+               "iSensitivityLevel INT DEFAULT 50," \
+               "iPositionX INT DEFAULT 0," \
+               "iPositionY INT DEFAULT 0," \
+               "iWidth INT DEFAULT 0," \
+               "iHeight INT DEFAULT 0";
+    g_free(rkdb_create(TABLE_REGIONAL_INVASION, col_para));
+    g_free(rkdb_insert(TABLE_REGIONAL_INVASION, "id", "0"));
 
     col_para = "id INTEGER PRIMARY KEY AUTOINCREMENT," \
                "iPromptVolume INT DEFAULT 50," \
