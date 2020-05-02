@@ -20,6 +20,7 @@
 
 #define TABLE_SYSTEM_DEVICE_INFO     "SystemDeviceInfo"
 #define TABLE_SYSTEM_PARA            "SystemPara"
+#define TABLE_SYSTEM_USER            "SystemUser"
 #define TABLE_SYSTEM_VERSION         "SystemVersion"
 
 #define SYSTEM_VERSION             "1.0.1"
@@ -45,6 +46,7 @@ void system_init(DBusConnection *dbus_conn)
 
     g_free(rkdb_drop(TABLE_SYSTEM_DEVICE_INFO));
     g_free(rkdb_drop(TABLE_SYSTEM_PARA));
+    g_free(rkdb_drop(TABLE_SYSTEM_USER));
     g_free(rkdb_drop(TABLE_SYSTEM_VERSION));
 
     creat_version_table(TABLE_SYSTEM_VERSION, SYSTEM_VERSION);
@@ -80,6 +82,16 @@ void system_init(DBusConnection *dbus_conn)
         "\"resolutionList\":[\"2688*1520\"]," \
         "\"quality2number\":{\"low\":40,\"middle\":60,\"high\":80},"
         "\"limitRange\":{\"timing\":{\"max\":604800000,\"min\":1000},\"event\":{\"max\":65535,\"min\": 1000},\"shot\":{\"max\":120,\"min\":1}}}'"));
+
+    /*
+    password encodes by base64
+    */
+    col_para = "id INTEGER PRIMARY KEY AUTOINCREMENT," \
+               "sUserName TEXT UNIQUE," \
+               "sPassword TEXT," \
+               "iAuthLevel INTEGER";
+    g_free(rkdb_create(TABLE_SYSTEM_USER, col_para));
+    g_free(rkdb_insert(TABLE_SYSTEM_USER, "id, sUserName, sPassword, iAuthLevel", "0, 'admin', 'YWRtaW4=', 1"));
 
     dbus_manager_init(dbus_conn);
 }
