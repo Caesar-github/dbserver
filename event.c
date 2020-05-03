@@ -21,6 +21,7 @@
 #define TABLE_EVENT_TRIGGERS            "EventTriggers"
 #define TABLE_EVENT_SCHEDULES           "EventSchedules"
 #define TABLE_REGIONAL_INVASION         "RegionalInvasion"
+#define TABLE_MOVE_DETECTION            "MoveDetection"
 #define TABLE_FACE_CONFIG               "FaceConfig"
 #define TABLE_FACE_LIST                 "FaceList"
 #define TABLE_FACE_SNAPSHOT_RECORD      "FaceSnapshotRecord"
@@ -51,6 +52,7 @@ void event_init(DBusConnection *dbus_conn)
     g_free(rkdb_drop(TABLE_EVENT_TRIGGERS));
     g_free(rkdb_drop(TABLE_EVENT_SCHEDULES));
     g_free(rkdb_drop(TABLE_REGIONAL_INVASION));
+    g_free(rkdb_drop(TABLE_MOVE_DETECTION));
     g_free(rkdb_drop(TABLE_FACE_CONFIG));
     g_free(rkdb_drop(TABLE_FACE_LIST));
     g_free(rkdb_drop(TABLE_FACE_SNAPSHOT_RECORD));
@@ -101,6 +103,20 @@ void event_init(DBusConnection *dbus_conn)
                "iHeight INT DEFAULT 0";
     g_free(rkdb_create(TABLE_REGIONAL_INVASION, col_para));
     g_free(rkdb_insert(TABLE_REGIONAL_INVASION, "id", "0"));
+
+    col_para = "id INTEGER PRIMARY KEY AUTOINCREMENT," \
+               "iMotionDetectionEnabled INT DEFAULT 0," \
+               "iHighlightEnabled INT DEFAULT 0," \
+               "iSamplingInterval INT DEFAULT 2," \
+               "iStartTriggerTime INT DEFAULT 500," \
+               "iEndTriggerTime INT DEFAULT 500," \
+               "sRegionType TEXT DEFAULT 'grid'," \
+               "iRowGranularity INT DEFAULT 18," \
+               "iColumnGranularity INT DEFAULT 22," \
+               "iSensitivityLevel INT DEFAULT 0," \
+               "sGridMap TEXT DEFAULT '000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'";
+    g_free(rkdb_create(TABLE_MOVE_DETECTION, col_para));
+    g_free(rkdb_insert(TABLE_MOVE_DETECTION, "id", "0"));
 
     col_para = "id INTEGER PRIMARY KEY AUTOINCREMENT," \
                "iPromptVolume INT DEFAULT 50," \
