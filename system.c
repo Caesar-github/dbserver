@@ -72,6 +72,8 @@ void system_init(DBusConnection *dbus_conn)
 
     /*
     0: storage/plan/snap time, unit: millionseconds
+    1: storage/plan/snap screenshot-schedule, define default type, eg:[{name: xxx, color: '#ffffff'}]
+    2: storage/plan/video video-plan-schedule, define default type, eg:[{name: xxx, color: '#ffffff'}]
     */
     col_para = "id INTEGER PRIMARY KEY AUTOINCREMENT," \
                "name TEXT," \
@@ -82,6 +84,10 @@ void system_init(DBusConnection *dbus_conn)
         "\"resolutionList\":[\"2688*1520\"]," \
         "\"quality2number\":{\"low\":40,\"middle\":60,\"high\":80},"
         "\"limitRange\":{\"timing\":{\"max\":604800000,\"min\":1000},\"event\":{\"max\":65535,\"min\": 1000},\"shot\":{\"max\":120,\"min\":1}}}'"));
+    g_free(rkdb_insert(TABLE_SYSTEM_PARA, "id, name, para", "1, 'screenshotSchedule', '[{\"name\":\"timing\",\"color\":\"#87CEEB\"}]'"));
+    g_free(rkdb_insert(TABLE_SYSTEM_PARA, "id, name, para", "2, 'videoPlanSchedule', '[{\"name\":\"timing\",\"color\":\"#87CEEB\"}, {\"name\":\"motion-detect\",\"color\":\"#74B558\"}," \
+        "{\"name\":\"alarm\",\"color\":\"#D71820\"}, {\"name\":\"motionOrAlarm\",\"color\":\"#E58705\"}, {\"name\":\"motionAndAlarm\",\"color\":\"#B9E2FE\"}," \
+        "{\"name\":\"event\",\"color\":\"#AA6FFF\"}]'"));
 
     /*
     password encodes by base64

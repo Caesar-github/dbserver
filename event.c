@@ -70,25 +70,21 @@ void event_init(DBusConnection *dbus_conn)
     g_free(rkdb_create(TABLE_EVENT_TRIGGERS, col_para));
     g_free(rkdb_insert(TABLE_EVENT_TRIGGERS, "id, sEventType", "0, 'VMD'"));
 
+    /*
+        0: for motion detect
+        1: for intrusion detect
+        2: for storage video plan
+        3: for storage screenshot. remark:must be last for add other type of schedule
+        example for no type: "[[{\"start\":0.73456,\"end\":0.5236}],[],[],[],[],[],[]]" add \" before string
+        example for types: "[[{\"start\":0.73456,\"end\":0.5236,\"type\":\"type0\"}],[],[],[],[],[],[]]" add \" before string
+    */
     col_para = "id INTEGER PRIMARY KEY AUTOINCREMENT," \
-               "sEventType TEXT," \
-               "iVideoInputChannelID INT DEFAULT 0," \
-               "sDay1BeginTime TEXT DEFAULT '00:00'," \
-               "sDay1EndTime TEXT DEFAULT '24:00'," \
-               "sDay2BeginTime TEXT DEFAULT '00:00'," \
-               "sDay2EndTime TEXT DEFAULT '24:00'," \
-               "sDay3BeginTime TEXT DEFAULT '00:00'," \
-               "sDay3EndTime TEXT DEFAULT '24:00'," \
-               "sDay4BeginTime TEXT DEFAULT '00:00'," \
-               "sDay4EndTime TEXT DEFAULT '24:00'," \
-               "sDay5BeginTime TEXT DEFAULT '00:00'," \
-               "sDay5EndTime TEXT DEFAULT '24:00'," \
-               "sDay6BeginTime TEXT DEFAULT '00:00'," \
-               "sDay6EndTime TEXT DEFAULT '24:00'," \
-               "sDay7BeginTime TEXT DEFAULT '00:00'," \
-               "sDay7EndTime TEXT DEFAULT '24:00'";
+               "sSchedulesJson TEXT";
     g_free(rkdb_create(TABLE_EVENT_SCHEDULES, col_para));
-    g_free(rkdb_insert(TABLE_EVENT_SCHEDULES, "id, sEventType", "0, 'VMD'"));
+    g_free(rkdb_insert(TABLE_EVENT_SCHEDULES, "id, sSchedulesJson", "0, ''"));
+    g_free(rkdb_insert(TABLE_EVENT_SCHEDULES, "id, sSchedulesJson", "1, ''"));
+    g_free(rkdb_insert(TABLE_EVENT_SCHEDULES, "id, sSchedulesJson", "2, ''"));
+    g_free(rkdb_insert(TABLE_EVENT_SCHEDULES, "id, sSchedulesJson", "3, ''"));
 
     col_para = "id INTEGER PRIMARY KEY AUTOINCREMENT," \
                "iEnabled INT DEFAULT 0," \
