@@ -19,6 +19,7 @@
 #include "common.h"
 
 #define TABLE_VIDEO "video"
+#define TABLE_VIDEO_ADVANCED_ENC "video_advanced_enc"
 #define TABLE_VIDEO_REGION_CLIP "video_region_clip"
 #define TABLE_AUDIO "audio"
 #define TABLE_STREAM_URL "stream_url"
@@ -60,6 +61,7 @@ void media_init(DBusConnection *dbus_conn)
     }
 
     g_free(rkdb_drop(TABLE_VIDEO));
+    g_free(rkdb_drop(TABLE_VIDEO_ADVANCED_ENC));
     g_free(rkdb_drop(TABLE_VIDEO_REGION_CLIP));
     g_free(rkdb_drop(TABLE_AUDIO));
     g_free(rkdb_drop(TABLE_STREAM_URL));
@@ -100,19 +102,28 @@ void media_init(DBusConnection *dbus_conn)
     g_free(rkdb_insert(TABLE_VIDEO, "id, sStreamType, sResolution, iMaxRate, sOutputDataType", "2, 'thirdStream', '1920*1080', 2048, 'H.265'"));
 
     col_para = "id INTEGER PRIMARY KEY," \
+               "sStreamType TEXT DEFAULT 'mainStream'," \
+               "sFunction TEXT DEFAULT '',"\
+               "sParameters TEXT DEFAULT ''";
+
+    g_free(rkdb_create(TABLE_VIDEO_ADVANCED_ENC, col_para));
+    g_free(rkdb_insert(TABLE_VIDEO_ADVANCED_ENC, "id, sStreamType, sFunction, sParameters", \
+            "0, 'mainStream', 'qp', '{\"qp_init\":24,\"qp_step\":4,\"qp_min\":12,\"qp_max\":48,\"min_i_qp\":10,\"max_i_qp\":20}'"));
+    g_free(rkdb_insert(TABLE_VIDEO_ADVANCED_ENC, "id, sStreamType, sFunction, sParameters", \
+            "1, 'mainStream', 'split', '{\"mode\":0,\"size\":1024}'"));
+
+    col_para = "id INTEGER PRIMARY KEY," \
                "sEncodeType TEXT DEFAULT 'AAC'," \
                "iSampleRate INT DEFAULT 16000," \
                "iBitRate INT DEFAULT 32000," \
                "sInput TEXT DEFAULT 'micIn'," \
                "iVolume INT DEFAULT 50," \
                "sANS TEXT DEFAULT 'close'";
-
     g_free(rkdb_create(TABLE_AUDIO, col_para));
     g_free(rkdb_insert(TABLE_AUDIO, "id", "0"));
 
     col_para = "id INTEGER PRIMARY KEY," \
                "sStreamProtocol TEXT NOT NULL";
-
     g_free(rkdb_create(TABLE_STREAM_URL, col_para));
     g_free(rkdb_insert(TABLE_STREAM_URL, "id,sStreamProtocol", "0,'RTSP'"));
     g_free(rkdb_insert(TABLE_STREAM_URL, "id,sStreamProtocol", "1,'RTMP'"));
