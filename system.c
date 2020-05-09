@@ -95,9 +95,11 @@ void system_init(DBusConnection *dbus_conn)
     col_para = "id INTEGER PRIMARY KEY AUTOINCREMENT," \
                "sUserName TEXT UNIQUE," \
                "sPassword TEXT," \
-               "iAuthLevel INTEGER";
+               "iFixed INT DEFAULT 0," \
+               "iUserLevel INT DEFAULT 0," \
+               "iAuthLevel INTEGER DEFAULT 1";
     g_free(rkdb_create(TABLE_SYSTEM_USER, col_para));
-    g_free(rkdb_insert(TABLE_SYSTEM_USER, "id, sUserName, sPassword, iAuthLevel", "0, 'admin', 'YWRtaW4=', 1"));
+    g_free(rkdb_insert(TABLE_SYSTEM_USER, "id, sUserName, sPassword, iFixed, iUserLevel, iAuthLevel", "0, 'admin', 'YWRtaW4=', 1, 0, 1"));
 
     dbus_manager_init(dbus_conn);
 }
