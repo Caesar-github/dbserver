@@ -30,7 +30,7 @@
 
 #define EVENT_VERSION             "1.0.1"
 
-static int dbus_manager_init(DBusConnection *dbus_conn)
+int event_dbus_register(DBusConnection *dbus_conn)
 {
     g_dbus_register_interface(dbus_conn, "/",
                               DB_EVENT_INTERFACE,
@@ -40,14 +40,12 @@ static int dbus_manager_init(DBusConnection *dbus_conn)
     return 0;
 }
 
-void event_init(DBusConnection *dbus_conn)
+void event_init(void)
 {
     char *col_para;
 
-    if (equal_version(TABLE_EVENT_VERSION, EVENT_VERSION)) {
-        dbus_manager_init(dbus_conn);
+    if (equal_version(TABLE_EVENT_VERSION, EVENT_VERSION))
         return;
-    }
 
     g_free(rkdb_drop(TABLE_EVENT_TRIGGERS));
     g_free(rkdb_drop(TABLE_EVENT_SCHEDULES));
@@ -164,6 +162,4 @@ void event_init(DBusConnection *dbus_conn)
                "sStatus TEXT DEFAULT 'open'," \
                "sSimilarity TEXT DEFAULT '75.00'";
     g_free(rkdb_create(TABLE_FACE_CONTROL_RECORD, col_para));
-
-    dbus_manager_init(dbus_conn);
 }

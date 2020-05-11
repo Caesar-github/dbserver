@@ -28,7 +28,7 @@
 
 #define NETWORK_VERSION             "1.0.3"
 
-static int dbus_manager_init(DBusConnection *dbus_conn)
+int network_dbus_register(DBusConnection *dbus_conn)
 {
     g_dbus_register_interface(dbus_conn, "/",
                               DB_NET_INTERFACE,
@@ -38,14 +38,12 @@ static int dbus_manager_init(DBusConnection *dbus_conn)
     return 0;
 }
 
-void network_init(DBusConnection *dbus_conn)
+void network_init(void)
 {
     char *col_para;
 
-    if (equal_version(TABLE_NETWORK_VERSION, NETWORK_VERSION)) {
-        dbus_manager_init(dbus_conn);
+    if (equal_version(TABLE_NETWORK_VERSION, NETWORK_VERSION))
         return;
-    }
 
     g_free(rkdb_drop(TABLE_NETWORK_IP));
     g_free(rkdb_drop(TABLE_NETWORK_SERVICE));
@@ -122,6 +120,4 @@ void network_init(DBusConnection *dbus_conn)
     g_free(rkdb_insert(TABLE_NETWORK_PORT, "id,sProtocol,iPortNo", "2,'DEV_MANAGE',8080"));
     g_free(rkdb_insert(TABLE_NETWORK_PORT, "id,sProtocol,iPortNo", "3,'RTSP',554"));
     g_free(rkdb_insert(TABLE_NETWORK_PORT, "id,sProtocol,iPortNo", "4,'RTMP',1935"));
-
-    dbus_manager_init(dbus_conn);
 }

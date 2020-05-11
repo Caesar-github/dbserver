@@ -46,20 +46,28 @@ int main(int argc , char ** argv)
     if (db_path)
         g_free(db_path);
 
+    rkdb_init(db_file);
+
+    network_init();
+    storage_init();
+    media_init();
+    system_init();
+    event_init();
+
+    printf("dbserver init finish\n");
+
     dbus_error_init(&dbus_err);
     dbus_conn = g_dbus_setup_bus(DBUS_BUS_SYSTEM, DB_SERVER, &dbus_err);
 
     main_loop = g_main_loop_new(NULL, FALSE);
 
-    rkdb_init(db_file);
+    network_dbus_register(dbus_conn);
+    storage_dbus_register(dbus_conn);
+    media_dbus_register(dbus_conn);
+    system_dbus_register(dbus_conn);
+    event_dbus_register(dbus_conn);
 
-    network_init(dbus_conn);
-    storage_init(dbus_conn);
-    media_init(dbus_conn);
-    system_init(dbus_conn);
-    event_init(dbus_conn);
-
-    printf("dbserver init finish\n");
+    printf("dbserver dbus register finish\n");
 
     g_main_loop_run(main_loop);
     rkdb_deinit();

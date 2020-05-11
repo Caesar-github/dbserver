@@ -25,7 +25,7 @@
 
 #define SYSTEM_VERSION             "1.0.1"
 
-static int dbus_manager_init(DBusConnection *dbus_conn)
+int system_dbus_register(DBusConnection *dbus_conn)
 {
     g_dbus_register_interface(dbus_conn, "/",
                               DB_SYSTEM_INTERFACE,
@@ -35,14 +35,12 @@ static int dbus_manager_init(DBusConnection *dbus_conn)
     return 0;
 }
 
-void system_init(DBusConnection *dbus_conn)
+void system_init(void)
 {
     char *col_para;
 
-    if (equal_version(TABLE_SYSTEM_VERSION, SYSTEM_VERSION)) {
-        dbus_manager_init(dbus_conn);
+    if (equal_version(TABLE_SYSTEM_VERSION, SYSTEM_VERSION))
         return;
-    }
 
     g_free(rkdb_drop(TABLE_SYSTEM_DEVICE_INFO));
     g_free(rkdb_drop(TABLE_SYSTEM_PARA));
@@ -100,6 +98,4 @@ void system_init(DBusConnection *dbus_conn)
                "iAuthLevel INTEGER DEFAULT 1";
     g_free(rkdb_create(TABLE_SYSTEM_USER, col_para));
     g_free(rkdb_insert(TABLE_SYSTEM_USER, "id, sUserName, sPassword, iFixed, iUserLevel, iAuthLevel", "0, 'admin', 'YWRtaW4=', 1, 0, 1"));
-
-    dbus_manager_init(dbus_conn);
 }

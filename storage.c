@@ -32,7 +32,7 @@
 
 #define STORAGE_VERSION             "1.0.2"
 
-static int dbus_manager_init(DBusConnection *dbus_conn)
+int storage_dbus_register(DBusConnection *dbus_conn)
 {
     g_dbus_register_interface(dbus_conn, "/",
                               DB_STORAGE_INTERFACE,
@@ -42,14 +42,12 @@ static int dbus_manager_init(DBusConnection *dbus_conn)
     return 0;
 }
 
-void storage_init(DBusConnection *dbus_conn)
+void storage_init(void)
 {
     char *col_para;
 
-    if (equal_version(TABLE_STORAGE_VERSION, STORAGE_VERSION)) {
-        dbus_manager_init(dbus_conn);
+    if (equal_version(TABLE_STORAGE_VERSION, STORAGE_VERSION))
         return;
-    }
 
     g_free(rkdb_drop(TABLE_STORAGE_DISK_PATH));
     g_free(rkdb_drop(TABLE_STORAGE_MEDIA_FOLDER));
@@ -114,6 +112,4 @@ void storage_init(DBusConnection *dbus_conn)
                                           "0,0,'JPEG','2688*1520',80,10000,0"));
     g_free(rkdb_insert(TABLE_STORAGE_PLAN_SNAP, "id,iEnabled,sImageType,sResolution,iImageQuality,iShotInterval,iShotNumber",
                                           "1,0,'JPEG','2688*1520',60,1000,4"));
-
-    dbus_manager_init(dbus_conn);
 }

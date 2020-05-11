@@ -41,7 +41,7 @@
 
 #define MEDIA_VERSION             "1.0.1"
 
-static int dbus_manager_init(DBusConnection *dbus_conn)
+int media_dbus_register(DBusConnection *dbus_conn)
 {
     g_dbus_register_interface(dbus_conn, "/",
                               DB_MEDIA_INTERFACE,
@@ -51,14 +51,12 @@ static int dbus_manager_init(DBusConnection *dbus_conn)
     return 0;
 }
 
-void media_init(DBusConnection *dbus_conn)
+void media_init(void)
 {
     char *col_para;
 
-    if (equal_version(TABLE_MEDIA_VERSION, MEDIA_VERSION)) {
-        dbus_manager_init(dbus_conn);
+    if (equal_version(TABLE_MEDIA_VERSION, MEDIA_VERSION))
         return;
-    }
 
     g_free(rkdb_drop(TABLE_VIDEO));
     g_free(rkdb_drop(TABLE_VIDEO_ADVANCED_ENC));
@@ -315,6 +313,4 @@ void media_init(DBusConnection *dbus_conn)
                "iHeight INT DEFAULT 480";
     g_free(rkdb_create(TABLE_VIDEO_REGION_CLIP, col_para));
     g_free(rkdb_insert(TABLE_VIDEO_REGION_CLIP, "id", "0"));
-
-    dbus_manager_init(dbus_conn);
 }
