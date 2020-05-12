@@ -74,12 +74,13 @@ void network_init(void)
                "sV6Address TEXT DEFAULT ''," \
                "sV6Netmask TEXT DEFAULT ''," \
                "sV6Gateway TEXT DEFAULT ''," \
+               "sNicSpeed TEXT DEFAULT ''," \
                "sDNS1 TEXT DEFAULT ''," \
                "sDNS2 TEXT DEFAULT ''";
-
+    /* sNicSpeed:Auto,10baseT/Half,10baseT/Full,100baseT/Half,100baseT/Full,1000baseT/Half 1000baseT/Full */
     g_free(rkdb_create(TABLE_NETWORK_IP, col_para));
     g_free(rkdb_insert(TABLE_NETWORK_IP, "sInterface,sType,sV4Method", "'wlan0','wifi', 'dhcp'"));
-    g_free(rkdb_insert(TABLE_NETWORK_IP, "sInterface,sType,sV4Method", "'eth0','ethernet', 'dhcp'"));
+    g_free(rkdb_insert(TABLE_NETWORK_IP, "sInterface,sType,sV4Method,sNicSpeed", "'eth0','ethernet', 'dhcp','Auto'"));
 
     col_para = "id INTEGER PRIMARY KEY AUTOINCREMENT," \
                "sType TEXT NOT NULL UNIQUE," \
