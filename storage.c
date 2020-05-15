@@ -31,7 +31,7 @@
 #define TYPE_SNAPSHOT      3
 #define TYPE_WHITE_LIST    4
 
-#define STORAGE_VERSION             "1.0.2"
+#define STORAGE_VERSION             "1.0.3"
 
 int storage_dbus_register(DBusConnection *dbus_conn)
 {
@@ -97,10 +97,11 @@ void storage_init(void)
 
     col_para = "id INTEGER PRIMARY KEY," \
                "iFreeSize INT DEFAULT -1," \
+               "iFreeSizeNotice INT," \
                "sMountPath TEXT NOT NULL UNIQUE";
     g_free(rkdb_create(TABLE_STORAGE_CONFIG, col_para));
     //The unit of iFreeSize is MB
-    g_free(rkdb_insert(TABLE_STORAGE_CONFIG, "id,iFreeSize,sMountPath","0,1024,'/userdata'"));
+    g_free(rkdb_insert(TABLE_STORAGE_CONFIG, "id,iFreeSize,iFreeSizeNotice,sMountPath","0,1024,512,'/userdata'"));
 
     col_para = "id INTEGER PRIMARY KEY," \
                "iEnabled INT DEFAULT 0," \
