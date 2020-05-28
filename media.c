@@ -91,6 +91,7 @@ void media_init(void)
                "sImageQuality TEXT DEFAULT 'medium'," \
                "sFrameRate TEXT DEFAULT '25'," \
                "iMaxRate INT DEFAULT 4096," \
+               "iMinRate INT DEFAULT 2048," \
                "sOutputDataType TEXT DEFAULT 'H.264'," \
                "sSmart TEXT DEFAULT 'close'," \
                "sRCQuality TEXT DEFAULT 'high'," \
@@ -224,7 +225,8 @@ void media_init(void)
                "sDehaze TEXT DEFAULT 'close'," \
                "iDehazeLevel INT DEFAULT 0," \
                "sDIS TEXT DEFAULT 'close'," \
-               "sGrayScaleMode TEXT DEFAULT '[0-255]'";
+               "sGrayScaleMode TEXT DEFAULT '[0-255]'," \
+               "sFEC TEXT DEFAULT 'close'";
     g_free(rkdb_create(TABLE_IMAGE_ENHANCEMENT, col_para));
     g_free(rkdb_insert(TABLE_IMAGE_ENHANCEMENT, "id", "0"));
     g_free(rkdb_insert(TABLE_IMAGE_ENHANCEMENT, "id", "1"));
