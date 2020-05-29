@@ -192,6 +192,7 @@ void media_init(void)
                "sBLCRegion TEXT DEFAULT 'close'," \
                "sWDR TEXT DEFAULT 'close'," \
                "iWDRLevel INT DEFAULT 0," \
+               "sHDR TEXT DEFAULT 'close'," \
                "sHLC TEXT DEFAULT 'close'," \
                "iHLCLevel INT DEFAULT 0," \
                "iPositionX INT DEFAULT 0," \
