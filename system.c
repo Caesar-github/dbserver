@@ -69,9 +69,13 @@ void system_init(void)
     g_free(rkdb_insert(TABLE_SYSTEM_DEVICE_INFO, "id, name, value, ro", "12, 'firmwareVersionInfo', 'CP-3-B', 'true'"));
 
     /*
-    0: storage/plan/snap time, unit: millionseconds
-    1: storage/plan/snap screenshot-schedule, define default type, eg:[{name: xxx, color: '#ffffff'}]
-    2: storage/plan/video video-plan-schedule, define default type, eg:[{name: xxx, color: '#ffffff'}]
+    layout: key is part of web, value Array include para show in this part
+    capability: the option of para, para tree is similar to what's in the table
+    order: url to use; url para to get; remark
+    0: storage/plan/snap; screenshot time; unit: millionseconds
+    1: storage/plan/snap; screenshot-schedule; define default type, eg:[{name: xxx, color: '#ffffff'}]
+    2: storage/plan/video; video-plan-schedule; define default type, eg:[{name: xxx, color: '#ffffff'}]
+    3: event/smart/cover event/smart/overlay; smart-cover;
     */
     col_para = "id INTEGER PRIMARY KEY AUTOINCREMENT," \
                "name TEXT," \
@@ -86,6 +90,9 @@ void system_init(void)
     g_free(rkdb_insert(TABLE_SYSTEM_PARA, "id, name, para", "2, 'videoPlanSchedule', '[{\"name\":\"timing\",\"color\":\"#87CEEB\"}, {\"name\":\"motion-detect\",\"color\":\"#74B558\"}," \
         "{\"name\":\"alarm\",\"color\":\"#D71820\"}, {\"name\":\"motionOrAlarm\",\"color\":\"#E58705\"}, {\"name\":\"motionAndAlarm\",\"color\":\"#B9E2FE\"}," \
         "{\"name\":\"event\",\"color\":\"#AA6FFF\"}]'"));
+    g_free(rkdb_insert(TABLE_SYSTEM_PARA, "id, name, para", "3, 'smartCover', '{\"layout\":{\"enabled\":[\"iStreamOverlayEnabled\", \"iImageOverlayEnabled\"],"
+        "\"snap\":[\"sTargetImageType\", \"iWidthRatio\", \"sImageQuality\"], \"infoEnabled\":[\"deviceNum\", \"positonInfo\"]}, \"capability\":{\"SmartCover\":{\"sTargetImageType\":[\"head\"], \"sImageQuality\":"
+        "[\"best\",\"good\",\"general\"]}}}'"));
 
     /*
     password encodes by base64

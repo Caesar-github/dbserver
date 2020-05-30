@@ -26,6 +26,8 @@
 #define TABLE_FACE_LIST                 "FaceList"
 #define TABLE_FACE_SNAPSHOT_RECORD      "FaceSnapshotRecord"
 #define TABLE_FACE_CONTROL_RECORD       "FaceControlRecord"
+#define TABLE_SMART_COVER               "SmartCover"
+#define TABLE_SMART_COVER_OVERLAY       "SmartCoverOverlay"
 #define TABLE_EVENT_VERSION             "EventVersion"
 
 #define EVENT_VERSION             "1.0.1"
@@ -55,6 +57,8 @@ void event_init(void)
     g_free(rkdb_drop(TABLE_FACE_LIST));
     g_free(rkdb_drop(TABLE_FACE_SNAPSHOT_RECORD));
     g_free(rkdb_drop(TABLE_FACE_CONTROL_RECORD));
+    g_free(rkdb_drop(TABLE_SMART_COVER));
+    g_free(rkdb_drop(TABLE_SMART_COVER_OVERLAY));
     g_free(rkdb_drop(TABLE_EVENT_VERSION));
 
     creat_version_table(TABLE_EVENT_VERSION, EVENT_VERSION);
@@ -162,4 +166,30 @@ void event_init(void)
                "sStatus TEXT DEFAULT 'open'," \
                "sSimilarity TEXT DEFAULT '75.00'";
     g_free(rkdb_create(TABLE_FACE_CONTROL_RECORD, col_para));
+
+    /*
+    iWidthRatio, iFaceHeightRatio, iBodyHeightRatio /10 = really ratio
+    */
+    col_para = "id INTEGER PRIMARY KEY AUTOINCREMENT," \
+               "iFaceEnabled INT DEFAULT 1," \
+               "iStreamOverlayEnabled INT DEFAULT 1," \
+               "iImageOverlayEnabled INT DEFAULT 1," \
+               "iInfoOverlayEnabled INT DEFAULT 0," \
+               "sTargetImageType TEXT," \
+               "iWidthRatio INT DEFAULT 10," \
+               "iFaceHeightRatio INT DEFAULT 10," \
+               "iBodyHeightRatio INT DEFAULT 10," \
+               "sImageQuality TEXT";
+    g_free(rkdb_create(TABLE_SMART_COVER, col_para));
+    g_free(rkdb_insert(TABLE_SMART_COVER, "id, sTargetImageType, sImageQuality", "0, 'head', 'good'"));
+
+    col_para = "id INTEGER PRIMARY KEY AUTOINCREMENT," \
+               "iEnabled INT DEFAULT 0," \
+               "sName TEXT," \
+               "sInfo TEXT," \
+               "iOrder INT";
+    g_free(rkdb_create(TABLE_SMART_COVER_OVERLAY, col_para));
+    g_free(rkdb_insert(TABLE_SMART_COVER_OVERLAY, "id, sName, sInfo, iOrder", "0, 'deviceNum', '', 0"));
+    g_free(rkdb_insert(TABLE_SMART_COVER_OVERLAY, "id, sName, sInfo, iOrder", "1, 'snapTime', '', 1"));
+    g_free(rkdb_insert(TABLE_SMART_COVER_OVERLAY, "id, sName, sInfo, iOrder", "2, 'positonInfo', '', 2"));
 }
