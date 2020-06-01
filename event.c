@@ -171,9 +171,9 @@ void event_init(void)
     iWidthRatio, iFaceHeightRatio, iBodyHeightRatio /10 = really ratio
     */
     col_para = "id INTEGER PRIMARY KEY AUTOINCREMENT," \
-               "iFaceEnabled INT DEFAULT 1," \
-               "iStreamOverlayEnabled INT DEFAULT 1," \
-               "iImageOverlayEnabled INT DEFAULT 1," \
+               "iFaceEnabled INT DEFAULT 0," \
+               "iStreamOverlayEnabled INT DEFAULT 0," \
+               "iImageOverlayEnabled INT DEFAULT 0," \
                "iInfoOverlayEnabled INT DEFAULT 0," \
                "sTargetImageType TEXT," \
                "iWidthRatio INT DEFAULT 10," \
