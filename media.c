@@ -90,9 +90,9 @@ void media_init(void)
                "sRCMode TEXT DEFAULT 'CBR'," \
                "sImageQuality TEXT DEFAULT 'medium'," \
                "sFrameRate TEXT DEFAULT '25'," \
-               "iTargetRate INT DEFAULT 3072," \
+               "iTargetRate INT DEFAULT 0," \
                "iMaxRate INT DEFAULT 4096," \
-               "iMinRate INT DEFAULT 2048," \
+               "iMinRate INT DEFAULT 0," \
                "sOutputDataType TEXT DEFAULT 'H.264'," \
                "sSmart TEXT DEFAULT 'close'," \
                "sRCQuality TEXT DEFAULT 'high'," \
