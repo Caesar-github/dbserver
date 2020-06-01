@@ -96,7 +96,7 @@ void media_init(void)
                "sOutputDataType TEXT DEFAULT 'H.264'," \
                "sSmart TEXT DEFAULT 'close'," \
                "sRCQuality TEXT DEFAULT 'high'," \
-               "iGOP INT DEFAULT 30," \
+               "iGOP INT DEFAULT 50," \
                "sSVC TEXT DEFAULT 'close'," \
                "iStreamSmooth INT DEFAULT 50,"\
                "sVideoSourceToken TEXT DEFAULT 'mainVSToken'," \
