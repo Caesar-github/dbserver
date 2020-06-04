@@ -76,6 +76,7 @@ void system_init(void)
     1: storage/plan/snap; screenshot-schedule; define default type, eg:[{name: xxx, color: '#ffffff'}]
     2: storage/plan/video; video-plan-schedule; define default type, eg:[{name: xxx, color: '#ffffff'}]
     3: event/smart/cover event/smart/overlay; smart-cover;
+    4: video/0; video-encoder; disabledOption: key checkItem, value toCheck:(key: disabled key, value: set when disabled null for not),item whose value change must be top
     */
     col_para = "id INTEGER PRIMARY KEY AUTOINCREMENT," \
                "name TEXT," \
@@ -84,15 +85,80 @@ void system_init(void)
     g_free(rkdb_insert(TABLE_SYSTEM_PARA, "id, name, para", "0, 'storagePlanSnap', '{\"imageType\":[\"JPEG\"]," \
         "\"time2number\":{\"milliseconds\":1,\"seconds\":1000,\"minutes\":60000,\"hours\":3600000,\"days\":86400000}," \
         "\"resolutionList\":[\"2688*1520\"]," \
-        "\"quality2number\":{\"low\":40,\"middle\":60,\"high\":80},"
+        "\"quality2number\":{\"low\":1,\"middle\":5,\"high\":10},"
         "\"limitRange\":{\"timing\":{\"max\":604800000,\"min\":1000},\"event\":{\"max\":65535,\"min\": 1000},\"shot\":{\"max\":120,\"min\":1}}}'"));
     g_free(rkdb_insert(TABLE_SYSTEM_PARA, "id, name, para", "1, 'screenshotSchedule', '[{\"name\":\"timing\",\"color\":\"#87CEEB\"}]'"));
     g_free(rkdb_insert(TABLE_SYSTEM_PARA, "id, name, para", "2, 'videoPlanSchedule', '[{\"name\":\"timing\",\"color\":\"#87CEEB\"}, {\"name\":\"motion-detect\",\"color\":\"#74B558\"}," \
         "{\"name\":\"alarm\",\"color\":\"#D71820\"}, {\"name\":\"motionOrAlarm\",\"color\":\"#E58705\"}, {\"name\":\"motionAndAlarm\",\"color\":\"#B9E2FE\"}," \
         "{\"name\":\"event\",\"color\":\"#AA6FFF\"}]'"));
-    g_free(rkdb_insert(TABLE_SYSTEM_PARA, "id, name, para", "3, 'smartCover', '{\"layout\":{\"enabled\":[\"iStreamOverlayEnabled\", \"iImageOverlayEnabled\"],"
-        "\"snap\":[\"sTargetImageType\", \"iWidthRatio\", \"sImageQuality\"], \"infoEnabled\":[\"deviceNum\", \"positonInfo\"]}, \"capability\":{\"SmartCover\":{\"sTargetImageType\":[\"head\"], \"sImageQuality\":"
+    g_free(rkdb_insert(TABLE_SYSTEM_PARA, "id, name, para", "3, 'smartCover', '{\"layout\":{\"enabled\":[\"iStreamOverlayEnabled\", \"iImageOverlayEnabled\"]," \
+        "\"snap\":[\"sTargetImageType\", \"iWidthRatio\", \"sImageQuality\"], \"infoEnabled\":[\"deviceNum\", \"positonInfo\"]}, \"capability\":{\"SmartCover\":{\"sTargetImageType\":[\"head\"], \"sImageQuality\":" \
         "[\"best\",\"good\",\"general\"]}}}'"));
+    g_free(rkdb_insert(TABLE_SYSTEM_PARA, "id, name, para", "4, 'videoEncoder'," \
+        "'{\"public\":["\
+                "{\"name\":\"streamType\","\
+                 "\"items\": [\"mainStream\",\"subStream\",\"thirdStream\"]},"\
+                "{\"name\":\"videoType\","\
+                 "\"items\": [\"videoStream\",\"compositeStream\"]},"\
+                "{\"name\":\"RCMode\","\
+                 "\"items\": [\"CBR\",\"VBR\"]},"\
+                "{\"name\":\"RCQuality\","\
+                 "\"items\": [\"lowest\",\"lower\",\"low\",\"medium\",\"high\",\"higher\",\"highest\"]},"\
+                "{\"name\":\"frameRate\","\
+                 "\"items\": [\"1/16\",\"1/8\",\"1/4\",\"1/2\",\"1\",\"2\",\"4\",\"6\",\"8\",\"10\",\"12\",\"14\",\"16\",\"18\",\"20\",\"25\",\"30\"]},"\
+                "{\"name\":\"outputDataType\","\
+                 "\"items\": [\"H.264\",\"H.265\"]},"\
+                "{\"name\":\"smart\","\
+                 "\"items\": [\"open\",\"close\"]},"\
+                "{\"name\":\"H264Profile\","\
+                 "\"items\": [\"high\",\"main\",\"baseline\"]},"\
+                "{\"name\":\"SVC\","\
+                 "\"items\": [\"open\",\"close\"]}],"\
+            "\"mainStream\": ["\
+                "{\"name\":\"resolution\","\
+                 "\"items\": [\"2688*1520\"]},"\
+                "{\"name\":\"maxRate\","\
+                 "\"items\": [256,512,1024,2048,3072,4096,6144,8192,12288,16384]}],"\
+            "\"subStream\": ["\
+                "{\"name\":\"resolution\","\
+                 "\"items\": [\"640*480\",\"704*576\"]},"\
+                "{\"name\":\"maxRate\","\
+                 "\"items\": [256,512,1024,2048,3072,4096,6144,8192]}],"\
+            "\"thirdStream\": ["\
+                "{\"name\":\"resolution\","\
+                 "\"items\": [\"640*480\",\"704*576\",\"1280*720\",\"1920*1080\"]},"\
+                "{\"name\":\"maxRate\","\
+                 "\"items\": [256,512,1024,2048,3072,4096,6144,8192,12288,16384]}],"\
+            "\"disabledOption\": ["\
+                "{\"name\":\"sStreamType\","\
+                 "\"options\": {"\
+                    "\"subStream\":{"\
+                        "\"sOutputDataType\":\"H.264\","\
+                        "\"sSmart\": \"close\"},"\
+                    "\"thirdStream\":{"\
+                        "\"sSmart\": \"close\"}}},"\
+                "{\"name\":\"sSmart\","\
+                 "\"options\": {"\
+                    "\"open\":{"\
+                        "\"iGOP\":null,"\
+                        "\"sRCMode\":null,"\
+                        "\"sH264Profile\":null,"\
+                        "\"sSVC\":null,"\
+                        "\"iStreamSmooth\":null,"\
+                        "\"sRCQuality\": null}}},"\
+                "{\"name\":\"sRCMode\","\
+                 "\"options\": {"\
+                    "\"CBR\":{"\
+                        "\"sRCQuality\": null}}},"\
+                "{\"name\":\"sOutputDataType\","\
+                 "\"options\": {"\
+                    "\"H.265\":{"\
+                        "\"sH264Profile\": null}}},"\
+                "{\"name\":\"unspport\","\
+                 "\"options\": {"\
+                    "\"sVideoType\":null,"\
+                    "\"sSVC\":null,"\
+                    "\"iStreamSmooth\": null}}]}'"));
 
     /*
     password encodes by base64

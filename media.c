@@ -88,7 +88,7 @@ void media_init(void)
                "sVideoType TEXT DEFAULT 'compositeStream'," \
                "sResolution TEXT DEFAULT '2688*1520'," \
                "sRCMode TEXT DEFAULT 'CBR'," \
-               "sImageQuality TEXT DEFAULT 'medium'," \
+               "sRCQuality TEXT DEFAULT 'high'," \
                "sFrameRate TEXT DEFAULT '25'," \
                "sFrameRateIn TEXT DEFAULT '25'," \
                "iTargetRate INT DEFAULT 0," \
@@ -96,7 +96,7 @@ void media_init(void)
                "iMinRate INT DEFAULT 0," \
                "sOutputDataType TEXT DEFAULT 'H.264'," \
                "sSmart TEXT DEFAULT 'close'," \
-               "sRCQuality TEXT DEFAULT 'high'," \
+               "sH264Profile TEXT DEFAULT 'high'," \
                "iGOP INT DEFAULT 50," \
                "sSVC TEXT DEFAULT 'close'," \
                "iStreamSmooth INT DEFAULT 50,"\
