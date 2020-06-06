@@ -23,6 +23,7 @@
 #define TABLE_STORAGE_CONFIG        "StorageConfig"
 #define TABLE_STORAGE_VERSION       "StorageVersion"
 #define TABLE_STORAGE_PLAN_SNAP     "StoragePlanSnap"
+#define TABLE_STORAGE_ADVANCE_PARA  "StorageAdvancePara"
 
 #define TYPE_VIDEO         0
 #define TYPE_PHOTO         1
@@ -52,8 +53,9 @@ void storage_init(void)
     g_free(rkdb_drop(TABLE_STORAGE_DISK_PATH));
     g_free(rkdb_drop(TABLE_STORAGE_MEDIA_FOLDER));
     g_free(rkdb_drop(TABLE_STORAGE_CONFIG));
-    g_free(rkdb_drop(TABLE_STORAGE_VERSION));
     g_free(rkdb_drop(TABLE_STORAGE_PLAN_SNAP));
+    g_free(rkdb_drop(TABLE_STORAGE_ADVANCE_PARA));
+    g_free(rkdb_drop(TABLE_STORAGE_VERSION));
 
     creat_version_table(TABLE_STORAGE_VERSION, STORAGE_VERSION);
 
@@ -112,4 +114,9 @@ void storage_init(void)
                                           "0,0,'JPEG','2688*1520',80,10000,0"));
     g_free(rkdb_insert(TABLE_STORAGE_PLAN_SNAP, "id,iEnabled,sImageType,sResolution,iImageQuality,iShotInterval,iShotNumber",
                                           "1,0,'JPEG','2688*1520',60,1000,4"));
+
+    col_para = "id INTEGER PRIMARY KEY," \
+               "iEnabled INT DEFAULT 0";
+    g_free(rkdb_create(TABLE_STORAGE_ADVANCE_PARA, col_para));
+    g_free(rkdb_insert(TABLE_STORAGE_ADVANCE_PARA, "id","0"));
 }
