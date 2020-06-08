@@ -92,7 +92,7 @@ void event_init(void)
 
     col_para = "id INTEGER PRIMARY KEY AUTOINCREMENT," \
                "iEnabled INT DEFAULT 0," \
-               "iTimeThreshold INT DEFAULT 3," \
+               "iTimeThreshold INT DEFAULT 0," \
                "iProportion INT DEFAULT 0," \
                "iSensitivityLevel INT DEFAULT 50," \
                "iPositionX INT DEFAULT 0," \
