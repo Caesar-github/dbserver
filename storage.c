@@ -108,10 +108,10 @@ void storage_init(void)
                "sResolution TEXT," \
                "iImageQuality INT DEFAULT 10," \
                "iShotInterval INT DEFAULT 1000," \
-               "iShotNumber INT DEFAULT 0";
+               "iShotNumber INT DEFAULT 1";
     g_free(rkdb_create(TABLE_STORAGE_PLAN_SNAP, col_para));
     g_free(rkdb_insert(TABLE_STORAGE_PLAN_SNAP, "id,iEnabled,sImageType,sResolution,iImageQuality,iShotInterval,iShotNumber",
-                                          "0,0,'JPEG','2688*1520',10,10000,0"));
+                                          "0,0,'JPEG','2688*1520',10,10000,1"));
     g_free(rkdb_insert(TABLE_STORAGE_PLAN_SNAP, "id,iEnabled,sImageType,sResolution,iImageQuality,iShotInterval,iShotNumber",
                                           "1,0,'JPEG','2688*1520',10,1000,4"));
 
