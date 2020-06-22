@@ -73,6 +73,7 @@ void event_init(void)
                "iNotificationFTPEnabled INT DEFAULT 0";
     g_free(rkdb_create(TABLE_EVENT_TRIGGERS, col_para));
     g_free(rkdb_insert(TABLE_EVENT_TRIGGERS, "id, sEventType", "0, 'VMD'"));
+    g_free(rkdb_insert(TABLE_EVENT_TRIGGERS, "id, sEventType", "1, 'VRI'"));
 
     /*
         0: for motion detect
