@@ -194,6 +194,7 @@ void media_init(void)
                "sWDR TEXT DEFAULT 'close'," \
                "iWDRLevel INT DEFAULT 0," \
                "sHDR TEXT DEFAULT 'open'," \
+               "iHDRLevel INT DEFAULT 0," \
                "sHLC TEXT DEFAULT 'close'," \
                "iHLCLevel INT DEFAULT 0," \
                "iPositionX INT DEFAULT 0," \
