@@ -123,7 +123,7 @@ void media_init(void)
             "1, 'mainStream', 'split', '{\"mode\":0,\"size\":1024}'"));
 
     col_para = "id INTEGER PRIMARY KEY," \
-               "sEncodeType TEXT DEFAULT 'AAC'," \
+               "sEncodeType TEXT DEFAULT 'MP2'," \
                "iSampleRate INT DEFAULT 16000," \
                "iBitRate INT DEFAULT 32000," \
                "sInput TEXT DEFAULT 'micIn'," \
