@@ -23,6 +23,17 @@
 #include "common.h"
 #include "system.h"
 #include "event.h"
+#include "log.h"
+
+enum {
+  LOG_ERROR,
+  LOG_WARN,
+  LOG_INFO,
+  LOG_DEBUG
+};
+
+int enable_minilog = 0;
+int dbserver_log_level = LOG_INFO;
 
 int main(int argc , char ** argv)
 {
@@ -31,7 +42,9 @@ int main(int argc , char ** argv)
     DBusConnection *dbus_conn;
     char *db_file = "/userdata/sysconfig.db";
     char *db_path;
-
+#ifdef ENABLE_MINILOGGER
+    enable_minilog = 1;
+#endif
     if (argc == 2)
         db_file = argv[1];
 
@@ -39,7 +52,7 @@ int main(int argc , char ** argv)
     db_path = dirname(db_path);
 
     if (access(db_path, 0)) {
-        printf("dbserver: %s folder does not exist\n", db_path);
+        LOG_INFO("dbserver: %s folder does not exist\n", db_path);
         return 0;
     }
 
@@ -54,7 +67,7 @@ int main(int argc , char ** argv)
     system_init();
     event_init();
 
-    printf("dbserver init finish\n");
+    LOG_INFO("dbserver init finish\n");
 
     dbus_error_init(&dbus_err);
     dbus_conn = g_dbus_setup_bus(DBUS_BUS_SYSTEM, DB_SERVER, &dbus_err);
@@ -67,7 +80,7 @@ int main(int argc , char ** argv)
     system_dbus_register(dbus_conn);
     event_dbus_register(dbus_conn);
 
-    printf("dbserver dbus register finish\n");
+    LOG_INFO("dbserver dbus register finish\n");
 
     g_main_loop_run(main_loop);
     rkdb_deinit();

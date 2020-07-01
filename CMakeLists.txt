@@ -18,6 +18,13 @@ aux_source_directory(./ SRCS)
 add_executable(${PROJECT_NAME}
 	${SRCS})
 
+option(ENABLE_MINILOGGER  "enbale minilogger" ON)
+if (ENABLE_MINILOGGER)
+    find_package(MiniLogger REQUIRED)
+    add_definitions(-DENABLE_MINILOGGER)
+    target_link_libraries(${PROJECT_NAME} MiniLogger::MiniLogger)
+endif()
+
 option(SANITIZER_STATIC "compile with sanitizer (static library linker)" OFF)
 if(SANITIZER_STATIC)
 	add_definitions(-fsanitize=address -static-libasan -g -ggdb -gdwarf -funwind-tables -rdynamic -O0)
