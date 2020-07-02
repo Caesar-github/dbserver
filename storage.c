@@ -67,7 +67,7 @@ void storage_init(void)
     g_free(rkdb_create(TABLE_STORAGE_DISK_PATH, col_para));
     g_free(rkdb_insert(TABLE_STORAGE_DISK_PATH, "sPath,sName,iMount", "'/mnt/sdcard','SD Card',0"));
     g_free(rkdb_insert(TABLE_STORAGE_DISK_PATH, "sPath,sName,iMount", "'/media/usb0','U Disk',0"));
-    g_free(rkdb_insert(TABLE_STORAGE_DISK_PATH, "sPath,sName,iMount", "'/userdata','Emmc',0"));
+    g_free(rkdb_insert(TABLE_STORAGE_DISK_PATH, "sPath,sName,iMount", "'/userdata/media','Emmc',0"));
 
     col_para = "id INTEGER PRIMARY KEY," \
                "sMediaFolder TEXT NOT NULL UNIQUE," \
@@ -101,7 +101,7 @@ void storage_init(void)
                "sMountPath TEXT NOT NULL UNIQUE";
     g_free(rkdb_create(TABLE_STORAGE_CONFIG, col_para));
     //The unit of iFreeSize is MB
-    g_free(rkdb_insert(TABLE_STORAGE_CONFIG, "id,iFreeSize,iFreeSizeNotice,sMountPath","0,1024,512,'/userdata'"));
+    g_free(rkdb_insert(TABLE_STORAGE_CONFIG, "id,iFreeSize,iFreeSizeNotice,sMountPath","0,1024,512,'/userdata/media'"));
 
     col_para = "id INTEGER PRIMARY KEY," \
                "iEnabled INT DEFAULT 0," \
