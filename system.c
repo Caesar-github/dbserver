@@ -90,9 +90,8 @@ void system_init(void)
     g_free(rkdb_insert(TABLE_SYSTEM_PARA, "id, name, para", "2, 'videoPlanSchedule', '[{\"name\":\"timing\",\"color\":\"#87CEEB\"}, {\"name\":\"motion-detect\",\"color\":\"#74B558\"}," \
         "{\"name\":\"alarm\",\"color\":\"#D71820\"}, {\"name\":\"motionOrAlarm\",\"color\":\"#E58705\"}, {\"name\":\"motionAndAlarm\",\"color\":\"#B9E2FE\"}," \
         "{\"name\":\"event\",\"color\":\"#AA6FFF\"}]'"));
-    g_free(rkdb_insert(TABLE_SYSTEM_PARA, "id, name, para", "3, 'smartCover', '{\"layout\":{\"enabled\":[\"iStreamOverlayEnabled\", \"iImageOverlayEnabled\"]," \
-        "\"snap\":[\"sTargetImageType\", \"iWidthRatio\", \"sImageQuality\"], \"infoEnabled\":[\"deviceNum\", \"positonInfo\"]}, \"capability\":{\"SmartCover\":{\"sTargetImageType\":[\"head\"], \"sImageQuality\":" \
-        "[\"best\",\"good\",\"general\"]}}}'"));
+    g_free(rkdb_insert(TABLE_SYSTEM_PARA, "id, name, para", "3, 'smartCover', '{\"capability\":{\"SmartCover\":{\"sImageQuality\":[\"best\",\"good\",\"general\"],\"sTargetImageType\":[\"head\"]}},\"layout\":{\"enabled\":[\"iFaceRecognitionEnabled\",\"iStreamOverlayEnabled\","\
+        "\"iImageOverlayEnabled\"],\"infoEnabled\":[\"deviceNum\",\"positonInfo\"],\"snap\":[\"sTargetImageType\",\"iWidthRatio\",\"sImageQuality\"]}}'"));
     g_free(rkdb_insert(TABLE_SYSTEM_PARA, "id, name, para", "4, 'video', '{\"disabled\":[{\"name\":\"sStreamType\",\"options\":{\"subStream\":{\"sOutputDataType\":\"H.264\",\"sSmart\":\"close\"},\"thirdStream\":{\"sSmart\":\"close\"}},\"type\":\"disabled/limit\"},"\
         "{\"name\":\"sSmart\",\"options\":{\"open\":{\"iGOP\":null,\"iStreamSmooth\":null,\"sH264Profile\":null,\"sRCMode\":null,\"sRCQuality\":null,\"sSVC\":null}},\"type\":\"disabled\"},{\"name\":\"sRCMode\",\"options\":{\"CBR\":{\"sRCQuality\":null}},\"type\":\"disabled\"},"\
         "{\"name\":\"sOutputDataType\",\"options\":{\"H.265\":{\"sH264Profile\":null}},\"type\":\"disabled\"},{\"name\":\"unspport\",\"options\":{\"iStreamSmooth\":null,\"sSVC\":null,\"sVideoType\":null},\"type\":\"disabled\"}],\"dynamic\":{\"sSmart\":{\"open\":{\"iMinRate\":"\

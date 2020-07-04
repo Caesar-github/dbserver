@@ -173,6 +173,7 @@ void event_init(void)
     */
     col_para = "id INTEGER PRIMARY KEY AUTOINCREMENT," \
                "iFaceEnabled INT DEFAULT 0," \
+               "iFaceRecognitionEnabled INT DEFAULT 0," \
                "iStreamOverlayEnabled INT DEFAULT 0," \
                "iImageOverlayEnabled INT DEFAULT 0," \
                "iInfoOverlayEnabled INT DEFAULT 0," \
