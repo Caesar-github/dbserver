@@ -162,7 +162,7 @@ void media_init(void)
                "sIrisType TEXT DEFAULT 'auto'," \
                "iAutoIrisLevel INT DEFAULT 5," \
                "sExposureTime TEXT DEFAULT '1/6'," \
-               "iExposureGain INT DEFAULT 0";
+               "iExposureGain INT DEFAULT 1";
     g_free(rkdb_create(TABLE_IMAGE_EXPOSURE, col_para));
     g_free(rkdb_insert(TABLE_IMAGE_EXPOSURE, "id", "0"));
     g_free(rkdb_insert(TABLE_IMAGE_EXPOSURE, "id", "1"));
@@ -180,6 +180,9 @@ void media_init(void)
                "sIrcutFilterAction TEXT DEFAULT 'day'," \
                "sOverexposeSuppress TEXT DEFAULT 'open'," \
                "sOverexposeSuppressType TEXT DEFAULT 'auto'," \
+               "sFillLightMode TEXT DEFAULT 'IR'," \
+               "sBrightnessAdjustmentMode TEXT DEFAULT 'auto'," \
+               "iLightBrightness INT DEFAULT 1," \
                "iDistanceLevel INT DEFAULT 1";
     g_free(rkdb_create(TABLE_IMAGE_NIGHT_TO_DAY, col_para));
     g_free(rkdb_insert(TABLE_IMAGE_NIGHT_TO_DAY, "id", "0"));
@@ -194,7 +197,7 @@ void media_init(void)
                "sWDR TEXT DEFAULT 'close'," \
                "iWDRLevel INT DEFAULT 0," \
                "sHDR TEXT DEFAULT 'open'," \
-               "iHDRLevel INT DEFAULT 0," \
+               "iHDRLevel INT DEFAULT 1," \
                "sHLC TEXT DEFAULT 'close'," \
                "iHLCLevel INT DEFAULT 0," \
                "iPositionX INT DEFAULT 0," \
