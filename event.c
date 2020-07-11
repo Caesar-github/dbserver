@@ -150,6 +150,7 @@ void event_init(void)
                "sAddress TEXT DEFAULT ''," \
                "iAccessCardNumber INT DEFAULT 0," \
                "iLoadCompleted INT DEFAULT 0," \
+               "iFaceDBId INT DEFAULT -1," \
                "sNote TEXT DEFAULT ''";
     g_free(rkdb_create(TABLE_FACE_LIST, col_para));
 
