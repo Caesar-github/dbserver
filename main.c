@@ -44,6 +44,7 @@ int main(int argc , char ** argv)
     char *db_path;
 #ifdef ENABLE_MINILOGGER
     enable_minilog = 1;
+    __minilog_log_init(argv[0], NULL, false, false, "dbserver","1.0");
 #endif
     if (argc == 2)
         db_file = argv[1];
