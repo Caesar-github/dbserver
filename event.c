@@ -122,13 +122,13 @@ void event_init(void)
                "sLiveDetect TEXT DEFAULT 'open'," \
                "sLiveDetectBeginTime TEXT DEFAULT '00:00'," \
                "sLiveDetectEndTime TEXT DEFAULT '23:59'," \
-               "iLiveDetectThreshold INT DEFAULT 90," \
-               "iFaceDetectionThreshold INT DEFAULT 50," \
+               "iLiveDetectThreshold INT DEFAULT 50," \
+               "iFaceDetectionThreshold INT DEFAULT 55," \
                "iFaceRecognitionThreshold INT DEFAULT 50," \
-               "iFaceMinPixel INT DEFAULT 125," \
+               "iFaceMinPixel INT DEFAULT 144," \
                "iLeftCornerX INT DEFAULT 0," \
-               "iLeftCornerY INT DEFAULT 125," \
-               "iDetectWidth INT DEFAULT 960," \
+               "iLeftCornerY INT DEFAULT 0," \
+               "iDetectWidth INT DEFAULT 720," \
                "iDetectHeight INT DEFAULT 1280";
     g_free(rkdb_create(TABLE_FACE_CONFIG, col_para));
     g_free(rkdb_insert(TABLE_FACE_CONFIG, "id", "0"));

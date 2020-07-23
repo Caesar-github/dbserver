@@ -233,6 +233,7 @@ void media_init(void)
                "iDehazeLevel INT DEFAULT 0," \
                "sDIS TEXT DEFAULT 'close'," \
                "sGrayScaleMode TEXT DEFAULT '[0-255]'," \
+               "iImageRotation INT DEFAULT 0," \
                "sFEC TEXT DEFAULT 'close'";
     g_free(rkdb_create(TABLE_IMAGE_ENHANCEMENT, col_para));
     g_free(rkdb_insert(TABLE_IMAGE_ENHANCEMENT, "id", "0"));
