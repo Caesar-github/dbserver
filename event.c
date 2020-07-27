@@ -29,6 +29,7 @@
 #define TABLE_SMART_COVER               "SmartCover"
 #define TABLE_SMART_COVER_OVERLAY       "SmartCoverOverlay"
 #define TABLE_EVENT_VERSION             "EventVersion"
+#define TABLE_NOTIFICATION              "Notification"
 
 #define EVENT_VERSION             "1.0.1"
 
@@ -59,6 +60,7 @@ void event_init(void)
     g_free(rkdb_drop(TABLE_FACE_CONTROL_RECORD));
     g_free(rkdb_drop(TABLE_SMART_COVER));
     g_free(rkdb_drop(TABLE_SMART_COVER_OVERLAY));
+    g_free(rkdb_drop(TABLE_NOTIFICATION));
     g_free(rkdb_drop(TABLE_EVENT_VERSION));
 
     creat_version_table(TABLE_EVENT_VERSION, EVENT_VERSION);
@@ -197,4 +199,18 @@ void event_init(void)
     g_free(rkdb_insert(TABLE_SMART_COVER_OVERLAY, "id, sName, sInfo, iOrder", "0, 'deviceNum', '', 0"));
     g_free(rkdb_insert(TABLE_SMART_COVER_OVERLAY, "id, sName, sInfo, iOrder", "1, 'snapTime', '', 1"));
     g_free(rkdb_insert(TABLE_SMART_COVER_OVERLAY, "id, sName, sInfo, iOrder", "2, 'positonInfo', '', 2"));
+
+    col_para = "id INTEGER PRIMARY KEY AUTOINCREMENT," \
+               "sArrivalTime TEXT DEFAULT ''," \
+               "sTopic TEXT DEFAULT ''," \
+               "sOperation TEXT DEFAULT ''," \
+               "sSource TEXT DEFAULT ''," \
+               "sKey TEXT DEFAULT ''," \
+               "sData TEXT DEFAULT ''," \
+               "sMessage TEXT DEFAULT ''," \
+               "sDetails TEXT DEFAULT ''";
+    g_free(rkdb_create(TABLE_NOTIFICATION, col_para));
+    /* example */
+    // g_free(rkdb_insert(TABLE_NOTIFICATION, "sArrivalTime, sTopic, sOperation, sSource, sData",
+    //                     "'2020-08-06T12:00:00', 'tns1:VideoSource/MotionAlarm', 'Initialized', 'Source : VideoSource_1', 'State : false'"));
 }
