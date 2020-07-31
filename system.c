@@ -84,16 +84,32 @@ void system_init(void)
                "name TEXT," \
                "para TEXT";
     g_free(rkdb_create(TABLE_SYSTEM_PARA, col_para));
-    g_free(rkdb_insert(TABLE_SYSTEM_PARA, "id, name, para", "0, 'StoragePlanSnap', '{\"dynamic\":{\"id\":{\"0\":{\"iShotInterval\":{\"for\":\"timing\",\"range\":{\"max\":604800000,\"min\":1000},\"type\":\"range\"},\"timeUnit\":{\"for\":\"timing\","\
+    g_free(rkdb_insert(TABLE_SYSTEM_PARA, "id, name, para", "0, 'webPage', '{\"auth\":4,\"item\":[{\"auth\":4,\"item\":[],\"name\":\"preview\"},{\"auth\":4,\"item\":[{\"auth\":4,\"item\":[{\"auth\":0,\"item\":[],\"name\":\"delete\"}],\"name\":\"videoRecord\"},{\"auth\":4"\
+        ",\"item\":[{\"auth\":0,\"item\":[],\"name\":\"delete\"}],\"name\":\"pictureRecord\"}],\"name\":\"download\"},{\"auth\":4,\"item\":[{\"auth\":4,\"item\":[{\"auth\":4,\"item\":[{\"auth\":1,\"item\":[],\"name\":\"modify\"}],\"name\":\"ListManagement\"},{\"auth\":1,"\
+        "\"item\":[],\"name\":\"BatchInput\"}],\"name\":\"MemberList\"},{\"auth\":4,\"item\":[{\"auth\":4,\"item\":[{\"auth\":0,\"item\":[],\"name\":\"modify\"}],\"name\":\"SnapShot\"}],\"name\":\"SnapShot\"},{\"auth\":4,\"item\":[{\"auth\":4,\"item\":[{\"auth\":0,\"item\":"\
+        "[],\"name\":\"modify\"}],\"name\":\"Control\"}],\"name\":\"Control\"},{\"auth\":1,\"item\":[{\"auth\":1,\"item\":[],\"name\":\"ParaConfig\"}],\"name\":\"Config\"}],\"name\":\"face\"},{\"auth\":-1,\"item\":[{\"auth\":1,\"item\":[{\"auth\":1,\"item\":[],\"name\":"\
+        "\"FacePara\"},{\"auth\":1,\"item\":[],\"name\":\"ROI\"}],\"name\":\"Config\"}],\"name\":\"face-para\"},{\"auth\":-1,\"item\":[{\"auth\":4,\"item\":[{\"auth\":4,\"item\":[{\"auth\":1,\"item\":[],\"name\":\"modify\"}],\"name\":\"MemberList\"},{\"auth\":1,\"item\":[],"\
+        "\"name\":\"BatchInput\"},{\"auth\":4,\"item\":[{\"auth\":0,\"item\":[],\"name\":\"modify\"}],\"name\":\"SnapShot\"},{\"auth\":4,\"item\":[{\"auth\":0,\"item\":[],\"name\":\"modify\"}],\"name\":\"Control\"}],\"name\":\"Manage\"}],\"name\":\"face-manage\"},{\"auth\":1,"\
+        "\"item\":[{\"auth\":1,\"item\":[{\"auth\":1,\"item\":[{\"auth\":1,\"item\":[],\"name\":\"basic\"},{\"auth\":1,\"item\":[],\"name\":\"time\"}],\"name\":\"Settings\"},{\"auth\":1,\"item\":[{\"auth\":1,\"item\":[],\"name\":\"upgrade\"},{\"auth\":-1,\"item\":[],\"name\":"\
+        "\"log\"}],\"name\":\"Maintain\"},{\"auth\":-1,\"item\":[{\"auth\":-1,\"item\":[],\"name\":\"authentication\"},{\"auth\":-1,\"item\":[],\"name\":\"ipAddrFilter\"},{\"auth\":-1,\"item\":[],\"name\":\"securityService\"}],\"name\":\"Security\"},{\"auth\":0,\"item\":[],"\
+        "\"name\":\"User\"}],\"name\":\"System\"},{\"auth\":1,\"item\":[{\"auth\":1,\"item\":[{\"auth\":1,\"item\":[],\"name\":\"TCPIP\"},{\"auth\":-1,\"item\":[],\"name\":\"DDNS\"},{\"auth\":-1,\"item\":[],\"name\":\"PPPoE\"},{\"auth\":1,\"item\":[],\"name\":\"Port\"},{\"auth\""\
+        ":-1,\"item\":[],\"name\":\"uPnP\"}],\"name\":\"Basic\"},{\"auth\":1,\"item\":[{\"auth\":1,\"item\":[],\"name\":\"Wi-Fi\"},{\"auth\":-1,\"item\":[],\"name\":\"SMTP\"},{\"auth\":-1,\"item\":[],\"name\":\"FTP\"},{\"auth\":-1,\"item\":[],\"name\":\"eMail\"},{\"auth\":-1,\"item\":"\
+        "[],\"name\":\"Cloud\"},{\"auth\":-1,\"item\":[],\"name\":\"Protocol\"},{\"auth\":-1,\"item\":[],\"name\":\"QoS\"},{\"auth\":-1,\"item\":[],\"name\":\"Https\"}],\"name\":\"Advanced\"}],\"name\":\"Network\"},{\"auth\":1,\"item\":[{\"auth\":1,\"item\":[],\"name\":\"Encoder\"},"\
+        "{\"auth\":1,\"item\":[],\"name\":\"AdvancedEncoder\"},{\"auth\":1,\"item\":[],\"name\":\"ROI\"},{\"auth\":1,\"item\":[],\"name\":\"RegionCrop\"}],\"name\":\"Video\"},{\"auth\":1,\"item\":[{\"auth\":1,\"item\":[],\"name\":\"AudioParam\"}],\"name\":\"Audio\"},{\"auth\":1,"\
+        "\"item\":[{\"auth\":1,\"item\":[],\"name\":\"DisplaySettings\"},{\"auth\":1,\"item\":[],\"name\":\"OSDSettings\"},{\"auth\":1,\"item\":[],\"name\":\"PrivacyCover\"},{\"auth\":1,\"item\":[],\"name\":\"PictureMask\"}],\"name\":\"Image\"},{\"auth\":1,\"item\":[{\"auth\":1,"\
+        "\"item\":[],\"name\":\"MotionDetect\"},{\"auth\":1,\"item\":[],\"name\":\"IntrusionDetection\"},{\"auth\":-1,\"item\":[],\"name\":\"AlarmInput\"},{\"auth\":-1,\"item\":[],\"name\":\"AlarmOutput\"},{\"auth\":-1,\"item\":[],\"name\":\"Abnormal\"}],\"name\":\"Event\"},"\
+        "{\"auth\":1,\"item\":[{\"auth\":1,\"item\":[{\"auth\":1,\"item\":[],\"name\":\"VideoPlan\"},{\"auth\":1,\"item\":[],\"name\":\"ScreenshotPlan\"},{\"auth\":1,\"item\":[],\"name\":\"ScreenshotPara\"}],\"name\":\"PlanSettings\"},{\"auth\":1,\"item\":[{\"auth\":1,\"item\":"\
+        "[],\"name\":\"HardDiskManagement\"},{\"auth\":-1,\"item\":[],\"name\":\"NAS\"},{\"auth\":-1,\"item\":[],\"name\":\"CloudStorage\"}],\"name\":\"StorageManage\"}],\"name\":\"Storage\"},{\"auth\":1,\"item\":[{\"auth\":1,\"item\":[],\"name\":\"MarkCover\"},{\"auth\":-1,"\
+        "\"item\":[],\"name\":\"MaskArea\"},{\"auth\":-1,\"item\":[],\"name\":\"RuleSettings\"},{\"auth\":-1,\"item\":[],\"name\":\"AdvancedCFG\"}],\"name\":\"Intel\"},{\"auth\":-1,\"item\":[{\"auth\":-1,\"item\":[],\"name\":\"GateConfig\"},{\"auth\":-1,\"item\":[],\"name\":"\
+        "\"ScreenConfig\"}],\"name\":\"Peripherals\"}],\"name\":\"config\"},{\"auth\":4,\"item\":[],\"name\":\"about\"}],\"name\":\"header\"}'"));
+    g_free(rkdb_insert(TABLE_SYSTEM_PARA, "id, name, para", "1, 'StoragePlanSnap', '{\"dynamic\":{\"id\":{\"0\":{\"iShotInterval\":{\"for\":\"timing\",\"range\":{\"max\":604800000,\"min\":1000},\"type\":\"range\"},\"timeUnit\":{\"for\":\"timing\","\
         "\"options\":[\"seconds\",\"minutes\",\"hours\",\"days\"],\"type\":\"options\"}},\"1\":{\"iShotInterval\":{\"for\":\"timing\",\"range\":{\"max\":65535,\"min\":1000},\"type\":\"range\"},\"timeUnit\":{\"for\":\"timing\",\"options\":[\"seconds\","\
         "\"minutes\"],\"type\":\"options\"}}}},\"relation\":{\"iImageQuality\":{\"1\":\"low\",\"10\":\"high\",\"5\":\"middle\"}},\"static\":{\"iImageQuality\":{\"options\":[1,5,10],\"type\":\"options\"},\"iShotNumber\":{\"range\":{\"max\":120,\"min\":1},"\
         "\"type\":\"range\"},\"sImageType\":{\"options\":[\"JPEG\"],\"type\":\"options\"},\"sResolution\":{\"refer\":[4,\"para\",\"dynamic\",\"sStreamType\",\"mainStream\",\"sResolution\"],\"type\":\"refer\"}}}'"));
-    g_free(rkdb_insert(TABLE_SYSTEM_PARA, "id, name, para", "1, 'screenshotSchedule', '[{\"name\":\"timing\",\"color\":\"#87CEEB\"}]'"));
-    g_free(rkdb_insert(TABLE_SYSTEM_PARA, "id, name, para", "2, 'videoPlanSchedule', '[{\"name\":\"timing\",\"color\":\"#87CEEB\"}, {\"name\":\"motion-detect\",\"color\":\"#74B558\"}," \
+    g_free(rkdb_insert(TABLE_SYSTEM_PARA, "id, name, para", "2, 'screenshotSchedule', '[{\"name\":\"timing\",\"color\":\"#87CEEB\"}]'"));
+    g_free(rkdb_insert(TABLE_SYSTEM_PARA, "id, name, para", "3, 'videoPlanSchedule', '[{\"name\":\"timing\",\"color\":\"#87CEEB\"}, {\"name\":\"motion-detect\",\"color\":\"#74B558\"}," \
         "{\"name\":\"alarm\",\"color\":\"#D71820\"}, {\"name\":\"motionOrAlarm\",\"color\":\"#E58705\"}, {\"name\":\"motionAndAlarm\",\"color\":\"#B9E2FE\"}," \
         "{\"name\":\"event\",\"color\":\"#AA6FFF\"}]'"));
-    g_free(rkdb_insert(TABLE_SYSTEM_PARA, "id, name, para", "3, 'smartCover', '{\"capability\":{\"SmartCover\":{\"sImageQuality\":[\"best\",\"good\",\"general\"],\"sTargetImageType\":[\"head\"]}},\"layout\":{\"enabled\":[\"iFaceRecognitionEnabled\",\"iStreamOverlayEnabled\","\
-        "\"iImageOverlayEnabled\"],\"infoEnabled\":[\"deviceNum\",\"positonInfo\"],\"snap\":[\"sTargetImageType\",\"iWidthRatio\",\"sImageQuality\"]}}'"));
     g_free(rkdb_insert(TABLE_SYSTEM_PARA, "id, name, para", "4, 'video', '{\"disabled\":[{\"name\":\"sStreamType\",\"options\":{\"subStream\":{\"sOutputDataType\":\"H.264\",\"sSmart\":\"close\"},\"thirdStream\":{\"sSmart\":\"close\"}},\"type\":\"disabled/limit\"},"\
         "{\"name\":\"sSmart\",\"options\":{\"open\":{\"iGOP\":null,\"iStreamSmooth\":null,\"sH264Profile\":null,\"sRCMode\":null,\"sRCQuality\":null,\"sSVC\":null}},\"type\":\"disabled\"},{\"name\":\"sRCMode\",\"options\":{\"CBR\":{\"sRCQuality\":null}},\"type\":\"disabled\"},"\
         "{\"name\":\"sOutputDataType\",\"options\":{\"H.265\":{\"sH264Profile\":null}},\"type\":\"disabled\"},{\"name\":\"unspport\",\"options\":{\"iStreamSmooth\":null,\"sSVC\":null,\"sVideoType\":null},\"type\":\"disabled\"}],\"dynamic\":{\"sSmart\":{\"open\":{\"iMinRate\":"\
@@ -131,6 +147,8 @@ void system_init(void)
 		"{\"options\":[\"close\",\"general\",\"advanced\"],\"type\":\"options\"}}}'"));
     g_free(rkdb_insert(TABLE_SYSTEM_PARA, "id, name, para", "13, 'image_video_adjustment', '{\"layout\":{\"image_video_adjustment\":[\"sPowerLineFrequencyMode\"]},\"static\":{\"sImageFlip\":{\"options\":[\"leftRight\",\"upDown\",\"center\",\"close\"],\"type\":\"options\"},"\
         "\"sPowerLineFrequencyMode\":{\"options\":[\"PAL(50HZ)\",\"NTSC(60HZ)\"],\"type\":\"options\"},\"sSceneMode\":{\"options\":[\"indoor\",\"outdoor\"],\"type\":\"options\"}}}'"));
+    g_free(rkdb_insert(TABLE_SYSTEM_PARA, "id, name, para", "14, 'smartCover', '{\"capability\":{\"SmartCover\":{\"sImageQuality\":[\"best\",\"good\",\"general\"],\"sTargetImageType\":[\"head\"]}},\"layout\":{\"enabled\":[\"iFaceRecognitionEnabled\",\"iStreamOverlayEnabled\","\
+        "\"iImageOverlayEnabled\"],\"infoEnabled\":[\"deviceNum\",\"positonInfo\"],\"snap\":[\"sTargetImageType\",\"iWidthRatio\",\"sImageQuality\"]}}'"));
 
     /*
     password encodes by base64
@@ -139,7 +157,7 @@ void system_init(void)
                "sUserName TEXT UNIQUE," \
                "sPassword TEXT," \
                "iFixed INT DEFAULT 0," \
-               "iUserLevel INT DEFAULT 0," \
+               "iUserLevel INT DEFAULT 1," \
                "iAuthLevel INTEGER DEFAULT 1";
     g_free(rkdb_create(TABLE_SYSTEM_USER, col_para));
     g_free(rkdb_insert(TABLE_SYSTEM_USER, "id, sUserName, sPassword, iFixed, iUserLevel, iAuthLevel", "0, 'admin', 'YWRtaW4=', 1, 0, 1"));

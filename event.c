@@ -129,7 +129,9 @@ void event_init(void)
                "iLeftCornerX INT DEFAULT 0," \
                "iLeftCornerY INT DEFAULT 0," \
                "iDetectWidth INT DEFAULT 720," \
-               "iDetectHeight INT DEFAULT 1280";
+               "iDetectHeight INT DEFAULT 1280," \
+               "iNormalizedHeight INT DEFAULT 1280," \
+               "iNormalizedWidth INT DEFAULT 720";
     g_free(rkdb_create(TABLE_FACE_CONFIG, col_para));
     g_free(rkdb_insert(TABLE_FACE_CONFIG, "id", "0"));
 
