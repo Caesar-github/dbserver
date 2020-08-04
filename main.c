@@ -24,6 +24,7 @@
 #include "system.h"
 #include "event.h"
 #include "log.h"
+#include "peripherals.h"
 
 enum {
   LOG_ERROR,
@@ -67,6 +68,7 @@ int main(int argc , char ** argv)
     media_init();
     system_init();
     event_init();
+    peripherals_init();
 
     LOG_INFO("dbserver init finish\n");
 
@@ -80,6 +82,7 @@ int main(int argc , char ** argv)
     media_dbus_register(dbus_conn);
     system_dbus_register(dbus_conn);
     event_dbus_register(dbus_conn);
+    peripherals_dbus_register(dbus_conn);
 
     LOG_INFO("dbserver dbus register finish\n");
 

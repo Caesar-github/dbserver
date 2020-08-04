@@ -18,6 +18,7 @@
 #define DB_MEDIA_INTERFACE    DB_SERVER ".media"
 #define DB_SYSTEM_INTERFACE    DB_SERVER ".system"
 #define DB_EVENT_INTERFACE    DB_SERVER ".event"
+#define DB_PERIPHERALS_INTERFACE    DB_SERVER ".peripherals"
 
 extern const GDBusMethodTable methods[];
 extern const GDBusSignalTable signals[];
