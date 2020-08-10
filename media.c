@@ -197,7 +197,7 @@ void media_init(void)
                "sWDR TEXT DEFAULT 'close'," \
                "iWDRLevel INT DEFAULT 0," \
                "sHDR TEXT DEFAULT 'open'," \
-               "iHDRLevel INT DEFAULT 1," \
+               "iHDRLevel INT DEFAULT 50," \
                "sHLC TEXT DEFAULT 'close'," \
                "iHLCLevel INT DEFAULT 0," \
                "iPositionX INT DEFAULT 0," \
@@ -213,7 +213,7 @@ void media_init(void)
     g_free(rkdb_insert(TABLE_IMAGE_BLC, "id", "5"));
 
     col_para = "id INTEGER PRIMARY KEY," \
-               "sWhiteBlanceStyle TEXT DEFAULT 'naturalLight'," \
+               "sWhiteBlanceStyle TEXT DEFAULT 'autoWhiteBalance'," \
                "iWhiteBalanceRed INT DEFAULT 50," \
                "iWhiteBalanceBlue INT DEFAULT 50";
     g_free(rkdb_create(TABLE_IMAGE_WHITE_BLANCE, col_para));
