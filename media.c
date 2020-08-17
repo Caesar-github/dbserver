@@ -38,6 +38,7 @@
 #define TABLE_ROI "roi"
 
 #define TABLE_PROFILE                       "profile"
+#define TABLE_VIDEO_SOURCE                  "video_source"
 #define TABLE_VIDEO_SOURCE_CONFIGURATION    "video_source_configuration"
 
 #define TABLE_MEDIA_VERSION       "MediaVersion"
@@ -78,6 +79,7 @@ void media_init(void)
     g_free(rkdb_drop(TABLE_OSD));
     g_free(rkdb_drop(TABLE_ROI));
     g_free(rkdb_drop(TABLE_PROFILE));
+    g_free(rkdb_drop(TABLE_VIDEO_SOURCE));
     g_free(rkdb_drop(TABLE_VIDEO_SOURCE_CONFIGURATION));
     g_free(rkdb_drop(TABLE_MEDIA_VERSION));
 
@@ -100,17 +102,17 @@ void media_init(void)
                "iGOP INT DEFAULT 50," \
                "sSVC TEXT DEFAULT 'close'," \
                "iStreamSmooth INT DEFAULT 50,"\
-               "sVideoSourceToken TEXT DEFAULT 'mainVSToken'," \
-               "sVideoEncoderConfigurationToken TEXT DEFAULT 'mainVECToken'," \
-               "sVideoEncoderConfigurationName TEXT DEFAULT 'mainVECName'";
+               "sVideoSourceToken TEXT DEFAULT 'VideoSource_0'," \
+               "sVideoEncoderConfigurationToken TEXT DEFAULT 'VideoEncoderToken_0'," \
+               "sVideoEncoderConfigurationName TEXT DEFAULT 'VideoEncoder_0'";
     g_free(rkdb_create(TABLE_VIDEO, col_para));
     /* TODO: Three tables need different initial values */
-    g_free(rkdb_insert(TABLE_VIDEO, "id, sStreamType, sResolution, iMaxRate, sOutputDataType, sVideoSourceToken, sVideoEncoderConfigurationToken, sVideoEncoderConfigurationName",
-                                    "0, 'mainStream', '2688*1520', 8192, 'H.265', 'mainVSToken', 'mainVECToken', 'mainVECName'"));
-    g_free(rkdb_insert(TABLE_VIDEO, "id, sStreamType, sResolution, iMaxRate, sVideoSourceToken, sVideoEncoderConfigurationToken, sVideoEncoderConfigurationName",
-                                    "1, 'subStream', '640*480', 1024, 'subVSToken', 'subVECToken', 'subVECName'"));
-    g_free(rkdb_insert(TABLE_VIDEO, "id, sStreamType, sResolution, iMaxRate, sOutputDataType, sVideoSourceToken, sVideoEncoderConfigurationToken, sVideoEncoderConfigurationName",
-                                    "2, 'thirdStream', '1920*1080', 2048, 'H.265', 'thirdVSToken', 'thirdVECToken', 'thirdVECName'"));
+    g_free(rkdb_insert(TABLE_VIDEO, "id, sStreamType, sResolution, iMaxRate, sOutputDataType, sVideoEncoderConfigurationToken, sVideoEncoderConfigurationName",
+                                    "0, 'mainStream', '2688*1520', 8192, 'H.265', 'VideoEncoderToken_0', 'VideoEncoder_0'"));
+    g_free(rkdb_insert(TABLE_VIDEO, "id, sStreamType, sResolution, iMaxRate, sVideoEncoderConfigurationToken, sVideoEncoderConfigurationName",
+                                    "1, 'subStream', '640*480', 1024, 'VideoEncoderToken_1', 'VideoEncoder_1'"));
+    g_free(rkdb_insert(TABLE_VIDEO, "id, sStreamType, sResolution, iMaxRate, sOutputDataType, sVideoEncoderConfigurationToken, sVideoEncoderConfigurationName",
+                                    "2, 'thirdStream', '1920*1080', 2048, 'H.265', 'VideoEncoderToken_2', 'VideoEncoder_2'"));
 
     col_para = "id INTEGER PRIMARY KEY," \
                "sStreamType TEXT DEFAULT 'mainStream'," \
@@ -333,9 +335,9 @@ void media_init(void)
     g_free(rkdb_insert(TABLE_VIDEO_REGION_CLIP, "id", "0"));
 
     col_para = "sToken TEXT PRIMARY KEY," \
-               "sName TEXT," \
+               "sName TEXT DEFAULT ''," \
                "iFixed INT DEFAULT 0," \
-               "sVideoSourceConfigurationToken TEXT DEFAULT ''," \
+               "sVideoSourceConfigurationToken TEXT DEFAULT 'VideoSourceConfigurationToken'," \
                "sAudioSourceConfigurationToken TEXT DEFAULT ''," \
                "sVideoEncoderConfigurationToken TEXT DEFAULT ''," \
                "sAudioEncoderConfigurationToken TEXT DEFAULT ''," \
@@ -345,18 +347,26 @@ void media_init(void)
                "sAudioOutputConfigurationToken TEXT DEFAULT ''," \
                "sAudioDecoderConfigurationToken TEXT DEFAULT ''";
     g_free(rkdb_create(TABLE_PROFILE, col_para));
-    g_free(rkdb_insert(TABLE_PROFILE, "sToken, sName, sVideoSourceConfigurationToken, sVideoEncoderConfigurationToken",
-                       "'mainProfileToken', 'mainProfileName', 'mainVSCToken', 'mainVECToken'"));
-    g_free(rkdb_insert(TABLE_PROFILE, "sToken, sName, sVideoSourceConfigurationToken, sVideoEncoderConfigurationToken",
-                       "'subProfileToken', 'subProfileName', 'subVSCToken', 'subVECToken'"));
-    g_free(rkdb_insert(TABLE_PROFILE, "sToken, sName, sVideoSourceConfigurationToken, sVideoEncoderConfigurationToken",
-                       "'thirdProfileToken', 'thirdProfileName', 'thirdVSCToken', 'thirdVECToken'"));
+    g_free(rkdb_insert(TABLE_PROFILE, "sToken, sName, sVideoEncoderConfigurationToken, iFixed",
+                       "'Profile_0', 'mainStream', 'VideoEncoderToken_0', 1"));
+    g_free(rkdb_insert(TABLE_PROFILE, "sToken, sName, sVideoEncoderConfigurationToken, iFixed",
+                       "'Profile_1', 'subStream', 'VideoEncoderToken_1', 1"));
+    g_free(rkdb_insert(TABLE_PROFILE, "sToken, sName, sVideoEncoderConfigurationToken, iFixed",
+                       "'Profile_2', 'thirdStream', 'VideoEncoderToken_2', 1"));
+
+    col_para = "sToken TEXT PRIMARY KEY," \
+               "sResolution TEXT DEFAULT '2688*1520'," \
+               "sFrameRateIn TEXT DEFAULT '25'";
+    g_free(rkdb_create(TABLE_VIDEO_SOURCE, col_para));
+    g_free(rkdb_insert(TABLE_VIDEO_SOURCE, "sToken", "'VideoSource_0'"));
 
     col_para = "sToken TEXT PRIMARY KEY," \
                "sName TEXT DEFAULT ''," \
-               "sSourceToken TEXT DEFAULT ''";
+               "sSourceToken TEXT DEFAULT ''," \
+               "iBoundsX INT DEFAULT 0," \
+               "iBoundsY INT DEFAULT 0," \
+               "iBoundsWidth INT DEFAULT 2688," \
+               "iBoundsHeight INT DEFAULT 1520";
     g_free(rkdb_create(TABLE_VIDEO_SOURCE_CONFIGURATION, col_para));
-    g_free(rkdb_insert(TABLE_VIDEO_SOURCE_CONFIGURATION, "sToken, sName, sSourceToken", "'mainVSCToken', 'mainVSCName', 'mainVSToken'"));
-    g_free(rkdb_insert(TABLE_VIDEO_SOURCE_CONFIGURATION, "sToken, sName, sSourceToken", "'subVSCToken', 'subVSCName', 'subVSToken'"));
-    g_free(rkdb_insert(TABLE_VIDEO_SOURCE_CONFIGURATION, "sToken, sName, sSourceToken", "'thirdVSCToken', 'thirdVSCName', 'thirdVSToken'"));
+    g_free(rkdb_insert(TABLE_VIDEO_SOURCE_CONFIGURATION, "sToken, sName, sSourceToken", "'VideoSourceConfigurationToken', 'VideoSourceConfig', 'VideoSource_0'"));
 }
