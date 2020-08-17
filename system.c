@@ -21,6 +21,8 @@
 #define TABLE_SYSTEM_DEVICE_INFO     "SystemDeviceInfo"
 #define TABLE_SYSTEM_PARA            "SystemPara"
 #define TABLE_SYSTEM_USER            "SystemUser"
+#define TABLE_SYSTEM_DISCOVERY       "SystemDiscovery"
+#define TABLE_SYSTEM_SCOPES          "SystemScopes"
 #define TABLE_SYSTEM_VERSION         "SystemVersion"
 
 #define SYSTEM_VERSION             "1.0.1"
@@ -45,6 +47,8 @@ void system_init(void)
     g_free(rkdb_drop(TABLE_SYSTEM_DEVICE_INFO));
     g_free(rkdb_drop(TABLE_SYSTEM_PARA));
     g_free(rkdb_drop(TABLE_SYSTEM_USER));
+    g_free(rkdb_drop(TABLE_SYSTEM_DISCOVERY));
+    g_free(rkdb_drop(TABLE_SYSTEM_SCOPES));
     g_free(rkdb_drop(TABLE_SYSTEM_VERSION));
 
     creat_version_table(TABLE_SYSTEM_VERSION, SYSTEM_VERSION);
@@ -158,4 +162,20 @@ void system_init(void)
                "iAuthLevel INTEGER DEFAULT 1";
     g_free(rkdb_create(TABLE_SYSTEM_USER, col_para));
     g_free(rkdb_insert(TABLE_SYSTEM_USER, "id, sUserName, sPassword, iFixed, iUserLevel, iAuthLevel", "0, 'admin', 'YWRtaW4=', 1, 0, 1"));
+
+    col_para = "id INTEGER PRIMARY KEY AUTOINCREMENT," \
+               "iDiscoveryDisabled INTEGER DEFAULT 0";
+    g_free(rkdb_create(TABLE_SYSTEM_DISCOVERY, col_para));
+    g_free(rkdb_insert(TABLE_SYSTEM_DISCOVERY, "id", "0"));
+
+    col_para = "id INTEGER PRIMARY KEY AUTOINCREMENT," \
+               "sScopeItem TEXT," \
+               "iScopeDef DEFAULT 1";
+    g_free(rkdb_create(TABLE_SYSTEM_SCOPES, col_para));
+    g_free(rkdb_insert(TABLE_SYSTEM_SCOPES, "id, sScopeItem, iScopeDef", "0, 'onvif://www.onvif.org/Profile/S', 0"));
+    g_free(rkdb_insert(TABLE_SYSTEM_SCOPES, "id, sScopeItem, iScopeDef", "1, 'onvif://www.onvif.org/type/video_encoder', 0"));
+    g_free(rkdb_insert(TABLE_SYSTEM_SCOPES, "id, sScopeItem, iScopeDef", "2, 'onvif://www.onvif.org/type/audio_encoder', 0"));
+    g_free(rkdb_insert(TABLE_SYSTEM_SCOPES, "id, sScopeItem, iScopeDef", "5, 'onvif://www.onvif.org/hardware/c3d9b8674f4b94f6', 1"));
+    g_free(rkdb_insert(TABLE_SYSTEM_SCOPES, "id, sScopeItem, iScopeDef", "6, 'onvif://www.onvif.org/location/city/fuzhou', 1"));
+    g_free(rkdb_insert(TABLE_SYSTEM_SCOPES, "id, sScopeItem, iScopeDef", "7, 'onvif://www.onvif.org/name/RK_IPC', 1"));
 }
