@@ -38,6 +38,7 @@
 #define TABLE_ROI "roi"
 
 #define TABLE_PROFILE                       "profile"
+#define TABLE_METADATA                      "metadata"
 #define TABLE_VIDEO_SOURCE                  "video_source"
 #define TABLE_VIDEO_SOURCE_CONFIGURATION    "video_source_configuration"
 
@@ -81,6 +82,7 @@ void media_init(void)
     g_free(rkdb_drop(TABLE_PROFILE));
     g_free(rkdb_drop(TABLE_VIDEO_SOURCE));
     g_free(rkdb_drop(TABLE_VIDEO_SOURCE_CONFIGURATION));
+    g_free(rkdb_drop(TABLE_METADATA));
     g_free(rkdb_drop(TABLE_MEDIA_VERSION));
 
     creat_version_table(TABLE_MEDIA_VERSION, MEDIA_VERSION);
@@ -369,4 +371,9 @@ void media_init(void)
                "iBoundsHeight INT DEFAULT 1520";
     g_free(rkdb_create(TABLE_VIDEO_SOURCE_CONFIGURATION, col_para));
     g_free(rkdb_insert(TABLE_VIDEO_SOURCE_CONFIGURATION, "sToken, sName, sSourceToken", "'VideoSourceConfigurationToken', 'VideoSourceConfig', 'VideoSource_0'"));
+
+    col_para = "sToken TEXT PRIMARY KEY," \
+               "sName TEXT DEFAULT ''";
+    g_free(rkdb_create(TABLE_METADATA, col_para));
+    g_free(rkdb_insert(TABLE_METADATA, "sToken, sName", "'MetaDataToken0', 'metaData0'"));
 }
