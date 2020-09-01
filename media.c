@@ -230,9 +230,9 @@ void media_init(void)
 
     col_para = "id INTEGER PRIMARY KEY," \
                "sNoiseReduceMode TEXT DEFAULT 'general'," \
-               "iDenoiseLevel INT DEFAULT 0," \
-               "iSpatialDenoiseLevel INT DEFAULT 0," \
-               "iTemporalDenoiseLevel INT DEFAULT 0," \
+               "iDenoiseLevel INT DEFAULT 50," \
+               "iSpatialDenoiseLevel INT DEFAULT 50," \
+               "iTemporalDenoiseLevel INT DEFAULT 50," \
                "sDehaze TEXT DEFAULT 'close'," \
                "iDehazeLevel INT DEFAULT 0," \
                "sDIS TEXT DEFAULT 'close'," \
