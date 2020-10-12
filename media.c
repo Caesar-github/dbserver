@@ -166,7 +166,11 @@ void media_init(void)
 
     col_para = "id INTEGER PRIMARY KEY," \
                "sIrisType TEXT DEFAULT 'auto'," \
+               "sExposureMode TEXT DEFAULT 'auto'," \
+               "sGainMode TEXT DEFAULT 'auto'," \
                "iAutoIrisLevel INT DEFAULT 5," \
+               "iAutoExposureEnabled INT DEFAULT 1," \
+               "iAutoGainEnabled INT DEFAULT 1," \
                "sExposureTime TEXT DEFAULT '1/6'," \
                "iExposureGain INT DEFAULT 1";
     g_free(rkdb_create(TABLE_IMAGE_EXPOSURE, col_para));
@@ -181,8 +185,8 @@ void media_init(void)
                "sNightToDay TEXT DEFAULT 'auto'," \
                "iNightToDayFilterLevel INT DEFAULT 5," \
                "iNightToDayFilterTime INT DEFAULT 5," \
-               "sBeginTime TEXT DEFAULT '07:00:00'," \
-               "sEndTime TEXT DEFAULT '18:00:00'," \
+               "sDawnTime TEXT DEFAULT '07:00:00'," \
+               "sDuskTime TEXT DEFAULT '18:00:00'," \
                "sIrcutFilterAction TEXT DEFAULT 'day'," \
                "sOverexposeSuppress TEXT DEFAULT 'open'," \
                "sOverexposeSuppressType TEXT DEFAULT 'auto'," \
@@ -200,12 +204,14 @@ void media_init(void)
 
     col_para = "id INTEGER PRIMARY KEY," \
                "sBLCRegion TEXT DEFAULT 'close'," \
+               "iBLCStrength INT DEFAULT 1," \
                "sWDR TEXT DEFAULT 'close'," \
                "iWDRLevel INT DEFAULT 0," \
                "sHDR TEXT DEFAULT 'HDR2'," \
-               "iHDRLevel INT DEFAULT 50," \
+               "iHDRLevel INT DEFAULT 1," \
                "sHLC TEXT DEFAULT 'close'," \
                "iHLCLevel INT DEFAULT 0," \
+               "iDarkBoostLevel INT DEFAULT 0," \
                "iPositionX INT DEFAULT 0," \
                "iPositionY INT DEFAULT 0," \
                "iBLCRegionWidth INT DEFAULT 120," \
@@ -221,6 +227,7 @@ void media_init(void)
     col_para = "id INTEGER PRIMARY KEY," \
                "sWhiteBlanceStyle TEXT DEFAULT 'autoWhiteBalance'," \
                "iWhiteBalanceRed INT DEFAULT 50," \
+               "iWhiteBalanceGreen INT DEFAULT 50," \
                "iWhiteBalanceBlue INT DEFAULT 50";
     g_free(rkdb_create(TABLE_IMAGE_WHITE_BLANCE, col_para));
     g_free(rkdb_insert(TABLE_IMAGE_WHITE_BLANCE, "id", "0"));
@@ -231,7 +238,7 @@ void media_init(void)
     g_free(rkdb_insert(TABLE_IMAGE_WHITE_BLANCE, "id", "5"));
 
     col_para = "id INTEGER PRIMARY KEY," \
-               "sNoiseReduceMode TEXT DEFAULT 'general'," \
+               "sNoiseReduceMode TEXT DEFAULT 'default'," \
                "iDenoiseLevel INT DEFAULT 50," \
                "iSpatialDenoiseLevel INT DEFAULT 50," \
                "iTemporalDenoiseLevel INT DEFAULT 50," \
@@ -240,7 +247,10 @@ void media_init(void)
                "sDIS TEXT DEFAULT 'close'," \
                "sGrayScaleMode TEXT DEFAULT '[0-255]'," \
                "iImageRotation INT DEFAULT 0," \
-               "sFEC TEXT DEFAULT 'close'";
+               "sFEC TEXT DEFAULT 'close'," \
+               "sDistortionCorrection TEXT DEFAULT 'close',"
+               "iFecLevel INT DEFAULT 100,"
+               "iLdchLevel INT DEFAULT 0";
     g_free(rkdb_create(TABLE_IMAGE_ENHANCEMENT, col_para));
     g_free(rkdb_insert(TABLE_IMAGE_ENHANCEMENT, "id", "0"));
     g_free(rkdb_insert(TABLE_IMAGE_ENHANCEMENT, "id", "1"));
