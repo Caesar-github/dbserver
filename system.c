@@ -148,8 +148,8 @@ void system_init(void)
 		"{\"options\":[\"close\",\"general\",\"advanced\"],\"type\":\"options\"}}}'"));
     g_free(rkdb_insert(TABLE_SYSTEM_PARA, "id, name, para", "13, 'image_video_adjustment', '{\"layout\":{\"image_video_adjustment\":[\"sPowerLineFrequencyMode\"]},\"static\":{\"sImageFlip\":{\"options\":[\"leftRight\",\"upDown\",\"center\",\"close\"],\"type\":\"options\"},"\
         "\"sPowerLineFrequencyMode\":{\"options\":[\"PAL(50HZ)\",\"NTSC(60HZ)\"],\"type\":\"options\"},\"sSceneMode\":{\"options\":[\"indoor\",\"outdoor\"],\"type\":\"options\"}}}'"));
-    g_free(rkdb_insert(TABLE_SYSTEM_PARA, "id, name, para", "14, 'smartCover', '{\"capability\":{\"SmartCover\":{\"sImageQuality\":[\"best\",\"good\",\"general\"],\"sTargetImageType\":[\"head\"]}},\"layout\":{\"enabled\":[\"iFaceRecognitionEnabled\",\"iStreamOverlayEnabled\","\
-        "\"iImageOverlayEnabled\"],\"infoEnabled\":[\"deviceNum\",\"positonInfo\"],\"snap\":[\"sTargetImageType\",\"iWidthRatio\",\"sImageQuality\"]}}'"));
+    g_free(rkdb_insert(TABLE_SYSTEM_PARA, "id, name, para", "14, 'smartCover', '{\"capability\":{\"SmartCover\":{\"sImageQuality\":[\"best\",\"good\",\"general\"],\"sTargetImageType\":[\"head\"]}},\"layout\":{\"enabled\":[\"iFaceRecognitionEnabled\",\"iStreamOverlayEnabled\""\
+        "],\"infoEnabled\":[\"deviceNum\",\"positonInfo\"],\"snap\":[\"sTargetImageType\",\"iWidthRatio\",\"sImageQuality\"]}}'"));
 
     /*
     password encodes by base64
