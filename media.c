@@ -153,7 +153,8 @@ void media_init(void)
                "iBrightness INT DEFAULT 50," \
                "iContrast INT DEFAULT 50," \
                "iSaturation INT DEFAULT 50," \
-               "iSharpness INT DEFAULT 50";
+               "iSharpness INT DEFAULT 50," \
+               "iHue INT DEFAULT 50";
     g_free(rkdb_create(TABLE_IMAGE_ADJUSTMENT, col_para));
     g_free(rkdb_insert(TABLE_IMAGE_ADJUSTMENT, "id", "0"));
     g_free(rkdb_insert(TABLE_IMAGE_ADJUSTMENT, "id", "1"));
