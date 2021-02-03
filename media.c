@@ -142,6 +142,7 @@ void media_init(void)
     g_free(rkdb_insert(TABLE_STREAM_URL, "id,sStreamProtocol", "0,'RTSP'"));
     g_free(rkdb_insert(TABLE_STREAM_URL, "id,sStreamProtocol", "1,'RTMP'"));
     g_free(rkdb_insert(TABLE_STREAM_URL, "id,sStreamProtocol", "2,'RTMP'"));
+    g_free(rkdb_insert(TABLE_STREAM_URL, "id,sStreamProtocol", "3,'HTTP'"));
 
     /* image */
     col_para = "id INTEGER PRIMARY KEY," \
@@ -298,7 +299,7 @@ void media_init(void)
                "sAlignment TEXT DEFAULT 'customize'," \
                "iBoundary INT DEFAULT 0";
     g_free(rkdb_create(TABLE_OSD, col_para));
-    g_free(rkdb_insert(TABLE_OSD, "id,sType,iEnabled,sDisplayText,iPositionX,iPositionY", "0,'channelName',1,'Camera 01',560,432"));
+    g_free(rkdb_insert(TABLE_OSD, "id,sType,iEnabled,sDisplayText,iPositionX,iPositionY", "0,'channelName',1,'Camera 01',540,432"));
     g_free(rkdb_insert(TABLE_OSD, "id,sType,iEnabled,sDateStyle,sTimeStyle,iPositionX,iPositionY", "1,'dateTime',1,'CHR-YYYY-MM-DD','24hour',16,16"));
     g_free(rkdb_insert(TABLE_OSD, "id,sType", "2,'character'"));
     g_free(rkdb_insert(TABLE_OSD, "id,sType", "3,'character'"));
