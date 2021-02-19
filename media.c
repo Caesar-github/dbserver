@@ -143,6 +143,8 @@ void media_init(void)
     g_free(rkdb_insert(TABLE_STREAM_URL, "id,sStreamProtocol", "1,'RTMP'"));
     g_free(rkdb_insert(TABLE_STREAM_URL, "id,sStreamProtocol", "2,'RTMP'"));
     g_free(rkdb_insert(TABLE_STREAM_URL, "id,sStreamProtocol", "3,'HTTP'"));
+    g_free(rkdb_insert(TABLE_STREAM_URL, "id,sStreamProtocol", "4,'HTTP'"));
+    g_free(rkdb_insert(TABLE_STREAM_URL, "id,sStreamProtocol", "5,'HTTP'"));
 
     /* image */
     col_para = "id INTEGER PRIMARY KEY," \
