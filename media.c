@@ -110,11 +110,11 @@ void media_init(void)
     g_free(rkdb_create(TABLE_VIDEO, col_para));
     /* TODO: Three tables need different initial values */
     g_free(rkdb_insert(TABLE_VIDEO, "id, sStreamType, sResolution, iMaxRate, sOutputDataType, sVideoEncoderConfigurationToken, sVideoEncoderConfigurationName",
-                                    "0, 'mainStream', '2688*1520', 8192, 'H.265', 'VideoEncoderToken_0', 'VideoEncoder_0'"));
+                                    "0, 'mainStream', '2688*1520', 8192, 'H.264', 'VideoEncoderToken_0', 'VideoEncoder_0'"));
     g_free(rkdb_insert(TABLE_VIDEO, "id, sStreamType, sResolution, iMaxRate, sVideoEncoderConfigurationToken, sVideoEncoderConfigurationName",
                                     "1, 'subStream', '640*480', 1024, 'VideoEncoderToken_1', 'VideoEncoder_1'"));
     g_free(rkdb_insert(TABLE_VIDEO, "id, sStreamType, sResolution, iMaxRate, sOutputDataType, sVideoEncoderConfigurationToken, sVideoEncoderConfigurationName",
-                                    "2, 'thirdStream', '1920*1080', 2048, 'H.265', 'VideoEncoderToken_2', 'VideoEncoder_2'"));
+                                    "2, 'thirdStream', '1920*1080', 2048, 'H.264', 'VideoEncoderToken_2', 'VideoEncoder_2'"));
 
     col_para = "id INTEGER PRIMARY KEY," \
                "sStreamType TEXT DEFAULT 'mainStream'," \
