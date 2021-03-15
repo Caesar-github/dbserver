@@ -89,11 +89,11 @@ void storage_init(void)
                                           "3,'photo1','photo1/.thumb','PHOTO_%Y%m%d%H%M%S',1,1,5,-1"));
 
     g_free(rkdb_insert(TABLE_STORAGE_MEDIA_FOLDER, "id,sMediaFolder,sThumbFolder,sFormat,iCamId,iType,iDuty,iMaxNum",
-                                          "4,'black_list','','%Y%m%d%H%M%S',0,2,0,-1"));
+                                          "4,'black_list','','%Y%m%d%H%M%S',0,2,-1,-1"));
     g_free(rkdb_insert(TABLE_STORAGE_MEDIA_FOLDER, "id,sMediaFolder,sThumbFolder,sFormat,iCamId,iType,iDuty,iMaxNum",
                                           "5,'snapshot','','%Y%m%d%H%M%S',0,3,0,-1"));
     g_free(rkdb_insert(TABLE_STORAGE_MEDIA_FOLDER, "id,sMediaFolder,sThumbFolder,sFormat,iCamId,iType,iDuty,iMaxNum",
-                                          "6,'white_list','','%Y%m%d%H%M%S',0,4,0,-1"));
+                                          "6,'white_list','','%Y%m%d%H%M%S',0,4,-1,-1"));
 
     col_para = "id INTEGER PRIMARY KEY," \
                "iFreeSize INT DEFAULT -1," \
